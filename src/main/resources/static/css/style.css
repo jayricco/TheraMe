@@ -1,6 +1,6 @@
 
 #auth-form {
-    margin: 10% auto auto;
+    margin: 8% auto auto;
     width: 400px;
     padding: 5px 10px 5px 10px;
 }
@@ -12,9 +12,15 @@
     margin-right: auto;
 }
 
-#auth-form-body {
+#auth-form form {
     margin-top: 25px;
     display: block;
+}
+
+#auth-form p {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
 }
 
 #header {

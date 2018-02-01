@@ -7,7 +7,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.context.annotation.Bean;
 
 @Configuration
-@EnableWebMvc
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
     @Bean

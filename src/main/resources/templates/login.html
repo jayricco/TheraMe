@@ -1,37 +1,34 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>TheraMe Login</title>
-        <link href="/resources/static/img/favicon.ico" rel="shortcut icon"/>
+        <title>Login</title>
+        <link href="/img/favicon.ico" rel="shortcut icon"/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+        <link th:href="@{css/style.css}" rel="stylesheet" type="text/css"/>
     </head>
     <body>
-        <form th:action="@{/registration}" method="get">
-            <button class="btn btn-md btn-warning btn-block" type="Submit">Go To Registration</button>
-        </form>
-
-        <div class="container">
-
-            <img th:src="@{full-logo-black-large.png}" class="img-responsive center-block" width="300" height="300" alt="Logo" />
-            <form th:action="@{/login}" method="POST" class="form-signin">
-                <h3 class="form-signin-heading" th:text="Welcome"></h3>
-                <br/>
-
-                <input type="text" id="email" name="email" th:placeholder="Email" class="form-control" /> <br/>
-                <input type="password" th:placeholder="Password" id="password" name="password" class="form-control"/>
-                <br/>
-                <div align="center" th:if="${param.error}">
-                    <p style="font-size: 20; color: #FF1C19;">Email or Password is incorrect!</p>
+        <div id="auth-form">
+            <img src="" th:src="@{img/full-logo-black-large.png}"/>
+            <div class="alert alert-danger" th:if="${param.error}">
+                Incorrect email or password!
+            </div>
+            <form th:action="@{/login}" method="post">
+                <div class="form-group">
+                    <input class="form-control" id="email_field" type="email" name="email" placeholder="Email" value=""/>
                 </div>
-                <button class="btn btn-lg btn-primary btn-block"
-                        name="Submit" value="Login" type="Submit" th:text="Login"></button>
-
+                <div class="form-group">
+                    <input class="form-control" id="password_field" type="password" name="password" placeholder="Password" value=""/>
+                </div>
+                <input class="btn btn-primary btn-block" name="submit" type="submit" value="Log in"/>
             </form>
+            <p>
+                Don't have an account?
+                <a th:href="@{/registration}">Sign up</a>.
+            </p>
         </div>
         <div id="footer">
-            <img id="footer-img" src="/resources/img/full-logo-black-large.png"/>
+            <img src="" id="footer-img" th:src="@{img/full-logo-black-large.png}"/>
             <a class="pull-left">© 2018 TheraMe, Inc.</a>
             <a class="pull-right">About Us</a>
         </div>
