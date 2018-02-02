@@ -15,12 +15,27 @@ import com.therame.model.User;
 import com.therame.service.UserService;
 
 @Controller
-public class WebController {
+public class UserController {
 
     private UserService userService;
 
-    public WebController(UserService userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    @RequestMapping(value = "/")
+    public ModelAndView home(Authentication auth) {
+        ModelAndView modelAndView = new ModelAndView();
+        boolean isTherapist = auth.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals("ADMIN")
+                || authority.getAuthority().equals("THERAPIST"));
+
+        if (isTherapist) {
+            modelAndView.setViewName("pt_home");
+        } else {
+            modelAndView.setViewName("home");
+        }
+
+        return modelAndView;
     }
 
     @RequestMapping(value="/login", method = RequestMethod.GET)
@@ -53,18 +68,6 @@ public class WebController {
         }
 
         modelAndView.setViewName("registration");
-        return modelAndView;
-    }
-
-    @RequestMapping(value="/admin/home", method = RequestMethod.GET)
-    public ModelAndView home() {
-        ModelAndView modelAndView = new ModelAndView();
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(auth);
-        User user = userService.findUserByEmail(auth.getName());
-        modelAndView.addObject("userName", "Welcome " + user.getFirstName() + " " + user.getLastName() + " (" + user.getEmail() + ")");
-        modelAndView.addObject("adminMessage","Content Available Only for Users with Admin Role");
-        modelAndView.setViewName("admin/home");
         return modelAndView;
     }
 }
