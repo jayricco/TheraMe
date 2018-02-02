@@ -1,12 +1,11 @@
 package com.therame.controllers;
 
-import com.therame.media.MediaResolverService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.therame.service.MediaResolverService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -14,13 +13,16 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 
-@RestController
+@Controller
 public class MediaRestController {
 
-    @Autowired
     private MediaResolverService mediaResolverService;
 
-    @RequestMapping("/watch")
+    public MediaRestController(MediaResolverService mediaResolverService) {
+        this.mediaResolverService = mediaResolverService;
+    }
+
+    @RequestMapping(value = "/watch", method = RequestMethod.GET)
     public String videoView(@RequestParam("v") String videoId, Model model) {
         model.addAttribute("videoId", videoId);
         return "watch";

@@ -30,7 +30,7 @@ public class User {
     @Column(name="user_id")
     private int id;
 
-    @Column(name="email")
+    @Column(name="email", unique = true)
     @Email(message="*Please provide a valid email address")
     @NotEmpty(message="*At least attempt to get it right...")
     private String email;

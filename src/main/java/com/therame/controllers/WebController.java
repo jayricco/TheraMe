@@ -2,7 +2,7 @@ package com.therame.controllers;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -17,22 +17,21 @@ import com.therame.service.UserService;
 @Controller
 public class WebController {
 
-    @Autowired
     private UserService userService;
 
-    @RequestMapping(value={"/", "/login"}, method = RequestMethod.GET)
-    public ModelAndView login(){
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("login");
-        return modelAndView;
+    public WebController(UserService userService) {
+        this.userService = userService;
     }
 
+    @RequestMapping(value="/login", method = RequestMethod.GET)
+    public String login() {
+        return "login";
+    }
 
     @RequestMapping(value="/registration", method = RequestMethod.GET)
-    public ModelAndView registration(){
+    public ModelAndView registration() {
         ModelAndView modelAndView = new ModelAndView();
-        User user = new User();
-        modelAndView.addObject("user", user);
+        modelAndView.addObject("user", new User());
         modelAndView.setViewName("registration");
         return modelAndView;
     }
@@ -40,26 +39,25 @@ public class WebController {
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public ModelAndView createNewUser(@Valid User user, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView();
-        User userExists = userService.findUserByEmail(user.getEmail());
-        if (userExists != null) {
-            bindingResult
-                    .rejectValue("email", "error.user",
-                            "There is already a user registered with the email provided");
-        }
-        if (bindingResult.hasErrors()) {
-            modelAndView.setViewName("registration");
-        } else {
-            userService.saveUser(user);
-            modelAndView.addObject("successMessage", "User has been registered successfully");
-            modelAndView.addObject("user", new User());
-            modelAndView.setViewName("registration");
 
+        // Only create user if valid
+        if (!bindingResult.hasErrors()) {
+            try {
+                userService.createUser(user);
+                modelAndView.addObject("successMessage", "User has been registered successfully");
+                modelAndView.addObject("user", new User());
+            } catch (DataIntegrityViolationException e) {
+                // We assume the cause is the 'email' field here, maybe in the future we should verify this to be true
+                bindingResult.rejectValue("email", "error.user", "Email is already in use.");
+            }
         }
+
+        modelAndView.setViewName("registration");
         return modelAndView;
     }
 
     @RequestMapping(value="/admin/home", method = RequestMethod.GET)
-    public ModelAndView home(){
+    public ModelAndView home() {
         ModelAndView modelAndView = new ModelAndView();
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         System.out.println(auth);
@@ -69,6 +67,4 @@ public class WebController {
         modelAndView.setViewName("admin/home");
         return modelAndView;
     }
-
-
 }
