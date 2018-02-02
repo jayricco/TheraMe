@@ -1,4 +1,4 @@
-package com.therame.media;
+package com.therame.service;
 
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
