@@ -107,3 +107,10 @@
     float: left;
     margin-left: 15px;
 }
+
+#navbar{
+    padding: 0;
+    margin: 0;
+    color: #24292e;
+    list-style-type: none;
+}
