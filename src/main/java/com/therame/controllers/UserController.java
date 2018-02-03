@@ -26,8 +26,8 @@ public class UserController {
     @RequestMapping(value = "/")
     public ModelAndView home(Authentication auth) {
         ModelAndView modelAndView = new ModelAndView();
-        boolean isTherapist = auth.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals("ADMIN")
-                || authority.getAuthority().equals("THERAPIST"));
+        boolean isTherapist = auth.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals(User.Type.ADMIN.name())
+                || authority.getAuthority().equals(User.Type.THERAPIST.name()));
 
         if (isTherapist) {
             modelAndView.setViewName("pt_home");
