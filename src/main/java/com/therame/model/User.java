@@ -33,26 +33,26 @@ public class User {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
+    @Email(message = "Email is not valid.")
+    @NotEmpty(message = "Email is required.")
     @Column(name = "email", unique = true, nullable = false)
-    @Email(message = "Please provide a valid email address")
-    @NotEmpty(message = "At least attempt to get it right...")
     private String email;
 
+    @NotEmpty(message = "First name is required.")
     @Column(name = "first_name", nullable = false)
-    @NotEmpty(message = "Please provide your first name ")
     private String firstName;
 
+    @NotEmpty(message = "Last name is required.")
     @Column(name = "last_name", nullable = false)
-    @NotEmpty(message = "Please provide your last name")
     private String lastName;
 
-    @Column(name = "password", nullable = false)
-    @Length(min = 5, message="*Your password must have at least 5 characters!")
     @Transient
+    @Length(min = 5, message="Password must contain over 5 characters.")
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "type", columnDefinition = "smallint", nullable = false)
     @NotNull
     @Enumerated
+    @Column(name = "type", columnDefinition = "smallint", nullable = false)
     private Type type;
 }
