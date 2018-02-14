@@ -1,5 +1,6 @@
 package com.therame.model;
 
+import javax.annotation.Nullable;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -23,7 +24,6 @@ public class User {
         ADMIN
     }
 
-    // Model initialization
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
@@ -47,12 +47,25 @@ public class User {
     private String lastName;
 
     @Column(name = "password", nullable = false)
-    @Length(min = 5, message="*Your password must have at least 5 characters!")
+    @Length(min = 5, message="Your password must have at least 5 characters!")
     @Transient
+    @NotNull
     private String password;
 
-    @Column(name = "type", columnDefinition = "smallint", nullable = false)
+    @Column(name = "permission_level", columnDefinition = "smallint", nullable = false)
     @NotNull
     @Enumerated
     private Type type;
+
+    @Nullable
+    @Column(name = "pt_id")
+    private UUID therapistId;
+
+    @NotNull
+    @Column(name = "provider_id", nullable = false)
+    private UUID providerId;
+
+    @Nullable
+    @Column(name = "init_code")
+    private String init_code;
 }
