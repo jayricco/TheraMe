@@ -58,12 +58,9 @@ public class User {
     private Type type;
 
     @Nullable
-    @Column(name = "pt_id")
-    private UUID therapistId;
-
-    @NotNull
-    @Column(name = "provider_id", nullable = false)
-    private UUID providerId;
+    @ManyToOne
+    @JoinColumn(name = "pt_id")
+    private User therapist;
 
     @Nullable
     @Column(name = "init_code")
