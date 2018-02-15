@@ -55,7 +55,7 @@ public class UserController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/register", method = RequestMethod.POST)
     public ResponseEntity<?> createNewUser(@Valid User user) {
         try {
             User createdUser = userService.createUser(user);

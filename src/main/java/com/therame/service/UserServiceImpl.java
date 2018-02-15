@@ -5,6 +5,7 @@ import java.util.*;
 import javax.transaction.Transactional;
 
 import com.google.common.collect.ImmutableList;
+import com.therame.model.DetailedUserDetails;
 import com.therame.model.UserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -44,8 +45,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
-                    ImmutableList.of(new SimpleGrantedAuthority(user.getType().name())));
+            return new DetailedUserDetails(user, ImmutableList.of(new SimpleGrantedAuthority(user.getType().name())));
         } else {
             throw new UsernameNotFoundException(userName);
         }

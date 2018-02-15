@@ -19,7 +19,7 @@ $(document).ready(function () {
         }
 
         var formData = $('form').serialize();
-        $.post("/register", formData, function() {
+        $.post("/api/register", formData, function() {
             successMessage.show().html('User registered successfully!');
         })
         .fail(function(response) {

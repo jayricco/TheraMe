@@ -28,7 +28,7 @@
     background: #24292e;
 }
 
-#header img {
+#header-logo {
     display: inline-block;
     height: 35px;
     width: auto;
@@ -44,7 +44,7 @@
     color: #ffffff;
 }
 
-#header a {
+#header-username {
     float: right;
     color: #ffffff;
     margin-top: 15px;

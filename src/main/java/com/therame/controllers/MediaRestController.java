@@ -28,7 +28,7 @@ public class MediaRestController {
         return "watch";
     }
 
-    @RequestMapping("/video")
+    @RequestMapping("/api/video")
     public void getVideo(HttpServletRequest request, HttpServletResponse response,
                          @RequestParam("path") String name) throws ServletException, IOException {
         request.setAttribute("video-request", new File("./media/" + name + ".mp4"));
