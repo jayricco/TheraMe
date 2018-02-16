@@ -121,3 +121,17 @@
 #error-message, #success-message {
     white-space: pre-wrap;
 }
+
+#upload-form {
+    margin: 15% auto auto;
+}
+
+#upload-icon {
+    display: block;
+    font-size: 10em;
+    text-align: center;
+}
+
+#upload-file-selector {
+    text-align: center;
+}
