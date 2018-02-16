@@ -1,5 +1,6 @@
-package com.therame.model;
+package com.therame.repository;
 
+import com.therame.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

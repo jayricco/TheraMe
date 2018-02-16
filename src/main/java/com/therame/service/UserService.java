@@ -2,10 +2,14 @@ package com.therame.service;
 
 import com.therame.model.User;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface UserService {
 
+
+    Optional<User> findUserById(Long id);
     /**
      * Finds a user with the specified email
      *
@@ -14,11 +18,10 @@ public interface UserService {
      */
     Optional<User> findUserByEmail(String email);
 
-    /**
-     * Creates a new user
-     *
-     * @param user the user definition
-     * @return the created user
-     */
-    User createUser(User user);
+    void saveUser(User user);
+    void updateUser(User user);
+    void deleteUserById(Long id);
+    void deleteAllUsers();
+    List<User> getAllUsers();
+    boolean doesUserExist(User user);
 }

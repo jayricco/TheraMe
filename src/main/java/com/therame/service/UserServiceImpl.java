@@ -5,7 +5,8 @@ import java.util.*;
 import javax.transaction.Transactional;
 
 import com.google.common.collect.ImmutableList;
-import com.therame.model.UserRepository;
+import com.therame.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,15 +16,19 @@ import org.springframework.stereotype.Service;
 
 import com.therame.model.User;
 
-@Service
-public class UserServiceImpl implements UserService, UserDetailsService {
+@Service("userService")
+@Transactional
+public class UserServiceImpl implements UserService {
 
+    @Autowired
     private UserRepository userRepo;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepo, PasswordEncoder passwordEncoder) {
-        this.userRepo = userRepo;
-        this.passwordEncoder = passwordEncoder;
+    @Override
+    public Optional<User> findUserById(Long id) {
+        return Optional.of(userRepo.findOne(id));
     }
 
     @Override
@@ -32,22 +37,32 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User createUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepo.save(user);
+    public void saveUser(User user) {
+        userRepo.save(user);
     }
 
     @Override
-    @Transactional
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        Optional<User> optionalUser = findUserByEmail(userName);
+    public void updateUser(User user) {
+        saveUser(user);
+    }
 
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
-                    ImmutableList.of(new SimpleGrantedAuthority(user.getType().name())));
-        } else {
-            throw new UsernameNotFoundException(userName);
-        }
+    @Override
+    public void deleteUserById(Long id) {
+        userRepo.delete(id);
+    }
+
+    @Override
+    public void deleteAllUsers() {
+        userRepo.deleteAll();
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepo.findAll();
+    }
+
+    @Override
+    public boolean doesUserExist(User user) {
+        return findUserByEmail(user.getEmail()).isPresent();
     }
 }

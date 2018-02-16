@@ -11,9 +11,8 @@ CREATE TABLE role (
 );
 
 --
--- Table structure for table `user`
+-- Table structure for table users
 --
-
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
@@ -22,6 +21,7 @@ CREATE TABLE users (
   email VARCHAR NOT NULL UNIQUE,
   first_name VARCHAR NOT NULL,
   last_name VARCHAR NOT NULL,
+  address VARCHAR NOT NULL,
   password VARCHAR NOT NULL,
   PRIMARY KEY (user_id)
 );
@@ -29,7 +29,7 @@ CREATE TABLE users (
 -- Table structure for table `user_role`
 --
 
-DROP TABLE IF EXISTS users_role
+DROP TABLE IF EXISTS users_role;
 
 CREATE TABLE users_role (
   user_id INTEGER NOT NULL,

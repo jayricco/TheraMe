@@ -2,9 +2,9 @@ package com.therame.controllers;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,11 +17,9 @@ import com.therame.service.UserService;
 @Controller
 public class UserController {
 
+    @Autowired
     private UserService userService;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
 
     @RequestMapping(value = "/")
     public ModelAndView home(Authentication auth) {
@@ -58,7 +56,7 @@ public class UserController {
         // Only create user if valid
         if (!bindingResult.hasErrors()) {
             try {
-                userService.createUser(user);
+                userService.saveUser(user);
                 modelAndView.addObject("successMessage", "User has been registered successfully");
                 modelAndView.addObject("user", new User());
             } catch (DataIntegrityViolationException e) {
