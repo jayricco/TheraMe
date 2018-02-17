@@ -58,8 +58,7 @@ public class UserController {
     @RequestMapping(value = "/api/register", method = RequestMethod.POST)
     public ResponseEntity<?> createNewUser(@Valid User user) {
         try {
-            User createdUser = userService.createUser(user);
-            createdUser.setPassword(null);
+            User createdUser = userService.createRootUser(user);
             return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
         } catch (DataIntegrityViolationException e) {
             // We assume the cause is the 'email' field here, maybe in the future we should verify this to be true

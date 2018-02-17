@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ViewInterceptorService extends HandlerInterceptorAdapter {
 
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
 
         // Add the user object to all view requests so we can show user name, etc.
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

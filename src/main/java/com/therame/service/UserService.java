@@ -9,7 +9,7 @@ import java.util.UUID;
 public interface UserService {
 
 
-    Optional<User> findUserById(Long id);
+    Optional<User> findUserById(UUID uuid);
     /**
      * Finds a user with the specified email
      *
@@ -17,10 +17,11 @@ public interface UserService {
      * @return the user, absent if none exists
      */
     Optional<User> findUserByEmail(String email);
-    void createUser(User user);
-    void saveUser(User user);
-    void updateUser(User user);
-    void deleteUserById(Long id);
+    User createUser(User user);
+    User createRootUser(User user);
+    User saveUser(User user);
+    User updateUser(User user);
+    void deleteUserById(UUID uuid);
     void deleteAllUsers();
     List<User> getAllUsers();
     boolean doesUserExist(User user);

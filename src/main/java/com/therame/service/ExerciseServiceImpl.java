@@ -1,7 +1,7 @@
 package com.therame.service;
 
 import com.therame.model.Exercise;
-import com.therame.model.ExerciseRepository;
+import com.therame.repository.ExerciseRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

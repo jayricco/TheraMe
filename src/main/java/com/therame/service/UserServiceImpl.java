@@ -5,6 +5,7 @@ import java.util.*;
 import javax.transaction.Transactional;
 
 import com.google.common.collect.ImmutableList;
+import com.therame.model.DetailedUserDetails;
 import com.therame.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,9 +17,10 @@ import org.springframework.stereotype.Service;
 
 import com.therame.model.User;
 
+
 @Service("userService")
 @Transactional
-public class UserServiceImpl implements UserService, UserDetailsService{
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Autowired
     private UserRepository userRepo;
@@ -27,8 +29,8 @@ public class UserServiceImpl implements UserService, UserDetailsService{
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public Optional<User> findUserById(Long id) {
-        return Optional.of(userRepo.findOne(id));
+    public Optional<User> findUserById(UUID uuid) {
+        return Optional.of(userRepo.findOne(uuid));
     }
 
     @Override
@@ -37,24 +39,34 @@ public class UserServiceImpl implements UserService, UserDetailsService{
     }
 
     @Override
-    public void saveUser(User user) {
+    public User saveUser(User user) {
         userRepo.save(user);
+        return user;
     }
 
     @Override
-    public void createUser(User user) {
+    public User createUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         saveUser(user);
+        return user;
     }
 
     @Override
-    public void updateUser(User user) {
+    public User createRootUser(User user) {
+        user.setPassword(null);
         saveUser(user);
+        return user;
     }
 
     @Override
-    public void deleteUserById(Long id) {
-        userRepo.delete(id);
+    public User updateUser(User user) {
+        saveUser(user);
+        return user;
+    }
+
+    @Override
+    public void deleteUserById(UUID uuid) {
+        userRepo.delete(uuid);
     }
 
     @Override
@@ -66,6 +78,7 @@ public class UserServiceImpl implements UserService, UserDetailsService{
     public List<User> getAllUsers() {
         return userRepo.findAll();
     }
+
 
     @Override
     public boolean doesUserExist(User user) {

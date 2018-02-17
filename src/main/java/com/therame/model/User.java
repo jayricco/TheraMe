@@ -10,7 +10,9 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Transient;
+import org.thymeleaf.util.StringUtils;
 
+import java.util.Date;
 import java.util.UUID;
 
 @Data
@@ -65,4 +67,29 @@ public class User {
     @Nullable
     @Column(name = "init_code")
     private String init_code;
+
+
+    // These columns and callbacks are for monitoring some temporal data
+    // Just keeping track of the date of creation - and then the last time of update.
+
+    @Column(name = "date_created")
+    private Date date_created;
+
+    @Column(name = "last_updated")
+    private Date last_updated;
+
+    // As well, in here is where the init code is going to go!
+    @PrePersist
+    protected void onCreate() {
+        date_created = new Date();
+        if (password == null) {
+            init_code = StringUtils.randomAlphanumeric(6);
+            password = init_code;
+        }
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        last_updated = new Date();
+    }
 }
