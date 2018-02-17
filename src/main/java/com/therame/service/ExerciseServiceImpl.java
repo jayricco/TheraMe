@@ -23,6 +23,6 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public Optional<Exercise> findById(UUID id) {
-        return Optional.of(exerciseRepository.findOne(id));
+        return Optional.ofNullable(exerciseRepository.findOne(id));
     }
 }

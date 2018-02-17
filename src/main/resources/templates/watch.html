@@ -18,7 +18,7 @@
             <i class="fa fa-plus" aria-hidden="true"></i>
         </div>
         <video id="video-player" width="854" height="480" controls="controls">
-            <source src="/api/video" th:src="@{/api/video(id=${videoId})}" type="video/mp4"/>
+            <source src="/api/video" th:src="${host} + @{/api/video(id=${videoId})}" type="video/mp4"/>
         </video>
     </body>
 </html>
