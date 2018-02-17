@@ -1,6 +1,5 @@
 package com.therame;
 
-import com.therame.configuration.JpaConfiguration;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,7 +11,6 @@ import com.therame.persistence.StorageProperties;
 import com.therame.persistence.StorageService;
 
 
-@Import(JpaConfiguration.class)
 @SpringBootApplication(scanBasePackages={"com.therame"})
 @EnableConfigurationProperties(StorageProperties.class)
 public class ApplicationMain {
