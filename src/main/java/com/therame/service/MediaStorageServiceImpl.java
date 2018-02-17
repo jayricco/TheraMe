@@ -54,7 +54,9 @@ public class MediaStorageServiceImpl implements MediaStorageService {
         try {
             // Update original record with correct runtime
             FFmpegProbeResult videoInfo = encoderService.getVideoDetails(rootUploadLocation.resolve(fileName).toAbsolutePath().toString());
-            String runtime = DurationFormatUtils.formatDuration((long) Math.ceil(videoInfo.getFormat().duration), "mm:ss");
+
+            long durationMillis = ((long) Math.ceil(videoInfo.getFormat().duration)) * 1000L;
+            String runtime = DurationFormatUtils.formatDuration(durationMillis, "mm:ss");
             createdExercise.setRunTime(runtime);
 
             createdExercise = exerciseService.createExercise(exercise);
