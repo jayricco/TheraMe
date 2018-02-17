@@ -11,19 +11,21 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Objects;
 
 @Service
 public class MediaEncoderService {
 
     @Async
-    public void encodeVideo(String inputFile, String outputFile, boolean cleanUp) throws IOException {
+    public void encodeVideo(String inputFile, String outputFile, long runtime,
+                            boolean cleanUp) throws IOException {
         FFmpeg ffmpeg = new FFmpeg();
         FFprobe ffprobe = new FFprobe();
 
         FFmpegBuilder ffmpegBuilder = new FFmpegBuilder()
                 .setInput(inputFile)
                 .overrideOutputFiles(true)
-                .addOutput(outputFile)
+                .addOutput(outputFile.concat(".mp4"))
                 .setFormat("mp4")
                 .disableSubtitle()
                 .setAudioChannels(1) // Mono - unsure if this is the best choice
@@ -45,6 +47,19 @@ public class MediaEncoderService {
             // Clean up input file
             Files.deleteIfExists(Paths.get(inputFile));
         }
+
+        // Generate a thumbnail
+        FFmpegBuilder ssBuilder = new FFmpegBuilder()
+                .addExtraArgs("-ss", Objects.toString(runtime / 2)) // Keep this before input, its much faster
+                .addInput(outputFile.concat(".mp4"))
+                .overrideOutputFiles(true)
+                .addOutput(outputFile.concat(".jpg"))
+                .addExtraArgs("-vframes", "1")
+                .addExtraArgs("-q:v", "2") // JPEG quality, lower is better quality
+                .addExtraArgs("-s", "640x360") // 1/2 720p
+                .done();
+
+        executor.createJob(ssBuilder).run();
     }
 
     public FFmpegProbeResult getVideoDetails(String inputFile) throws IOException {

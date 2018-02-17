@@ -60,7 +60,8 @@ public class MediaStorageServiceImpl implements MediaStorageService {
             createdExercise = exerciseService.createExercise(exercise);
 
             // Re-encode video to common mp4 format
-            encoderService.encodeVideo(videoInfo.getFormat().filename, rootMediaLocation.resolve(fileName.concat(".mp4")).toString(), true);
+            encoderService.encodeVideo(videoInfo.getFormat().filename, rootMediaLocation.resolve(fileName).toString(),
+                    (long) Math.ceil(videoInfo.getFormat().duration), true);
         } catch(IOException e) {
 
             // Clean up the uploaded file
