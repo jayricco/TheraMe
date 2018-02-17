@@ -17,7 +17,7 @@ public interface UserService {
      * @return the user, absent if none exists
      */
     Optional<User> findUserByEmail(String email);
-
+    void createUser(User user);
     void saveUser(User user);
     void updateUser(User user);
     void deleteUserById(Long id);

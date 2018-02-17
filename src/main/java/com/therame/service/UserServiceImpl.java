@@ -18,7 +18,7 @@ import com.therame.model.User;
 
 @Service("userService")
 @Transactional
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService{
 
     @Autowired
     private UserRepository userRepo;
@@ -39,6 +39,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveUser(User user) {
         userRepo.save(user);
+    }
+
+    @Override
+    public void createUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        saveUser(user);
     }
 
     @Override
@@ -64,5 +70,18 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean doesUserExist(User user) {
         return findUserByEmail(user.getEmail()).isPresent();
+    }
+
+    @Override
+    @Transactional
+    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+        Optional<User> optionalUser = findUserByEmail(userName);
+
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            return new DetailedUserDetails(user, ImmutableList.of(new SimpleGrantedAuthority(user.getType().name())));
+        } else {
+            throw new UsernameNotFoundException(userName);
+        }
     }
 }
