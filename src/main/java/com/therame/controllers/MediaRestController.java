@@ -1,9 +1,9 @@
 package com.therame.controllers;
 
 import com.therame.exception.EmptyMediaException;
+import com.therame.exception.InvalidMediaException;
 import com.therame.model.Exercise;
 import com.therame.model.ExerciseForm;
-import com.therame.service.ExerciseService;
 import com.therame.service.MediaResolverService;
 import com.therame.service.MediaStorageService;
 import com.therame.view.ValidationErrorView;
@@ -26,13 +26,10 @@ public class MediaRestController {
 
     private MediaResolverService mediaResolverService;
     private MediaStorageService mediaStorageService;
-    private ExerciseService exerciseService;
 
-    public MediaRestController(MediaResolverService mediaResolverService, MediaStorageService mediaStorageService,
-                               ExerciseService exerciseService) {
+    public MediaRestController(MediaResolverService mediaResolverService, MediaStorageService mediaStorageService) {
         this.mediaResolverService = mediaResolverService;
         this.mediaStorageService = mediaStorageService;
-        this.exerciseService = exerciseService;
     }
 
     @GetMapping("/watch")
@@ -58,7 +55,7 @@ public class MediaRestController {
 
     @ResponseBody
     @PostMapping("/api/upload")
-    public ResponseEntity<?> uploadVideo(@Valid ExerciseForm exerciseForm, HttpServletRequest request) {
+    public ResponseEntity<?> uploadVideo(@Valid ExerciseForm exerciseForm, HttpServletRequest request) throws IOException {
 
         // Use local address for now, in the future (maybe, if we get to it) we'll want to use
         // the base address of the media server we store it on
@@ -66,20 +63,14 @@ public class MediaRestController {
 
         Exercise exercise = exerciseForm.toExercise();
         exercise.setMediaUrl(baseUrl);
-        exercise.setRunTime("1:23"); // TODO: not this
-        Exercise createdExercise = exerciseService.createExercise(exercise);
 
         try {
-            mediaStorageService.store(exerciseForm.getVideoFile());
-        } catch(IOException e) {
-            e.printStackTrace();
-            return new ResponseEntity<>(e, HttpStatus.INTERNAL_SERVER_ERROR);
-        } catch (EmptyMediaException e) {
+            Exercise createdExercise = mediaStorageService.store(exercise, exerciseForm.getVideoFile());
+            return ResponseEntity.ok(createdExercise);
+        }  catch (EmptyMediaException | InvalidMediaException e) {
             ValidationErrorView errorView = new ValidationErrorView();
             errorView.addError(new FieldError("exerciseForm", "videoFile", e.getMessage()));
             return new ResponseEntity<>(errorView, HttpStatus.BAD_REQUEST);
         }
-
-        return ResponseEntity.ok(createdExercise);
     }
 }

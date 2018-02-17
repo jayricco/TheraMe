@@ -1,11 +1,12 @@
 package com.therame.service;
 
+import com.therame.model.Exercise;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
 public interface MediaStorageService {
 
-    void store(MultipartFile file) throws IOException;
+    Exercise store(Exercise exercise, MultipartFile file) throws IOException;
 
 }

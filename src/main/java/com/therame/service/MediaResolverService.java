@@ -14,7 +14,7 @@ public class MediaResolverService extends ResourceHttpRequestHandler {
 
     private static final String DEFAULT_FILE_EXTENSION = ".mp4";
 
-    @Value("${therame.media.root-location}")
+    @Value("${therame.media.root-media-location}")
     public Path rootLocation;
 
     @Override

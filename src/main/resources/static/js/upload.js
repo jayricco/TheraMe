@@ -19,14 +19,20 @@ $(document).ready(function () {
             contentType: false,
             cache: false,
             success: function() {
-                successMessage.show().html('User registered successfully!');
+                successMessage.show().html('Video uploaded successfully!');
             },
             error: function(response) {
                 var errorString = '';
-                response.responseJSON.errors.forEach(function(error) {
-                    $('#' + error.field).addClass('is-invalid');
-                    errorString += '- ' + error.defaultMessage + '\n';
-                });
+
+                if (response.responseJSON.errors) {
+                    response.responseJSON.errors.forEach(function (error) {
+                        $('#' + error.field).addClass('is-invalid');
+                        errorString += '- ' + error.defaultMessage + '\n';
+                    });
+                } else if (response.responseJSON.message) {
+                    errorString = '- ' + response.responseJSON.message;
+                }
+
                 errorMessage.show().html(errorString)
             }
         });
