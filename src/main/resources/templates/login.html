@@ -1,10 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <title>Title</title>
-</head>
-<body>
-
-</body>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Login</title>
+        <link href="/img/favicon.ico" rel="shortcut icon"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+        <link th:href="@{css/style.css}" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
+        <div id="auth-form">
+            <img src="" th:src="@{img/full-logo-black-large.png}"/>
+            <div class="alert alert-danger" th:if="${param.error}">
+                Incorrect email or password!
+            </div>
+            <form th:action="@{/login}" method="post">
+                <div class="form-group">
+                    <input class="form-control" id="email_field" type="email" name="email" placeholder="Email" value=""/>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" id="password_field" type="password" name="password" placeholder="Password" value=""/>
+                </div>
+                <input class="btn btn-primary btn-block" name="submit" type="submit" value="Log in"/>
+            </form>
+            <p>
+                Don't have an account?
+                <a th:href="@{/register}">Sign up</a>.
+            </p>
+        </div>
+        <div id="footer">
+            <img src="" id="footer-img" th:src="@{img/full-logo-black-large.png}"/>
+            <a class="pull-left">© 2018 TheraMe, Inc.</a>
+            <a class="pull-right">About Us</a>
+        </div>
+    </body>
 </html>

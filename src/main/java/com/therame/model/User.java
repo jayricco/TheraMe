@@ -1,19 +1,22 @@
 package com.therame.model;
 
+import javax.annotation.Nullable;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Transient;
 
-import java.io.Serializable;
 import java.util.UUID;
 
+@Data
 @Entity
-@Table(name = "therame_user")
-public class User implements Serializable {
+@Table(name = "`user`")
+public class User {
 
     public enum Type {
         PATIENT,
@@ -21,79 +24,45 @@ public class User implements Serializable {
         ADMIN
     }
 
-    // Model initialization
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Column(name = "id", updatable = false, nullable = false)
+    private UUID id;
 
+    @Email(message = "Email is not valid.")
+    @NotEmpty(message = "Email is required.")
     @Column(name = "email", unique = true, nullable = false)
-    @Email(message = "Please provide a valid email address")
-    @NotEmpty(message = "At least attempt to get it right...")
     private String email;
 
+    @NotEmpty(message = "First name is required.")
     @Column(name = "first_name", nullable = false)
-    @NotEmpty(message = "Please provide your first name ")
     private String firstName;
 
+    @NotEmpty(message = "Last name is required.")
     @Column(name = "last_name", nullable = false)
-    @NotEmpty(message = "Please provide your last name")
     private String lastName;
 
-    @Column(name = "password", nullable = false)
-    @Length(min = 5, message="*Your password must have at least 5 characters!")
+    @NotNull
     @Transient
+    @Length(min = 5, message="Password must contain over 5 characters.")
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "type", columnDefinition = "smallint", nullable = false)
+    @Column(name = "permission_level", columnDefinition = "smallint", nullable = false)
     @NotNull
     @Enumerated
     private Type type;
 
-    public Long getId() {
-        return id;
-    }
+    @Nullable
+    @ManyToOne
+    @JoinColumn(name = "pt_id")
+    private User therapist;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
-    }
+    @Nullable
+    @Column(name = "init_code")
+    private String init_code;
 }

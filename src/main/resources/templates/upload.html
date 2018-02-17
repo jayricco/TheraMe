@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Upload</title>
+        <link th:href="@{img/favicon.ico}" rel="shortcut icon"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link th:href="@{css/style.css}" rel="stylesheet" type="text/css"/>
+    </head>
+    <body>
+        <div id="header">
+            <a th:href="@{/}">
+                <img id="header-logo" src="" th:src="@{img/full-logo-white-large.png}"/>
+            </a>
+            <a id="header-username" th:text="${user.firstName + ' ' + user.lastName}"></a>
+            <i class="fa fa-upload" aria-hidden="true"></i>
+            <i class="fa fa-plus" aria-hidden="true"></i>
+        </div>
+        <form action="#" method="post" enctype="multipart/form-data" th:object="${exerciseForm}">
+            <div class="container" id="upload-form">
+                <div class="row">
+                    <div class="col-sm">
+                        <i id="upload-icon" class="fa fa-cloud-upload" aria-hidden="true"></i>
+                        <div id="upload-file-selector">
+                            <input type="file" th:field="*{videoFile}" name="videoFile" id="upload-video-input">
+                        </div>
+                    </div>
+
+                    <div class="col-sm">
+                        <h2>Details</h2>
+
+                        <div id="error-message" class="alert alert-danger hidden"></div>
+                        <div id="success-message" class="alert alert-success hidden"></div>
+
+                        <div class="form-group">
+                            <input type="text" th:field="*{title}" placeholder="Title" class="form-control" id="upload-title" />
+                        </div>
+
+                        <div class="form-group">
+                            <textarea th:field="*{description}" class="form-control" rows="3" placeholder="Description..." id="upload-description"></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <input class="btn btn-primary btn-block" name="submit" type="submit" value="Upload"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <script th:src="@{/js/upload.js}"></script>
+    </body>
+</html>
