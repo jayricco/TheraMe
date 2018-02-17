@@ -12,14 +12,18 @@ import java.nio.file.Path;
 @Service
 public class MediaResolverService extends ResourceHttpRequestHandler {
 
-    private static final String DEFAULT_FILE_EXTENSION = ".mp4";
+    private static final String VIDEO_EXTENSION = ".mp4";
+    private static final String IMAGE_EXTENSION = ".jpg";
 
     @Value("${therame.media.root-media-location}")
     public Path rootLocation;
 
     @Override
     protected Resource getResource(HttpServletRequest request) {
-        String mediaName = (String) request.getAttribute("video-request");
-        return new FileSystemResource(rootLocation.resolve(mediaName + DEFAULT_FILE_EXTENSION).toFile());
+        String mediaId = (String) request.getAttribute("resource-name");
+        String mediaType = (String) request.getAttribute("resource-type");
+
+        String extension = mediaType.equals("image") ? IMAGE_EXTENSION : VIDEO_EXTENSION;
+        return new FileSystemResource(rootLocation.resolve(mediaId + extension).toFile());
     }
 }

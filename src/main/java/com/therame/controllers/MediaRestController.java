@@ -40,8 +40,17 @@ public class MediaRestController {
 
     @GetMapping("/api/video")
     public void getVideo(HttpServletRequest request, HttpServletResponse response,
-                         @RequestParam("path") String name) throws ServletException, IOException {
-        request.setAttribute("video-request", name);
+                         @RequestParam("id") String id) throws ServletException, IOException {
+        request.setAttribute("resource-name", id);
+        request.setAttribute("resource-type", "video");
+        mediaResolverService.handleRequest(request, response);
+    }
+
+    @GetMapping("/api/thumbnail")
+    public void getThumbnail(HttpServletRequest request, HttpServletResponse response,
+                         @RequestParam("id") String id) throws ServletException, IOException {
+        request.setAttribute("resource-name", id);
+        request.setAttribute("resource-type", "image");
         mediaResolverService.handleRequest(request, response);
     }
 
