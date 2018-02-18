@@ -84,12 +84,12 @@
     border-radius: 1px;
 }
 
-.btn-primary:hover {
-    background: #71c720;
-    border-color: #71c720;
+.btn-primary:hover, .btn-primary:active, .btn-primary:focus, .btn-primary.active {
+    background: #7ed428 !important;
+    border-color: #7ed428 !important;
 }
 
-.btn-primary:active {
+.btn-primary.disabled {
     background: #71c720;
     border-color: #71c720;
 }
@@ -169,4 +169,8 @@
 
 .bar {
     background: #71c720;
+}
+
+#upload-progress {
+    margin-top: 15px;
 }
