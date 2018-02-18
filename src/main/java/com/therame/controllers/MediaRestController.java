@@ -4,15 +4,12 @@ import com.therame.exception.EmptyMediaException;
 import com.therame.exception.InvalidMediaException;
 import com.therame.model.Exercise;
 import com.therame.model.ExerciseForm;
-import com.therame.service.ExerciseService;
 import com.therame.service.MediaResolverService;
 import com.therame.service.MediaStorageService;
 import com.therame.view.ValidationErrorView;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.util.Base64Utils;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -22,36 +19,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.Optional;
-import java.util.UUID;
 
 @Controller
 public class MediaRestController {
 
     private MediaResolverService mediaResolverService;
     private MediaStorageService mediaStorageService;
-    private ExerciseService exerciseService;
 
-    public MediaRestController(MediaResolverService mediaResolverService, MediaStorageService mediaStorageService,
-                               ExerciseService exerciseService) {
+    public MediaRestController(MediaResolverService mediaResolverService, MediaStorageService mediaStorageService) {
         this.mediaResolverService = mediaResolverService;
         this.mediaStorageService = mediaStorageService;
-        this.exerciseService = exerciseService;
-    }
-
-    @GetMapping("/watch")
-    public String videoView(@RequestParam("v") String encodedId, Model model) {
-
-        byte[] decodedId = Base64Utils.decodeFromUrlSafeString(encodedId);
-        UUID videoId =  UUID.fromString(new String(decodedId));
-
-        Optional<Exercise> optionalExercise = exerciseService.findById(videoId);
-        optionalExercise.ifPresent((exercise) -> {
-            model.addAttribute("host", exercise.getMediaUrl());
-            model.addAttribute("videoId", Base64Utils.encodeToUrlSafeString(exercise.getId().toString().getBytes()));
-        });
-
-        return "watch";
     }
 
     @GetMapping("/api/video")

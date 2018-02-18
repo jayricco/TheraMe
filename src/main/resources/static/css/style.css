@@ -26,6 +26,7 @@
     width: 100%;
     height: 55px;
     background: #24292e;
+    margin-bottom: 30px;
 }
 
 #header-logo {
@@ -134,4 +135,38 @@
 
 #upload-file-selector {
     text-align: center;
+}
+
+.center-horiz-div {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.divider-bottom {
+    border-bottom: 1px solid #eeeeee;
+}
+
+#results-header {
+    margin-top: 65px;
+    margin-bottom: 20px;
+}
+
+.thumbnail-container {
+    position: relative;
+}
+
+.video-timestamp {
+    position: absolute;
+    bottom: 3%;
+    right: 3%;
+    color: #ffffff;
+    background-color: #00000099;
+    font-size: 12px;
+    padding-left: 4px;
+    padding-right: 4px;
+    border-radius: 2px;
+}
+
+.bar {
+    background: #71c720;
 }
