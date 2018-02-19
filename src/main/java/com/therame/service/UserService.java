@@ -17,6 +17,7 @@ public interface UserService {
      * @return the user, absent if none exists
      */
     Optional<User> findUserByEmail(String email);
+    Optional<User> findByConfirmationToken(String confirmationToken);
     User createUser(User user);
     User createRootUser(User user);
     User saveUser(User user);

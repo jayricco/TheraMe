@@ -46,7 +46,7 @@ public class UserController {
         return "login";
     }
 
-    @RequestMapping(value="/register", method = RequestMethod.GET)
+   /* @RequestMapping(value="/register", method = RequestMethod.GET)
     public ModelAndView registration() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("user", new User());
@@ -66,5 +66,5 @@ public class UserController {
             errorView.addError(new FieldError("user", "email", "Email is already in use."));
             return new ResponseEntity<>(errorView, HttpStatus.CONFLICT);
         }
-    }
+    }*/
 }

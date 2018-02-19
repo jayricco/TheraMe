@@ -35,27 +35,25 @@ public class User {
     @Column(name = "id", updatable = false, nullable = false)
     private UUID id;
 
+    @Column(name = "email", unique = true, nullable = false)
     @Email(message = "Email is not valid.")
     @NotEmpty(message = "Email is required.")
-    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @NotEmpty(message = "First name is required.")
     @Column(name = "first_name", nullable = false)
+    @NotEmpty(message = "First name is required.")
+
     private String firstName;
 
-    @NotEmpty(message = "Last name is required.")
     @Column(name = "last_name", nullable = false)
+    @NotEmpty(message = "Last name is required.")
     private String lastName;
 
-    @NotNull
+    @Column(name = "password")
     @Transient
-    @Length(min = 5, message="Password must contain over 5 characters.")
-    @Column(name = "password", nullable = false)
     private String password;
 
     @Column(name = "permission_level", columnDefinition = "smallint", nullable = false)
-    @NotNull
     @Enumerated
     private Type type;
 
@@ -64,9 +62,14 @@ public class User {
     @JoinColumn(name = "pt_id")
     private User therapist;
 
-    @Nullable
-    @Column(name = "init_code")
-    private String init_code;
+    @Column(name = "enabled")
+    private boolean enabled;
+
+    @Column(name = "active")
+    private boolean active;
+
+    @Column(name = "confirmation_token")
+    private String confirmationToken;
 
 
     // These columns and callbacks are for monitoring some temporal data
@@ -78,15 +81,8 @@ public class User {
     @Column(name = "last_updated")
     private Date last_updated;
 
-    // As well, in here is where the init code is going to go!
     @PrePersist
-    protected void onCreate() {
-        date_created = new Date();
-        if (password == null) {
-            init_code = StringUtils.randomAlphanumeric(6);
-            password = init_code;
-        }
-    }
+    protected void onCreate() { date_created = new Date(); }
 
     @PreUpdate
     protected void onUpdate() {

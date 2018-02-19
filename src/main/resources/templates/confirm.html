@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+
+    <link rel="icon" href="/static/img/favicon.ico" />
+
+    <title>User Registration with Spring Boot</title>
+
+    <link th:href="@{img/favicon.ico}" rel="shortcut icon"/>
+    <link th:href="@{css/style.css}" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+    <link th:href="@{css/style.css}" rel="stylesheet" />
+    <link th:href="@{css/fv.css}" rel="stylesheet" />
+</head>
+
+<body>
+
+    <div class="middle-box text-center loginscreen animated fadeInDown">
+    <div>
+
+        <h4>Set Your Password</h4>
+
+        <div th:if="${successMessage}" class="alert alert-success"
+             role="alert" th:text="${successMessage}"></div>
+
+        <div th:if="${errorMessage}" class="alert alert-danger"
+             role="alert" th:text="${errorMessage}"></div>
+
+        <div th:if="${invalidToken}" class="alert alert-danger"
+             role="alert" th:text="${invalidToken}"></div>
+
+        <form th:if="!${invalidToken}" class="m-t" id="passwordForm" role="form" action="#"
+              th:object="${setPassword}" th:action="@{/confirm}" method="post">
+
+            <input type="hidden" name="token" th:value="${confirmationToken}" />
+
+            <div class="form-group input-group">
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-lock"/>
+                </span>
+                <input name="password" type="password" id="password"
+                       placeholder="Password" class="form-control" required="required" />
+                <span class="glyphicon" id="strengthBar" aria-hidden="true"/>
+            </div>
+
+            <div class="form-group input-group has-feedback">
+          <span class="input-group-addon">
+            <span class="glyphicon glyphicon-lock"/>
+          </span>
+                <input type="password" class="form-control" id="passwordConfirm" placeholder="Confirm Password" name="passwordConfirm" data-fv-notempty="true"
+                       data-fv-notempty-message="Please confirm password"
+                       data-fv-identical="true"
+                       data-fv-identical-field="password"
+                       data-fv-identical-message="Both passwords must be identical" />
+
+                <div class="help-block with-errors"></div>
+            </div>
+
+
+
+            <button type="submit"
+                    class="btn btn-primary block full-width m-b">Save
+            </button>
+
+        </form>
+
+
+    </div>
+</div>
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.4.2/zxcvbn.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+
+
+
+    <script th:src="@{js/fv.min.js}"></script>
+    <script type="text/javascript">
+        //<![CDATA[
+        $(document).ready(function() {
+            $('#passwordForm').formValidation({
+                framework: 'bootstrap',
+                icon: {
+                    valid: 'glyphicon glyphicon-ok',
+                    invalid: 'glyphicon glyphicon-remove',
+                    validating: 'glyphicon glyphicon-refresh'
+                },
+                fields: {
+
+                    password: {
+                        validators: {
+                            notEmpty: {
+                                message: 'The password is required'
+                            },
+                            callback: {
+                                callback: function(value, validator, $field) {
+                                    var password = $field.val();
+                                    if (password == '') {
+                                        return true;
+                                    }
+                                    var result  = zxcvbn(password),
+                                        score   = result.score,
+                                        message = result.feedback.warning || 'Password doesn\'t meet requirements';
+                                    // Update the progress bar width and add alert class
+                                    var $bar = $('#strengthBar');
+                                    switch (score) {
+                                        case 0:
+                                            $bar.attr('class', 'progress-bar progress-bar-danger')
+                                                .css('width', '1%');
+                                            break;
+                                        case 1:
+                                            $bar.attr('class', 'progress-bar progress-bar-danger')
+                                                .css('width', '25%');
+                                            break;
+                                        case 2:
+                                            $bar.attr('class', 'progress-bar progress-bar-danger')
+                                                .css('width', '50%');
+                                            break;
+                                        case 3:
+                                            $bar.attr('class', 'progress-bar progress-bar-warning')
+                                                .css('width', '75%');
+                                            break;
+                                        case 4:
+                                            $bar.attr('class', 'progress-bar progress-bar-success')
+                                                .css('width', '100%');
+                                            break;
+                                    }
+                                    // We will treat the password as an invalid one if the score is less than 3
+                                    if (score < 3) {
+                                        return {
+                                            valid: false,
+                                            message: '\n' + message
+                                        }
+                                    }
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        });
+        //]]>
+    </script>
+
+    </body>
+
+</html>

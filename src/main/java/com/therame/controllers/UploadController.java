@@ -1,6 +1,5 @@
 package com.therame.controllers;
 
-import java.io.IOException;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.therame.persistence.StorageFileNotFoundException;
+import com.therame.exception.StorageFileNotFoundException;
 import com.therame.persistence.StorageService;
 
 @Controller

@@ -97,4 +97,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             throw new UsernameNotFoundException(userName);
         }
     }
+
+    @Override
+    public Optional<User> findByConfirmationToken(String confirmationToken) {
+        return userRepo.findByConfirmationToken(confirmationToken);
+    }
 }
