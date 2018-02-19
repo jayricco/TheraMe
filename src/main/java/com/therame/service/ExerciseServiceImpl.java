@@ -4,6 +4,7 @@ import com.therame.model.Exercise;
 import com.therame.repository.ExerciseRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -23,6 +24,16 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public Optional<Exercise> findById(UUID id) {
-        return Optional.of(exerciseRepository.findOne(id));
+        return Optional.ofNullable(exerciseRepository.findOne(id));
+    }
+
+    @Override
+    public List<Exercise> findAll() {
+        return exerciseRepository.findAll();
+    }
+
+    @Override
+    public List<Exercise> searchByTitle(String title) {
+        return exerciseRepository.findAllByTitle(title);
     }
 }
