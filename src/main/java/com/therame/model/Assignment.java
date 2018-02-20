@@ -1,5 +1,7 @@
 package com.therame.model;
 
+import com.therame.util.Base64Converter;
+import com.therame.view.AssignmentView;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
@@ -37,6 +39,15 @@ public class Assignment {
     @Column(name = "date_assigned")
     private Date dateAssigned;
 
-    @Column(name = "order")
+    @Column(name = "ordering")
     private int order;
+
+    public AssignmentView toView() {
+        AssignmentView view = new AssignmentView();
+        view.setId(Base64Converter.toUrlSafeString(id));
+        view.setExercise(exercise.toView());
+        view.setDateAssigned(dateAssigned);
+        view.setOrder(order);
+        return view;
+    }
 }
