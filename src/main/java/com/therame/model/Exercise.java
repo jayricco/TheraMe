@@ -1,5 +1,6 @@
 package com.therame.model;
 
+import com.therame.util.Base64Converter;
 import com.therame.view.ExerciseView;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
@@ -45,7 +46,7 @@ public class Exercise {
 
     public ExerciseView toView() {
         ExerciseView view = new ExerciseView();
-        view.setId(Base64Utils.encodeToUrlSafeString(id.toString().getBytes()));
+        view.setId(Base64Converter.toUrlSafeString(id));
         view.setTitle(title);
         view.setDescription(description);
         view.setMediaUrl(mediaUrl);

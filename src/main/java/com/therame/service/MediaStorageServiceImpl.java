@@ -3,12 +3,12 @@ package com.therame.service;
 import com.therame.exception.EmptyMediaException;
 import com.therame.exception.InvalidMediaException;
 import com.therame.model.Exercise;
+import com.therame.util.Base64Converter;
 import net.bramp.ffmpeg.probe.FFmpegProbeResult;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Base64Utils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -42,7 +42,7 @@ public class MediaStorageServiceImpl implements MediaStorageService {
         Exercise createdExercise = exerciseService.createExercise(exercise);
 
         // File name will be base64 encoded exercise UUID
-        String fileName = Base64Utils.encodeToUrlSafeString(createdExercise.getId().toString().getBytes());
+        String fileName = Base64Converter.toUrlSafeString(createdExercise.getId());
 
         // Attempt to store the file temporarily for conversion
         if (!file.isEmpty()) {
