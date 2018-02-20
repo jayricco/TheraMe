@@ -26,17 +26,17 @@ public class Assignment {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id")
-    User patient;
+    private User patient;
 
     @NotNull
     @ManyToOne
     @JoinColumn(name = "exercise_id")
-    Exercise exercise;
+    private Exercise exercise;
 
     @CreationTimestamp
     @Column(name = "date_assigned")
-    Date dateAssigned;
+    private Date dateAssigned;
 
     @Column(name = "order")
-    int order;
+    private int order;
 }
