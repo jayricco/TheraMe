@@ -58,7 +58,7 @@ public class User {
     private Type type;
 
     @Nullable
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pt_id")
     private User therapist;
 
