@@ -7,6 +7,7 @@ import com.therame.model.ExerciseForm;
 import com.therame.service.MediaResolverService;
 import com.therame.service.MediaStorageService;
 import com.therame.view.ValidationErrorView;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,9 @@ import java.io.IOException;
 
 @Controller
 public class MediaRestController {
+
+    @Value("${therame.media.host.url}")
+    private String mediaHostUrl;
 
     private MediaResolverService mediaResolverService;
     private MediaStorageService mediaStorageService;
@@ -57,14 +61,9 @@ public class MediaRestController {
 
     @ResponseBody
     @PostMapping("/api/upload")
-    public ResponseEntity<?> uploadVideo(@Valid ExerciseForm exerciseForm, HttpServletRequest request) throws IOException {
-
-        // Use local address for now, in the future (maybe, if we get to it) we'll want to use
-        // the base address of the media server we store it on
-        String baseUrl = String.format("%s://%s:%d", request.getScheme(), request.getLocalName(), request.getLocalPort());
-
+    public ResponseEntity<?> uploadVideo(@Valid ExerciseForm exerciseForm) throws IOException {
         Exercise exercise = exerciseForm.toExercise();
-        exercise.setMediaUrl(baseUrl);
+        exercise.setMediaUrl(mediaHostUrl);
 
         try {
             Exercise createdExercise = mediaStorageService.store(exercise, exerciseForm.getVideoFile());
