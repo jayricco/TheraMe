@@ -2,13 +2,15 @@ package com.therame.controllers;
 
 import javax.validation.Valid;
 
+import com.therame.model.DetailedUserDetails;
 import com.therame.view.ValidationErrorView;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -26,19 +28,13 @@ public class UserController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/")
-    public ModelAndView home(Authentication auth) {
-        ModelAndView modelAndView = new ModelAndView();
-        boolean isTherapist = auth.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals(User.Type.ADMIN.name())
-                || authority.getAuthority().equals(User.Type.THERAPIST.name()));
-
-        if (isTherapist) {
-            modelAndView.setViewName("pt_home");
+    @GetMapping(value = "/")
+    public String home(@AuthenticationPrincipal DetailedUserDetails userDetails) {
+        if (userDetails.getUser().getType() == User.Type.THERAPIST || userDetails.getUser().getType() == User.Type.ADMIN) {
+            return "pt_home";
         } else {
-            modelAndView.setViewName("home");
+            return "home";
         }
-
-        return modelAndView;
     }
 
     @RequestMapping(value="/login", method = RequestMethod.GET)
