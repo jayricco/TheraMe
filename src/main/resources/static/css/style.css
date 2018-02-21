@@ -33,9 +33,6 @@
     display: inline-block;
     height: 35px;
     width: auto;
-    margin-top: 8px;
-    margin-left: 10px;
-    float: left;
 }
 
 #header i {
@@ -197,4 +194,21 @@ h1{
 
 #searchBar{
     width: 500px;
+}
+
+.nav-link {
+    color: #ffffffdd !important;
+}
+
+.nav-link:hover, .nav-link:focus {
+    color: #ffffffff !important;
+}
+
+.navbar {
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+}
+
+.dropdown-menu {
+    border-radius: 2px;
 }
