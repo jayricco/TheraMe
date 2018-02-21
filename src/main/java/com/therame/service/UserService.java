@@ -1,7 +1,9 @@
 package com.therame.service;
 
 import com.therame.model.User;
+import com.therame.view.UserView;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
@@ -21,4 +23,12 @@ public interface UserService {
      * @return the created user
      */
     User createUser(User user);
+
+    /**
+     * Finds all users that match the specified type filters
+     *
+     * @param typeFilters the whitelist of type filters
+     * @return the matching user views
+     */
+    List<UserView> findAllUsersByType(List<User.Type> typeFilters);
 }

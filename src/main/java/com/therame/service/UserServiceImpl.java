@@ -1,12 +1,14 @@
 package com.therame.service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
 import com.google.common.collect.ImmutableList;
 import com.therame.model.DetailedUserDetails;
 import com.therame.model.UserRepository;
+import com.therame.view.UserView;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -36,6 +38,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public User createUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepo.save(user);
+    }
+
+    @Override
+    public List<UserView> findAllUsersByType(List<User.Type> typeFilters) {
+        return userRepo.findByType(typeFilters).stream()
+                .map(User::toView)
+                .collect(Collectors.toList());
     }
 
     @Override

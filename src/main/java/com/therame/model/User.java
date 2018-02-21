@@ -4,6 +4,8 @@ import javax.annotation.Nullable;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import com.therame.util.Base64Converter;
+import com.therame.view.UserView;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Email;
@@ -65,4 +67,18 @@ public class User {
     @Nullable
     @Column(name = "init_code")
     private String init_code;
+
+    public UserView toView() {
+        UserView view = new UserView();
+        view.setId(Base64Converter.toUrlSafeString(id));
+        view.setFirstName(firstName);
+        view.setLastName(lastName);
+        view.setType(type);
+
+        if (therapist != null) {
+            view.setTherapist(therapist.toView());
+        }
+
+        return view;
+    }
 }
