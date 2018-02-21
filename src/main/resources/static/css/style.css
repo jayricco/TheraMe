@@ -212,3 +212,11 @@ h1{
 .dropdown-menu {
     border-radius: 2px;
 }
+
+.dropdown-toggle[aria-expanded="true"]:after {
+    transform: rotate(180deg);
+}
+
+.dropdown-toggle:after {
+    transition: 0.25s;
+}
