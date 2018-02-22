@@ -206,3 +206,15 @@ h1{
 .table th {
     border-top: none;
 }
+
+#user-exercises-section {
+    border-left: 2px solid #eeeeee;
+}
+
+.container-fluid {
+    padding-left: 3%;
+}
+
+#user-issues-section {
+    margin-top: 15%;
+}

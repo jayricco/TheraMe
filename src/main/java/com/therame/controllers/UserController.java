@@ -4,6 +4,8 @@ import javax.validation.Valid;
 
 import com.google.common.collect.ImmutableList;
 import com.therame.model.DetailedUserDetails;
+import com.therame.util.Base64Converter;
+import com.therame.view.UserView;
 import com.therame.view.ValidationErrorView;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -18,6 +20,7 @@ import com.therame.model.User;
 import com.therame.service.UserService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class UserController {
@@ -82,5 +85,18 @@ public class UserController {
         }
 
         return ResponseEntity.ok(userService.findAllUsersByNameAndType(nameQuery, typeFilters));
+    }
+
+    @GetMapping("/user")
+    public ModelAndView userView(@RequestParam("id") String userId) {
+        ModelAndView modelAndView = new ModelAndView();
+        Optional<UserView> optionalUser = userService.findById(Base64Converter.fromUrlSafeString(userId));
+
+        optionalUser.ifPresent(user -> {
+            modelAndView.addObject("forUser", user);
+            modelAndView.setViewName("user");
+        });
+
+        return modelAndView;
     }
 }

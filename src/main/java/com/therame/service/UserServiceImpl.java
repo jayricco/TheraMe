@@ -30,6 +30,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public Optional<UserView> findById(UUID id) {
+        User user = userRepo.findOne(id);
+        if (user != null) {
+            return Optional.of(user.toView());
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    @Override
     public Optional<User> findUserByEmail(String email) {
         return userRepo.findByEmail(email);
     }

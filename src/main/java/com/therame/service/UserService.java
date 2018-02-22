@@ -5,8 +5,11 @@ import com.therame.view.UserView;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface UserService {
+
+    Optional<UserView> findById(UUID id);
 
     /**
      * Finds a user with the specified email

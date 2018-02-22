@@ -3,7 +3,7 @@ $(document).ready(function () {
 
     var nanoBar = new Nanobar();
     var baseRequestUrl = '/api/users?types=PATIENT';
-    const baseUserHref = '/user/';
+    const baseUserHref = '/user?id=';
 
     // Update list on page load
     getUsers(baseRequestUrl);
