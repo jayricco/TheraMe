@@ -203,6 +203,6 @@ h1{
     transition: 0.25s;
 }
 
-.table th {
-    border-top: none;
+.dropdown-item:active{
+    background-color: #71c720;
 }
