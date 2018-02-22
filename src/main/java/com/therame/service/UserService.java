@@ -30,5 +30,5 @@ public interface UserService {
      * @param typeFilters the whitelist of type filters
      * @return the matching user views
      */
-    List<UserView> findAllUsersByType(List<User.Type> typeFilters);
+    List<UserView> findAllUsersByNameAndType(String name, List<User.Type> typeFilters);
 }

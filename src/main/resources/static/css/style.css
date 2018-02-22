@@ -202,3 +202,7 @@ h1{
 .dropdown-toggle:after {
     transition: 0.25s;
 }
+
+.table th {
+    border-top: none;
+}

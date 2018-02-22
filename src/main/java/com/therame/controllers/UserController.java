@@ -2,6 +2,7 @@ package com.therame.controllers;
 
 import javax.validation.Valid;
 
+import com.google.common.collect.ImmutableList;
 import com.therame.model.DetailedUserDetails;
 import com.therame.view.ValidationErrorView;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -70,7 +71,16 @@ public class UserController {
     }
 
     @GetMapping("/api/users")
-    public ResponseEntity<?> getAllUsers(@RequestParam(required = false) List<User.Type> typeFilters) {
-        return ResponseEntity.ok(userService.findAllUsersByType(typeFilters));
+    public ResponseEntity<?> getAllUsers(@RequestParam(value = "q", required = false) String nameQuery,
+            @RequestParam(value = "types", required = false) List<User.Type> typeFilters) {
+        if (typeFilters == null) {
+            typeFilters = ImmutableList.of(User.Type.ADMIN, User.Type.THERAPIST, User.Type.PATIENT);
+        }
+
+        if (nameQuery == null) {
+            nameQuery = "";
+        }
+
+        return ResponseEntity.ok(userService.findAllUsersByNameAndType(nameQuery, typeFilters));
     }
 }

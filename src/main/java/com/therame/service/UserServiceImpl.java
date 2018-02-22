@@ -41,8 +41,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public List<UserView> findAllUsersByType(List<User.Type> typeFilters) {
-        return userRepo.findByType(typeFilters).stream()
+    public List<UserView> findAllUsersByNameAndType(String name, List<User.Type> typeFilters) {
+        return userRepo.findByNameAndType(name, typeFilters).stream()
                 .map(User::toView)
                 .collect(Collectors.toList());
     }

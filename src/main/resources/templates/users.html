@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Patient Listing</title>
+        <link th:href="@{img/favicon.ico}" rel="shortcut icon"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
+        <link th:href="@{css/style.css}" rel="stylesheet" type="text/css"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script th:src="@{/js/nanobar.min.js}"></script>
+    </head>
+    <body>
+        <div th:replace="fragments/header :: header">
+            <!-- Header will be inserted here -->
+        </div>
+        <div class="container">
+            <form action="#" method="get">
+                <div class="form-row justify-content-center">
+                    <div class="col-6">
+                        <input type="text" placeholder="Search..." class="form-control" id="query" />
+                    </div>
+                    <div class="col-2">
+                        <input class="btn btn-primary btn-block" name="submit" type="submit" value="Search"/>
+                    </div>
+                </div>
+            </form>
+            <div class="row divider-bottom" id="results-header">
+                <h3>Results</h3>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Therapist</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="user-table-body">
+                    <!-- Populated by JS -->
+                </tbody>
+            </table>
+        </div>
+        <table class="hidden">
+            <tbody>
+                <tr id="user-entry-template">
+                    <td>
+                        <a id="user-entry-name">Name</a>
+                    </td>
+                    <td>
+                        <a id="user-entry-ptname">PT Name</a>
+                    </td>
+                    <td id="user-entry-status">Status</td>
+                </tr>
+            </tbody>
+        </table>
+        <script th:src="@{/js/users.js}"></script>
+    </body>
+</html>
