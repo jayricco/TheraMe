@@ -36,6 +36,8 @@ public class MediaStorageServiceImpl implements MediaStorageService {
     @Override
     @Transactional
     public Exercise store(Exercise exercise, MultipartFile file) throws IOException {
+        Files.createDirectories(rootMediaLocation);
+        Files.createDirectories(rootUploadLocation);
 
         // Initialize with fake time, will be updated later
         exercise.setRunTime("0:00");
