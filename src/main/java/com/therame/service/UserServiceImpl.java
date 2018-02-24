@@ -9,7 +9,6 @@ import com.google.common.collect.ImmutableList;
 import com.therame.model.DetailedUserDetails;
 import com.therame.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.therame.model.UserRepository;
 import com.therame.view.UserView;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

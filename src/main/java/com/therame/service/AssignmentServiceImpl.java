@@ -1,6 +1,8 @@
 package com.therame.service;
 
 import com.therame.model.*;
+import com.therame.repository.ExerciseRepository;
+import com.therame.repository.UserRepository;
 import com.therame.view.AssignmentView;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
