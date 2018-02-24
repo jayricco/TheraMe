@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <meta charset="UTF-8" />
-        <title>Video Library</title>
+        <meta charset="UTF-8">
+        <title>Patient Listing</title>
         <link th:href="@{img/favicon.ico}" rel="shortcut icon"/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
         <link th:href="@{css/style.css}" rel="stylesheet" type="text/css"/>
@@ -28,21 +28,32 @@
             <div class="row divider-bottom" id="results-header">
                 <h3>Results</h3>
             </div>
-            <div id="video-container">
-                <!-- Populated by JS -->
-            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Therapist</th>
+                        <th scope="col">Status</th>
+                    </tr>
+                </thead>
+                <tbody id="user-table-body">
+                    <!-- Populated by JS -->
+                </tbody>
+            </table>
         </div>
-
-        <!-- Template for use in JS, hidden by default -->
-        <div class="col-3 hidden" id="video-column-template">
-            <a href="" id="video-href-template">
-                <div class="thumbnail-container">
-                    <img class="img-fluid" src="" id="video-thumbnail-template" />
-                    <span class="video-timestamp" id="video-timestamp-template">01:00</span>
-                </div>
-                <span id="video-title-template">A Video Title!</span>
-            </a>
-        </div>
-        <script th:src="@{/js/videos.js}"></script>
+        <table class="hidden">
+            <tbody>
+                <tr id="user-entry-template">
+                    <td>
+                        <a id="user-entry-name">Name</a>
+                    </td>
+                    <td>
+                        <a id="user-entry-ptname">PT Name</a>
+                    </td>
+                    <td id="user-entry-status">Status</td>
+                </tr>
+            </tbody>
+        </table>
+        <script th:src="@{/js/users.js}"></script>
     </body>
 </html>

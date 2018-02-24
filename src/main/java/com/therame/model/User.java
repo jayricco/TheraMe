@@ -4,6 +4,8 @@ import javax.annotation.Nullable;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import com.therame.util.Base64Converter;
+import com.therame.view.UserView;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Email;
@@ -58,7 +60,7 @@ public class User {
     private Type type;
 
     @Nullable
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pt_id")
     private User therapist;
 
@@ -87,5 +89,19 @@ public class User {
     @PreUpdate
     protected void onUpdate() {
         last_updated = new Date();
+    }
+
+    public UserView toView() {
+        UserView view = new UserView();
+        view.setId(Base64Converter.toUrlSafeString(id));
+        view.setFirstName(firstName);
+        view.setLastName(lastName);
+        view.setType(type);
+
+        if (therapist != null) {
+            view.setTherapist(therapist.toView());
+        }
+
+        return view;
     }
 }

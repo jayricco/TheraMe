@@ -2,20 +2,25 @@ package com.therame.controllers;
 
 import javax.validation.Valid;
 
+import com.google.common.collect.ImmutableList;
+import com.therame.model.DetailedUserDetails;
+import com.therame.util.Base64Converter;
+import com.therame.view.UserView;
 import com.therame.view.ValidationErrorView;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.therame.model.User;
 import com.therame.service.UserService;
+
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class UserController {
@@ -26,19 +31,13 @@ public class UserController {
         this.userService = userService;
     }
 
-    @RequestMapping(value = "/")
-    public ModelAndView home(Authentication auth) {
-        ModelAndView modelAndView = new ModelAndView();
-        boolean isTherapist = auth.getAuthorities().stream().anyMatch(authority -> authority.getAuthority().equals(User.Type.ADMIN.name())
-                || authority.getAuthority().equals(User.Type.THERAPIST.name()));
-
-        if (isTherapist) {
-            modelAndView.setViewName("pt_home");
+    @GetMapping(value = "/")
+    public String home(@AuthenticationPrincipal DetailedUserDetails userDetails) {
+        if (userDetails.getUser().getType() == User.Type.THERAPIST || userDetails.getUser().getType() == User.Type.ADMIN) {
+            return "pt_home";
         } else {
-            modelAndView.setViewName("home");
+            return "home";
         }
-
-        return modelAndView;
     }
 
     @RequestMapping(value="/login", method = RequestMethod.GET)
@@ -66,5 +65,37 @@ public class UserController {
             errorView.addError(new FieldError("user", "email", "Email is already in use."));
             return new ResponseEntity<>(errorView, HttpStatus.CONFLICT);
         }
-    }*/
+    }
+*/
+    @GetMapping("/users")
+    public String usersView() {
+        return "users";
+    }
+
+    @GetMapping("/api/users")
+    public ResponseEntity<?> getAllUsers(@RequestParam(value = "q", required = false) String nameQuery,
+            @RequestParam(value = "types", required = false) List<User.Type> typeFilters) {
+        if (typeFilters == null) {
+            typeFilters = ImmutableList.of(User.Type.ADMIN, User.Type.THERAPIST, User.Type.PATIENT);
+        }
+
+        if (nameQuery == null) {
+            nameQuery = "";
+        }
+
+        return ResponseEntity.ok(userService.findAllUsersByNameAndType(nameQuery, typeFilters));
+    }
+
+    @GetMapping("/user")
+    public ModelAndView userView(@RequestParam("id") String userId) {
+        ModelAndView modelAndView = new ModelAndView();
+        Optional<UserView> optionalUser = userService.findById(Base64Converter.fromUrlSafeString(userId));
+
+        optionalUser.ifPresent(user -> {
+            modelAndView.addObject("forUser", user);
+            modelAndView.setViewName("user");
+        });
+
+        return modelAndView;
+    }
 }

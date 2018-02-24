@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title th:text="${forUser.firstName + ' ' + forUser.lastName}"></title>
+        <link th:href="@{img/favicon.ico}" rel="shortcut icon"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
+        <link th:href="@{css/style.css}" rel="stylesheet" type="text/css"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script th:src="@{/js/nanobar.min.js}"></script>
+    </head>
+    <body>
+        <div th:replace="fragments/header :: header">
+            <!-- Header will be inserted here -->
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-8">
+                    <div class="row">
+                        <div class="col-10">
+                            <h2 th:text="${forUser.firstName + ' ' + forUser.lastName}"></h2>
+                            <h3 th:text="${#strings.capitalize(#strings.toLowerCase(forUser.type))}"></h3>
+                            <span th:if="${forUser.type == T(com.therame.model.User.Type).PATIENT}">
+                                Assigned to:
+                                <a th:if="${forUser.therapist != null}" th:text="${forUser.therapist.firstName + ' ' + forUser.therapist.lastName}" th:href="@{/user(id=${forUser.therapist.id})}"></a>
+                                <a th:if="${forUser.therapist == null}">N/A</a>
+                            </span>
+                        </div>
+                        <div class="col-2">
+                            <button class="btn btn-primary btn-block">Deactivate User</button>
+                        </div>
+                    </div>
+                    <div class="row" id="user-issues-section">
+                        <div class="col">
+                            <h2 class="divider-bottom">Issues</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4" id="user-exercises-section">
+                    <h2 class="divider-bottom">Exercises</h2>
+                </div>
+            </div>
+        </div>
+        <script th:src="@{/js/user.js}"></script>
+    </body>
+</html>

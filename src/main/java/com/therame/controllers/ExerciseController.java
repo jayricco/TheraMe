@@ -2,6 +2,7 @@ package com.therame.controllers;
 
 import com.therame.model.Exercise;
 import com.therame.service.ExerciseService;
+import com.therame.util.Base64Converter;
 import com.therame.view.ExerciseView;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -27,13 +28,12 @@ public class ExerciseController {
     @GetMapping("/watch")
     public String videoView(@RequestParam("v") String encodedId, Model model) {
 
-        byte[] decodedId = Base64Utils.decodeFromUrlSafeString(encodedId);
-        UUID videoId =  UUID.fromString(new String(decodedId));
+        UUID videoId = Base64Converter.fromUrlSafeString(encodedId);
 
         Optional<Exercise> optionalExercise = exerciseService.findById(videoId);
         optionalExercise.ifPresent((exercise) -> {
             model.addAttribute("host", exercise.getMediaUrl());
-            model.addAttribute("videoId", Base64Utils.encodeToUrlSafeString(exercise.getId().toString().getBytes()));
+            model.addAttribute("videoId", Base64Converter.toUrlSafeString(exercise.getId()));
         });
 
         return "watch";

@@ -1,6 +1,7 @@
 package com.therame.service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -8,6 +9,8 @@ import com.google.common.collect.ImmutableList;
 import com.therame.model.DetailedUserDetails;
 import com.therame.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.therame.model.UserRepository;
+import com.therame.view.UserView;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -31,6 +34,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public Optional<User> findUserById(UUID uuid) {
         return Optional.of(userRepo.findOne(uuid));
+    }
+
+    @Override
+    public Optional<UserView> findById(UUID id) {
+        User user = userRepo.findOne(id);
+        if (user != null) {
+            return Optional.of(user.toView());
+        } else {
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -83,6 +96,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public boolean doesUserExist(User user) {
         return findUserByEmail(user.getEmail()).isPresent();
+    }
+
+    @Override
+    public List<UserView> findAllUsersByNameAndType(String name, List<User.Type> typeFilters) {
+        return userRepo.findByNameAndType(name, typeFilters).stream()
+                .map(User::toView)
+                .collect(Collectors.toList());
     }
 
     @Override
