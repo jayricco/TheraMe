@@ -49,4 +49,9 @@ public class AssignmentServiceImpl implements AssignmentService {
 
         return assignmentRepository.save(toCreate).toView();
     }
+
+    @Override
+    public void deleteAssignment(UUID assignmentId) {
+        assignmentRepository.delete(assignmentId);
+    }
 }

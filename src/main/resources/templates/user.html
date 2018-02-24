@@ -5,6 +5,7 @@
         <title th:text="${forUser.firstName + ' ' + forUser.lastName}"></title>
         <link th:href="@{img/favicon.ico}" rel="shortcut icon"/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
         <link th:href="@{css/style.css}" rel="stylesheet" type="text/css"/>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
@@ -20,7 +21,7 @@
                     <div class="row">
                         <div class="col-10">
                             <h2 th:text="${forUser.firstName + ' ' + forUser.lastName}"></h2>
-                            <h3 th:text="${#strings.capitalize(#strings.toLowerCase(forUser.type))}"></h3>
+                            <h5 th:text="${#strings.capitalize(#strings.toLowerCase(forUser.type))}"></h5>
                             <span th:if="${forUser.type == T(com.therame.model.User.Type).PATIENT}">
                                 Assigned to:
                                 <a th:if="${forUser.therapist != null}" th:text="${forUser.therapist.firstName + ' ' + forUser.therapist.lastName}" th:href="@{/user(id=${forUser.therapist.id})}"></a>
@@ -38,8 +39,30 @@
                     </div>
                 </div>
                 <div class="col-4" id="user-exercises-section">
-                    <h2 class="divider-bottom">Exercises</h2>
+                    <div class="row">
+                        <div class="col">
+                            <h2 class="divider-bottom">Assigned Exercises</h2>
+                        </div>
+                    </div>
+                    <div id="user-exercises-list">
+
+                    </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Exercise template for use in JS -->
+        <div class="row divider-bottom user-exercise-entry hidden" id="user-exercise-entry-template">
+            <div class="col-3">
+                <img class="img-fluid" id="user-exercise-img" src="" />
+            </div>
+            <div class="col-8 my-auto">
+                <a href="#" id="user-exercise-name"></a>
+            </div>
+            <div class="col-1 my-auto">
+                <button id="unassign-exercise-button">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </button>
             </div>
         </div>
         <script th:src="@{/js/user.js}"></script>

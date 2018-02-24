@@ -222,3 +222,34 @@ h1{
 #user-issues-section {
     margin-top: 15%;
 }
+
+#unassign-exercise-button {
+    background: transparent;
+    border: none;
+    font-size: 18px;
+}
+
+#unassign-exercise-button:hover {
+    color: #5d5d5d;
+    cursor: pointer;
+}
+
+.user-exercise-entry {
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+a {
+    color: inherit;
+}
+
+a:hover {
+    text-decoration: none;
+    color: inherit;
+}
+
+#user-exercises-list {
+    height: 84vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
