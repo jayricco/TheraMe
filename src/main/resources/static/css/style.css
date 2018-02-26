@@ -154,7 +154,7 @@
     margin-top: 15px;
 }
 
-h1{
+.pt-home-header {
     margin: 50px;
     font-size: 70px;
     text-align: center;
@@ -269,4 +269,28 @@ a:hover {
     padding-top: 5px;
     padding-bottom: 5px;
     border-bottom: 1px solid #eeeeee;
+}
+
+.light-header-text {
+    color: rgba(0,0,0,.7) !important;
+}
+
+.light-header-text:hover, .light-header-text:focus {
+    color: rgba(0,0,0,.5) !important;
+}
+
+.patient-start-button {
+    padding: 18px 90px;
+    margin-top: 15%;
+}
+
+.patient-home-header {
+    margin-top: 45%;
+    font-size: 54px;
+}
+
+.patient-home-subtitle {
+    font-size: 24px;
+    color: rgba(0,0,0,.5);
+    margin-top: 3%;
 }
