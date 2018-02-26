@@ -154,7 +154,7 @@
     margin-top: 15px;
 }
 
-h1{
+.pt-home-header {
     margin: 50px;
     font-size: 70px;
     text-align: center;
@@ -221,4 +221,76 @@ h1{
 
 #user-issues-section {
     margin-top: 15%;
+}
+
+.text-only-button {
+    background: transparent;
+    border: none;
+    font-size: 18px;
+}
+
+.text-only-button:hover {
+    color: #5d5d5d;
+    cursor: pointer;
+}
+
+.user-exercise-entry {
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+a {
+    color: inherit;
+}
+
+a:hover {
+    text-decoration: none;
+    color: inherit;
+}
+
+#user-exercises-list {
+    height: 84vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.modal-content {
+    border-radius: 1px;
+}
+
+#user-exercise-search-container {
+    margin-top: 10px;
+    border: 1px solid #ced4da;
+    overflow-y: auto;
+    height: 40vh;
+}
+
+.user-exercise-search-entry {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.light-header-text {
+    color: rgba(0,0,0,.7) !important;
+}
+
+.light-header-text:hover, .light-header-text:focus {
+    color: rgba(0,0,0,.5) !important;
+}
+
+.patient-start-button {
+    padding: 18px 90px;
+    margin-top: 15%;
+}
+
+.patient-home-header {
+    margin-top: 45%;
+    font-size: 54px;
+}
+
+.patient-home-subtitle {
+    font-size: 24px;
+    color: rgba(0,0,0,.5);
+    margin-top: 3%;
 }

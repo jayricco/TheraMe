@@ -11,4 +11,6 @@ public interface AssignmentService {
 
     AssignmentView createAssignment(UUID patientId, UUID exerciseId, int order);
 
+    void deleteAssignment(UUID assignmentId);
+
 }

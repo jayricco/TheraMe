@@ -20,7 +20,7 @@
                     <div class="row">
                         <div class="col-10">
                             <h2 th:text="${forUser.firstName + ' ' + forUser.lastName}"></h2>
-                            <h3 th:text="${#strings.capitalize(#strings.toLowerCase(forUser.type))}"></h3>
+                            <h5 th:text="${#strings.capitalize(#strings.toLowerCase(forUser.type))}"></h5>
                             <span th:if="${forUser.type == T(com.therame.model.User.Type).PATIENT}">
                                 Assigned to:
                                 <a th:if="${forUser.therapist != null}" th:text="${forUser.therapist.firstName + ' ' + forUser.therapist.lastName}" th:href="@{/user(id=${forUser.therapist.id})}"></a>
@@ -38,8 +38,72 @@
                     </div>
                 </div>
                 <div class="col-4" id="user-exercises-section">
-                    <h2 class="divider-bottom">Exercises</h2>
+                    <div class="row divider-bottom">
+                        <div class="col-10">
+                            <h2>Assigned Exercises</h2>
+                        </div>
+                        <div class="col-2 my-auto">
+                            <button class="text-only-button" type="button" data-toggle="modal" data-target="#exampleModal">
+                                <span class="close">&plus;</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="user-exercises-list">
+
+                    </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Add exercises modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Assign an Exercise</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" placeholder="Search..." class="form-control" id="user-exercise-search-input" />
+                        <div class="container-fluid" id="user-exercise-search-container">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Done</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Exercise template for use in JS -->
+        <div class="row divider-bottom user-exercise-entry hidden" id="user-exercise-entry-template">
+            <div class="col-3">
+                <img class="img-fluid" id="user-exercise-img" src="" />
+            </div>
+            <div class="col-7 my-auto">
+                <a href="#" id="user-exercise-name"></a>
+            </div>
+            <div class="col-1 my-auto">
+                <button id="unassign-exercise-button" class="text-only-button">
+                    <span class="close">&times;</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="row user-exercise-search-entry hidden" id="user-exercise-search-entry-template">
+            <div class="col-3">
+                <img class="img-fluid" id="user-exercise-result-img" src="" />
+            </div>
+            <div class="col-8 my-auto">
+                <a href="#" id="user-exercise-result-name"></a>
+            </div>
+            <div class="col-1 my-auto">
+                <button id="user-assign-exercise-button" class="text-only-button">
+                    <span class="close">&plus;</span>
+                </button>
             </div>
         </div>
         <script th:src="@{/js/user.js}"></script>
