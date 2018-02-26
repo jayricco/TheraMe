@@ -15,6 +15,10 @@ import org.springframework.context.annotation.Import;
 
 import com.therame.persistence.StorageProperties;
 import com.therame.persistence.StorageService;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+
+import java.util.concurrent.Executor;
 
 
 @SpringBootApplication(scanBasePackages={"com.therame"})
@@ -22,6 +26,7 @@ import com.therame.persistence.StorageService;
 public class ApplicationMain {
 
     public static void main(String[] args) {
+
         SpringApplication.run(ApplicationMain.class, args);
     }
 

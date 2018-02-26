@@ -28,12 +28,12 @@ public class MediaEncoderService {
                 .addOutput(outputFile.concat(".mp4"))
                 .setFormat("mp4")
                 .disableSubtitle()
-                .setAudioChannels(1) // Mono - unsure if this is the best choice
-                .setAudioCodec("aac")
-                .setAudioSampleRate(FFmpeg.AUDIO_SAMPLE_48000) // Good enough imo
-                .setAudioBitRate(32768)
+                .setAudioChannels(0) // Mono - unsure if this is the best choice
+                //setAudioCodec("aac")
+               // .setAudioSampleRate(FFmpeg.AUDIO_SAMPLE_48000) // Good enough imo
+                //.setAudioBitRate(32768)
                 .setVideoCodec("libx264")
-                .setVideoFrameRate(FFmpeg.FPS_23_976)
+                .setVideoFrameRate(FFmpeg.FPS_29_97)
                 .setVideoResolution(1280, 720) // 720p for now, may want to scale this with input video res in the future
                 .setStrict(FFmpegBuilder.Strict.EXPERIMENTAL)
                 .done();
