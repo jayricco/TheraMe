@@ -7,7 +7,8 @@ import javax.transaction.Transactional;
 
 import com.google.common.collect.ImmutableList;
 import com.therame.model.DetailedUserDetails;
-import com.therame.repository.UserRepository;
+import com.therame.repository.jpa.UserRepository;
+import com.therame.repository.solr.SolrUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.therame.view.UserView;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -26,6 +27,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Autowired
     private UserRepository userRepo;
+
+    @Autowired
+    private SolrUserRepository solrUserRepo;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -53,6 +57,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User saveUser(User user) {
         userRepo.save(user);
+        solrUserRepo.save(user);
         return user;
     }
 
@@ -79,11 +84,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public void deleteUserById(UUID uuid) {
         userRepo.delete(uuid);
+        solrUserRepo.delete(uuid);
     }
 
     @Override
     public void deleteAllUsers() {
         userRepo.deleteAll();
+        solrUserRepo.deleteAll();
     }
 
     @Override

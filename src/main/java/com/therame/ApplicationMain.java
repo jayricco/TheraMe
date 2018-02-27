@@ -10,23 +10,28 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 
 import com.therame.persistence.StorageProperties;
 import com.therame.persistence.StorageService;
-import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-
-import java.util.concurrent.Executor;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.solr.repository.config.EnableSolrRepositories;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
 @SpringBootApplication(scanBasePackages={"com.therame"})
 @EnableConfigurationProperties(StorageProperties.class)
+@EnableCaching
+@EnableScheduling
+@EnableTransactionManagement
+@EnableSolrRepositories(value = {"com.therame.repository.solr"}, multicoreSupport = true)
+@EnableJpaRepositories(value = {"com.therame.repository.jpa"})
 public class ApplicationMain {
 
     public static void main(String[] args) {
-
         SpringApplication.run(ApplicationMain.class, args);
     }
 

@@ -1,9 +1,13 @@
 package com.therame.service;
 
 import com.therame.model.*;
-import com.therame.repository.ExerciseRepository;
-import com.therame.repository.UserRepository;
+import com.therame.repository.jpa.AssignmentRepository;
+import com.therame.repository.jpa.ExerciseRepository;
+import com.therame.repository.jpa.UserRepository;
 import com.therame.view.AssignmentView;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -12,6 +16,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@CacheConfig(cacheNames = "assignments")
 public class AssignmentServiceImpl implements AssignmentService {
 
     private AssignmentRepository assignmentRepository;
@@ -26,6 +31,7 @@ public class AssignmentServiceImpl implements AssignmentService {
     }
 
     @Override
+    @Cacheable
     public List<AssignmentView> getForPatientId(UUID patientId) {
         return assignmentRepository.findByPatientId(patientId).stream()
                 .map(Assignment::toView)
@@ -56,4 +62,9 @@ public class AssignmentServiceImpl implements AssignmentService {
     public void deleteAssignment(UUID assignmentId) {
         assignmentRepository.delete(assignmentId);
     }
+
+    @CacheEvict(allEntries = true)
+    public void clearCache(){}
+
+
 }

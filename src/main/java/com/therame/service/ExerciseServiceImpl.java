@@ -1,7 +1,9 @@
 package com.therame.service;
 
 import com.therame.model.Exercise;
-import com.therame.repository.ExerciseRepository;
+import com.therame.repository.jpa.ExerciseRepository;
+import com.therame.repository.solr.SolrExerciseDetailRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,29 +13,32 @@ import java.util.UUID;
 @Service
 public class ExerciseServiceImpl implements ExerciseService {
 
-    private ExerciseRepository exerciseRepository;
+    @Autowired
+    private ExerciseRepository exerciseRepo;
 
-    public ExerciseServiceImpl(ExerciseRepository exerciseRepository) {
-        this.exerciseRepository = exerciseRepository;
-    }
+    @Autowired
+    private SolrExerciseDetailRepository solrExerciseRepo;
+
 
     @Override
     public Exercise createExercise(Exercise exercise) {
-        return exerciseRepository.save(exercise);
+        solrExerciseRepo.save(exercise);
+        return exerciseRepo.save(exercise);
+
     }
 
     @Override
     public Optional<Exercise> findById(UUID id) {
-        return Optional.ofNullable(exerciseRepository.findOne(id));
+        return Optional.ofNullable(exerciseRepo.findOne(id));
     }
 
     @Override
     public List<Exercise> findAll() {
-        return exerciseRepository.findAll();
+        return exerciseRepo.findAll();
     }
 
     @Override
     public List<Exercise> searchByTitle(String title) {
-        return exerciseRepository.findAllByTitle(title);
+        return solrExerciseRepo.findByTitle(title);
     }
 }

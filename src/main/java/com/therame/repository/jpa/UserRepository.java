@@ -1,4 +1,4 @@
-package com.therame.repository;
+package com.therame.repository.jpa;
 
 import com.therame.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;

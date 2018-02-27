@@ -12,6 +12,8 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Transient;
+import org.springframework.data.solr.core.mapping.Indexed;
+import org.springframework.data.solr.core.mapping.SolrDocument;
 import org.thymeleaf.util.StringUtils;
 
 import java.util.Date;
@@ -20,6 +22,7 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "therame_user")
+@SolrDocument(solrCoreName = "user")
 public class User {
 
     public enum Type {
@@ -35,11 +38,13 @@ public class User {
             strategy = "org.hibernate.id.UUIDGenerator"
     )
     @Column(name = "id", updatable = false, nullable = false)
+    @Indexed(name = "id", type = "uuid")
     private UUID id;
 
     @Column(name = "email", unique = true, nullable = false)
     @Email(message = "Email is not valid.")
     @NotEmpty(message = "Email is required.")
+    @Indexed(name = "email", type = "string")
     private String email;
 
     @Column(name = "first_name", nullable = false)
@@ -59,7 +64,6 @@ public class User {
     @Enumerated
     private Type type;
 
-    @Nullable
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pt_id")
     private User therapist;

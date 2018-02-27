@@ -5,8 +5,8 @@
     <link href="/img/favicon.ico" rel="shortcut icon"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
-    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet"/>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script th:src="@{/js/nanobar.min.js}"></script>
@@ -32,15 +32,26 @@
         </div>
     </form>
 
-    <div class="container">
-        <button type="button" class="btn btn-primary btn-success navButtons" onclick="window.location.href='videos.html'"><i class="fas fa-video fa-3x"></i><br>Video Library</button>
-        <button type="button" class="btn btn-primary btn-success navButtons" onclick="window.location.href='patients.html'"><i class="fas fa-list-ul fa-3x"></i><br>Patient List</button>
-        <button type="button" class="btn btn-primary btn-success navButtons" onclick="window.location.href='reports.html'"><i class="fas fa-book fa-3x"></i><br>Patient Reports</button>
-    </div>
-
-    <div class="container">
-        <button type="button" class="btn btn-primary btn-success navButtons" onclick="window.location.href='upload.html'"><i class="fas fa-upload fa-3x"></i><br>Upload a Video</button>
-        <button type="button" class="btn btn-primary btn-success navButtons" onclick="window.location.href='@{/register}'"><i class="fas fa-plus fa-3x"></i><br>Add a Patient</button>
+    <div class="container button-container">
+        <div class="row">
+            <div class="col">
+                <button type="button" class="btn btn-primary btn-success navButtons" onclick="window.location.href='videos'"><i class="fas fa-video fa-lg"><br>Video Library</i></button>
+            </div>
+            <div class="col">
+                <button type="button" class="btn btn-primary btn-success navButtons" onclick="window.location.href='patients'"><i class="fas fa-list-ul fa-lg"><br>Patient List</i></button>
+            </div>
+            <div class="col">
+                <button type="button" class="btn btn-primary btn-success navButtons" onclick="window.location.href='reports'"><i class="fas fa-book fa-lg"><br>Patient Reports</i></button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button type="button" class="btn btn-primary btn-success navButtons" onclick="window.location.href='upload'"><i class="fas fa-upload fa-lg"><br>Upload a Video</i></button>
+            </div>
+            <div class="col">
+                <button type="button" class="btn btn-primary btn-success navButtons" onclick="window.location.href='register'"><i class="fas fa-plus fa-lg"><br>Add a Patient</i></button>
+            </div>
+        </div>
     </div>
 </div>
 
