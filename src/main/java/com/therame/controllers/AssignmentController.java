@@ -48,4 +48,9 @@ public class AssignmentController {
         assignmentService.deleteAssignment(Base64Converter.fromUrlSafeString(assignmentId));
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/assignments")
+    public String patientView() {
+        return "assignments";
+    }
 }
