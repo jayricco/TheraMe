@@ -31,10 +31,7 @@ public class ExerciseController {
         UUID videoId = Base64Converter.fromUrlSafeString(encodedId);
 
         Optional<Exercise> optionalExercise = exerciseService.findById(videoId);
-        optionalExercise.ifPresent((exercise) -> {
-            model.addAttribute("host", exercise.getMediaUrl());
-            model.addAttribute("videoId", Base64Converter.toUrlSafeString(exercise.getId()));
-        });
+        optionalExercise.ifPresent((exercise) -> model.addAttribute("exercise", exercise.toView()));
 
         return "watch";
     }

@@ -15,15 +15,26 @@
         <div th:replace="fragments/header :: header">
             <!-- Header will be inserted here -->
         </div>
-        <button class="btn btn-primary" style="margin-top: 0px; margin-left: 10px;" onclick="goBack()">Back</button>
-        <video id="video-player" width="854" height="480" autoplay loop muted>
-            <source src="/api/video" th:src="${host} + @{/api/video(id=${videoId})}" type="video/mp4"/>
-        </video>
-
-        <script>
-            function goBack() {
-                window.history.back();
-            }
-        </script>
+        <div class="container-fluid assignments-content-container">
+            <div class="row">
+                <div class="col-7 offset-1">
+                    <div class="row embed-responsive embed-responsive-16by9">
+                        <video class="embed-responsive-item" id="video-player" controls="controls">
+                            <source src="" th:src="${exercise.mediaUrl} + @{/api/video(id=${exercise.id})}" type="video/mp4"/>
+                        </video>
+                    </div>
+                    <div class="row" id="video-details">
+                        <div class="col-12">
+                            <h2 id="video-player-title" th:text="${exercise.title}"></h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <a id="video-player-description" th:text="${exercise.description}"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
