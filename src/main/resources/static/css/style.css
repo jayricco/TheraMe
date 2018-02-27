@@ -306,3 +306,8 @@ tr{
     border-bottom: 1px solid black;
     border-collapse: collapse;
 }
+
+#completion-days{
+    margin-top: 150px;
+}
+
