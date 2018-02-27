@@ -1,6 +1,20 @@
 
 $(document).ready(function () {
 
+    $('#query').autocomplete({
+        serviceUrl: baseRequestUrl,
+        paramName: 'q',
+        delimiter: ",",
+        transformResult: function(response) {
+            return {
+                //must convert json to javascript object before processing
+                suggestions: $.map($.parseJSON(response), function(item) {
+                    return { value: item.title, data: item.id };
+                })
+            };
+        }
+    });
+
     var nanoBar = new Nanobar();
     var baseRequestUrl = '/api/videos';
 

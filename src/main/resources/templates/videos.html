@@ -6,9 +6,10 @@
         <link th:href="@{img/favicon.ico}" rel="shortcut icon"/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
         <link th:href="@{css/style.css}" rel="stylesheet" type="text/css"/>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-        <script th:src="@{/js/nanobar.min.js}"></script>
+        <script th:src="@{/js/thirdparty/jquery-3.3.1.min.js}"></script>
+        <script th:src="@{/js/thirdparty/jquery.autocomplete.min.js}"></script>
+        <script th:src="@{/js/thirdparty/nanobar.min.js}"></script>
     </head>
     <body>
         <div th:replace="fragments/header :: header">
@@ -19,6 +20,7 @@
                 <div class="form-row justify-content-center">
                     <div class="col-6">
                         <input type="text" placeholder="Search..." class="form-control" id="query" />
+                        <div id="suggestion-box"></div>
                     </div>
                     <div class="col-2">
                         <input class="btn btn-primary btn-block" name="submit" type="submit" value="Search"/>
@@ -44,5 +46,6 @@
             </a>
         </div>
         <script th:src="@{/js/videos.js}"></script>
+
     </body>
 </html>

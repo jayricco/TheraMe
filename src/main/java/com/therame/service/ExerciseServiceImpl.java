@@ -4,6 +4,9 @@ import com.therame.model.Exercise;
 import com.therame.repository.jpa.ExerciseRepository;
 import com.therame.repository.solr.SolrExerciseDetailRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,6 +42,6 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public List<Exercise> searchByTitle(String title) {
-        return solrExerciseRepo.findByTitle(title);
+        return solrExerciseRepo.findByTitle(title, new PageRequest(0, 10)).getContent();
     }
 }

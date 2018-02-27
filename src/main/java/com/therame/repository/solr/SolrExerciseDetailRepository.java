@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Repository("solrExerciseRepo")
 public interface SolrExerciseDetailRepository extends SolrCrudRepository<Exercise, UUID> {
-    List<Exercise> findByTitle(String title);
+    Page<Exercise> findByTitle(String title, Pageable pageable);
 
 
     Page<Exercise> findExercisesByTitleOrDescription(String title, String description, Pageable pageable);
