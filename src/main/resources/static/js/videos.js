@@ -1,22 +1,35 @@
+String.prototype.escapeSpecialChars = function() {
+    return this.replace(/\\n/g, "\\n")
+        .replace(/\\'/g, "\\'")
+        .replace(/\\"/g, '\\"')
+        .replace(/\\&/g, "\\&")
+        .replace(/\\r/g, "\\r")
+        .replace(/\\t/g, "\\t")
+        .replace(/\\b/g, "\\b")
+        .replace(/\\f/g, "\\f");
+};
 
 $(document).ready(function () {
 
-    $('#query').autocomplete({
+    var nanoBar = new Nanobar();
+    var baseRequestUrl = '/api/videos';
+
+    $('#w-input-search').autocomplete({
         serviceUrl: baseRequestUrl,
         paramName: 'q',
         delimiter: ",",
         transformResult: function(response) {
             return {
                 //must convert json to javascript object before processing
-                suggestions: $.map($.parseJSON(response), function(item) {
-                    return { value: item.title, data: item.id };
-                })
+                suggestions: [$.map($.parseJSON(response), function(item) {
+                    printf("%s", item);
+                    return { value: item, data: item.id };
+                })]
             };
         }
     });
 
-    var nanoBar = new Nanobar();
-    var baseRequestUrl = '/api/videos';
+
 
     // Update list on page load
     getVideos(baseRequestUrl);

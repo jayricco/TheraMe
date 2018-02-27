@@ -73,17 +73,12 @@ public class UserController {
     }
 
     @GetMapping("/api/users")
-    public ResponseEntity<?> getAllUsers(@RequestParam(value = "q", required = false) String nameQuery,
-            @RequestParam(value = "types", required = false) List<User.Type> typeFilters) {
-        if (typeFilters == null) {
-            typeFilters = ImmutableList.of(User.Type.ADMIN, User.Type.THERAPIST, User.Type.PATIENT);
-        }
-
+    public ResponseEntity<?> getAllUsers(@RequestParam(value = "q", required = false) String nameQuery) {
         if (nameQuery == null) {
             nameQuery = "";
         }
 
-        return ResponseEntity.ok(userService.findAllUsersByNameAndType(nameQuery, typeFilters));
+        return ResponseEntity.ok(userService.searchByName(nameQuery));
     }
 
     @GetMapping("/user")

@@ -11,6 +11,7 @@ import com.therame.repository.jpa.UserRepository;
 import com.therame.repository.solr.SolrUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.therame.view.UserView;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -54,6 +55,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepo.findByEmail(email);
     }
 
+    @Override
+    public List<User> searchByName(String name) {
+        return solrUserRepo.findByCustomQuery(name, new PageRequest(0, 10)).getContent();
+    }
     @Override
     public User saveUser(User user) {
         userRepo.save(user);

@@ -7,11 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.solr.core.query.SolrPageRequest;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.Future;
 
 @Service
 public class ExerciseServiceImpl implements ExerciseService {
@@ -25,7 +28,6 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public Exercise createExercise(Exercise exercise) {
-        solrExerciseRepo.save(exercise);
         return exerciseRepo.save(exercise);
 
     }
@@ -41,7 +43,8 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public List<Exercise> searchByTitle(String title) {
-        return solrExerciseRepo.findByTitle(title, new PageRequest(0, 10)).getContent();
+    @Async
+    public Future<List<Exercise>> searchByTitle(String title) {
+        return solrExerciseRepo.findByTitle(title);
     }
 }

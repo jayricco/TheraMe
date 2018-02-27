@@ -49,11 +49,12 @@ public class User {
 
     @Column(name = "first_name", nullable = false)
     @NotEmpty(message = "First name is required.")
-
+    @Indexed(name="first_name", type="string")
     private String firstName;
 
     @Column(name = "last_name", nullable = false)
     @NotEmpty(message = "Last name is required.")
+    @Indexed(name="last_name", type="string")
     private String lastName;
 
     @Column(name = "password")

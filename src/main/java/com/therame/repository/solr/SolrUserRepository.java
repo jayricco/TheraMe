@@ -14,7 +14,7 @@ import java.util.UUID;
 public interface SolrUserRepository extends SolrCrudRepository<User, UUID> {
     List<User> findByEmail(String email);
 
-    @Query("id:*?0* OR firstName:*?0* OR email:*?0* OR lastName:*?0*")
+    @Query("id:*?0* OR first_name:*?0* OR email:*?0* OR last_name:*?0*")
     Page<User> findByCustomQuery(String searchTerm, Pageable pageable);
 
     //@Query(name = "User.findByNamedQuery")

@@ -1,0 +1,10 @@
+<dataConfig>
+    <dataSource name="testds" driver="org.postgresql.Driver" url="jdbc:postgresql://localhost:5432/therame" user="therame" password="hulkhogan"/>
+        <document name="exercise">
+            <entity dataSource="testds" name="exercise" query="select DISTINCT id, title, description from exercise">
+                <field column="id" name="id"/>
+                <field column="title" name="title" />
+                <field column="description" name="description" />
+            </entity>
+        </document>
+</dataConfig>

@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.Future;
 
 public interface ExerciseService {
 
@@ -16,6 +17,6 @@ public interface ExerciseService {
 
     List<Exercise> findAll();
 
-    List<Exercise> searchByTitle(String title);
+    Future<List<Exercise>> searchByTitle(String title);
 
 }

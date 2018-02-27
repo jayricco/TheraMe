@@ -15,6 +15,7 @@ public interface UserService {
     Optional<User> findUserByEmail(String email);
     Optional<User> findByConfirmationToken(String confirmationToken);
     User createUser(User user);
+    List<User> searchByName(String name);
     User createRootUser(User user);
     User saveUser(User user);
     User updateUser(User user);

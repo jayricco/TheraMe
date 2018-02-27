@@ -1,0 +1,11 @@
+<dataConfig>
+    <dataSource name="testds" driver="org.postgresql.Driver" url="jdbc:postgresql://localhost:5432/therame" user="therame" password="hulkhogan"/>
+        <document name="therame_user">
+            <entity dataSource="testds" name="therame_user" query="select DISTINCT id, first_name, last_name, email from therame_user">
+                <field column="id" name="id"/>
+                <field column="first_name" name="first_name" />
+                <field column="last_name" name="last_name" />
+                <field column="email" name="email" />
+            </entity>
+        </document>
+</dataConfig>

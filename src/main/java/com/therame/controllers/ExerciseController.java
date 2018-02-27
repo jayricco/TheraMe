@@ -42,11 +42,12 @@ public class ExerciseController {
     }
 
     @GetMapping("/api/videos")
-    public ResponseEntity<?> getVideos(@RequestParam(value = "q", required = false) String query) {
+    public ResponseEntity<?> getVideos(@RequestParam(value = "q", required = false) String query) throws Exception {
         List<Exercise> exercises;
 
         if (query != null) {
-            exercises = exerciseService.searchByTitle(query);
+            exercises = exerciseService.searchByTitle(query).get();
+            System.out.println(exercises);
         } else {
             exercises = exerciseService.findAll();
         }

@@ -1,5 +1,8 @@
 package com.therame;
 
+import com.therame.repository.jpa.ExerciseRepository;
+import com.therame.repository.solr.SolrExerciseDetailRepository;
+import com.therame.repository.solr.SolrUserRepository;
 import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;
 import org.apache.tomcat.util.descriptor.web.SecurityCollection;
@@ -24,24 +27,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication(scanBasePackages={"com.therame"})
 @EnableConfigurationProperties(StorageProperties.class)
-@EnableCaching
-@EnableScheduling
-@EnableTransactionManagement
-@EnableSolrRepositories(value = {"com.therame.repository.solr"}, multicoreSupport = true)
-@EnableJpaRepositories(value = {"com.therame.repository.jpa"})
+@EnableSolrRepositories(basePackages = "com.therame.repository.solr", multicoreSupport = true)
+@EnableJpaRepositories(basePackages = "com.therame.repository.jpa")
 public class ApplicationMain {
 
     public static void main(String[] args) {
         SpringApplication.run(ApplicationMain.class, args);
     }
 
-    @Bean
-    CommandLineRunner init(StorageService storageService) {
-        return (args) -> {
-            storageService.deleteAll();
-            storageService.init();
-        };
-    }
     @Bean
     public EmbeddedServletContainerFactory servletContainer() {
         TomcatEmbeddedServletContainerFactory tomcat = new TomcatEmbeddedServletContainerFactory() {
