@@ -318,11 +318,19 @@ a:hover {
     margin-top: 3%;
 }
 
+h1{
+    font-size: 72px;
+    padding: 15px;
+}
 #pt-home-header {
-    margin-top: 10%;
-    margin-bottom: 5%;
+    margin-top: 10px;
+    margin-bottom: 5px;
 }
 
 #pt-home-search {
     margin-bottom: 3%;
+}
+
+#backButton{
+    margin-top:0px;
 }
