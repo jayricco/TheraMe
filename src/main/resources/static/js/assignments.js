@@ -8,10 +8,10 @@ $(document).ready(function () {
     getAssignments();
 
     $('video').on('ended',function() {
-        playNextVideo();
+        playNextVideo(true);
     });
 
-    function playNextVideo() {
+    function playNextVideo(autoPlay) {
         if (assignments.length <= 0) {
             return;
         }
@@ -21,7 +21,10 @@ $(document).ready(function () {
 
         videoPlayer.find('source').attr('src', assignment.exercise.mediaUrl + baseVideoUrl + assignment.exercise.id);
         videoPlayer[0].load();
-        videoPlayer[0].play();
+
+        if (autoPlay) {
+            videoPlayer[0].play();
+        }
 
         $('#video-player-title').html(assignment.exercise.title);
         $('#video-player-description').html(assignment.exercise.description);
@@ -37,7 +40,7 @@ $(document).ready(function () {
             success: function(data) {
                 updateAssignments(data);
                 assignments = data;
-                playNextVideo();
+                playNextVideo(false);
             },
             error: function () {
                 // Need to actually notify the user at some point, maybe redirect to an error page?
