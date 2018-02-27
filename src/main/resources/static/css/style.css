@@ -157,7 +157,7 @@
     text-align: center;
 }
 
-.container {
+.container{
     width: 100%;
 }
 
@@ -169,6 +169,8 @@
 .navButtons{
     height: 150px;
     width: 150px;
+    margin-top: 10px;
+    margin-left: 10px;
 }
 
 #searchBar{
@@ -212,7 +214,7 @@
     border-left: 2px solid #eeeeee;
 }
 
-#user-content-container {
+.container-fluid {
     padding-left: 3%;
 }
 
@@ -304,3 +306,19 @@ a:hover {
 #video-player-description {
     color: rgba(0,0,0,.6);
 }
+
+h1{
+    font-size: 72px;
+    margin-top: 50px;
+    margin-bottom: 30px;
+}
+
+tr{
+    border-bottom: 1px solid black;
+    border-collapse: collapse;
+}
+
+#completion-days{
+    margin-top: 150px;
+}
+

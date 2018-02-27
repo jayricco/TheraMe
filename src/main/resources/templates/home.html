@@ -5,6 +5,8 @@
     <title>Home</title>
     <link th:href="@{img/favicon.ico}" rel="shortcut icon"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
     <link th:href="@{css/style.css}" rel="stylesheet" type="text/css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
@@ -34,7 +36,7 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-auto">
-                    <h2 class="patient-home-header">Welcome</h2>
+                    <h1 class="patient-home-header" th:text="${'Welcome '+user.firstName+'!'}" style="margin-top:40px"></h1>
                 </div>
             </div>
             <div class="row justify-content-center">
@@ -50,6 +52,19 @@
                         </div>
                     </a>
                 </div>
+            </div>
+
+            <div class="row justify-content-center" id="completion-days">
+                <h6 class="patient-home-subtitle" style="font-size: 20px">You've completed your exercises 4 out of the last 7 days</h6>
+            </div>
+            <div class="row justify-content-center" id="completion-check">
+                <p align="center"><i class="far fa-check-square"></i><br>Monday</p>
+                <p align="center"><i class="far fa-square"></i><br>Tuesday</p>
+                <p align="center"><i class="far fa-square"></i><br>Wednesday</p>
+                <p align="center"><i class="far fa-check-square"></i><br>Thursday</p>
+                <p align="center"><i class="far fa-check-square"></i><br>Friday</p>
+                <p align="center"><i class="far fa-square"></i><br>Saturday</p>
+                <p align="center"><i class="far fa-check-square"></i><br>Sunday</p>
             </div>
         </div>
         <div id="footer">
