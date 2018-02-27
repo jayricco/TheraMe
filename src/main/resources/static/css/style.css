@@ -157,7 +157,7 @@
     text-align: center;
 }
 
-.container{
+.container {
     width: 100%;
 }
 
@@ -214,7 +214,7 @@
     border-left: 2px solid #eeeeee;
 }
 
-.container-fluid {
+#user-content-container {
     padding-left: 3%;
 }
 
