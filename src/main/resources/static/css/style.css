@@ -280,20 +280,18 @@ a:hover {
 
 .patient-start-button {
     padding: 18px 90px;
-    margin-top:6%;
+    margin-top: 15%;
 }
 
 .patient-home-header {
-    margin-top: 100px;
-    margin-bottom: 5px;
-    font-size: 72px;
+    margin-top: 40%;
+    font-size: 54px;
 }
 
 .patient-home-subtitle {
     font-size: 24px;
     color: rgba(0,0,0,.5);
     margin-top: 3%;
-    margin-bottom: 5px;
 }
 
 #video-details {
@@ -309,7 +307,10 @@ a:hover {
     color: rgba(0,0,0,.6);
 }
 
-#completion-days{
-    margin-top: 150px;
+#completion-days {
+    margin-top: 15%;
 }
 
+#completion-check {
+    margin-top: 3%;
+}

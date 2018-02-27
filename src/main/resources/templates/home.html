@@ -36,7 +36,7 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-auto">
-                    <h1 class="patient-home-header" th:text="${'Welcome '+user.firstName+'!'}"></h1>
+                    <h2 class="patient-home-header" th:text="${'Welcome '+user.firstName+'!'}"></h2>
                 </div>
             </div>
             <div class="row justify-content-center">
@@ -46,7 +46,7 @@
             </div>
             <div class="row justify-content-center">
                 <div class="col-md-auto">
-                    <a th:href="@{/}">
+                    <a th:href="@{/assignments}">
                         <div class="btn btn-primary btn-block patient-start-button">
                             <h4>Start</h4>
                         </div>
@@ -58,13 +58,27 @@
                 <h6 class="patient-home-subtitle" style="font-size: 20px">You've completed your exercises 4 out of the last 7 days</h6>
             </div>
             <div class="row justify-content-center" id="completion-check">
-                <p align="center"><i class="far fa-check-square"></i><br>Monday</p>
-                <p align="center"><i class="far fa-square"></i><br>Tuesday</p>
-                <p align="center"><i class="far fa-square"></i><br>Wednesday</p>
-                <p align="center"><i class="far fa-check-square"></i><br>Thursday</p>
-                <p align="center"><i class="far fa-check-square"></i><br>Friday</p>
-                <p align="center"><i class="far fa-square"></i><br>Saturday</p>
-                <p align="center"><i class="far fa-check-square"></i><br>Sunday</p>
+                <div class="col-auto">
+                    <p align="center"><i class="far fa-check-square"></i><br>Monday</p>
+                </div>
+                <div class="col-auto">
+                    <p align="center"><i class="far fa-square"></i><br>Tuesday</p>
+                </div>
+                <div class="col-auto">
+                    <p align="center"><i class="far fa-square"></i><br>Wednesday</p>
+                </div>
+                <div class="col-auto">
+                    <p align="center"><i class="far fa-check-square"></i><br>Thursday</p>
+                </div>
+                <div class="col-auto">
+                    <p align="center"><i class="far fa-check-square"></i><br>Friday</p>
+                </div>
+                <div class="col-auto">
+                    <p align="center"><i class="far fa-square"></i><br>Saturday</p>
+                </div>
+                <div class="col-auto">
+                    <p align="center"><i class="far fa-check-square"></i><br>Sunday</p>
+                </div>
             </div>
         </div>
         <div id="footer">
