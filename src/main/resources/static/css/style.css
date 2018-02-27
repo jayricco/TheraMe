@@ -51,10 +51,7 @@
 }
 
 #video-player {
-    margin-top: 10%;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+    background-color: #000;
 }
 
 .btn-primary {
@@ -160,7 +157,7 @@
     text-align: center;
 }
 
-.container{
+.container {
     width: 100%;
 }
 .container .button-container {
@@ -175,6 +172,8 @@
 .navButtons{
     height: 150px;
     width: 150px;
+    margin-top: 10px;
+    margin-left: 10px;
 }
 
 #searchBar{
@@ -218,7 +217,7 @@
     border-left: 2px solid #eeeeee;
 }
 
-.container-fluid {
+#user-content-container {
     padding-left: 3%;
 }
 
@@ -288,7 +287,7 @@ a:hover {
 }
 
 .patient-home-header {
-    margin-top: 45%;
+    margin-top: 40%;
     font-size: 54px;
 }
 
@@ -296,4 +295,34 @@ a:hover {
     font-size: 24px;
     color: rgba(0,0,0,.5);
     margin-top: 3%;
+}
+
+#video-details {
+    margin-top: 10px;
+}
+
+.assignments-content-container {
+    margin-top: 4%;
+    overflow-x: hidden;
+}
+
+#video-player-description {
+    color: rgba(0,0,0,.6);
+}
+
+#completion-days {
+    margin-top: 15%;
+}
+
+#completion-check {
+    margin-top: 3%;
+}
+
+#pt-home-header {
+    margin-top: 10%;
+    margin-bottom: 5%;
+}
+
+#pt-home-search {
+    margin-bottom: 3%;
 }
