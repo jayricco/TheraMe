@@ -161,16 +161,12 @@
     width: 100%;
 }
 
-.btn-success{
-    margin-right: 15px;
-    margin-top: 10px;
-}
-
 .navButtons{
     height: 150px;
     width: 150px;
-    margin-top: 10px;
+    margin-bottom: 20px;
     margin-left: 10px;
+    margin-right: 0px;
 }
 
 #searchBar{
