@@ -10,6 +10,7 @@ import com.therame.view.ValidationErrorView;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -51,6 +52,7 @@ public class MediaRestController {
         mediaResolverService.handleRequest(request, response);
     }
 
+    @PreAuthorize("hasAnyAuthority('THERAPIST', 'ADMIN')")
     @GetMapping("/upload")
     public ModelAndView uploadView() {
         ModelAndView modelAndView = new ModelAndView();
@@ -59,6 +61,7 @@ public class MediaRestController {
         return modelAndView;
     }
 
+    @PreAuthorize("hasAnyAuthority('THERAPIST', 'ADMIN')")
     @ResponseBody
     @PostMapping("/api/upload")
     public ResponseEntity<?> uploadVideo(@Valid ExerciseForm exerciseForm) throws IOException {

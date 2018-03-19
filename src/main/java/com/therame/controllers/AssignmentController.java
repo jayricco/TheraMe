@@ -5,6 +5,7 @@ import com.therame.service.AssignmentService;
 import com.therame.util.Base64Converter;
 import com.therame.view.AssignmentView;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,12 +30,14 @@ public class AssignmentController {
         return ResponseEntity.ok(assignments);
     }
 
+    @PreAuthorize("hasAnyAuthority('THERAPIST', 'ADMIN')")
     @GetMapping("/api/assignments/user")
     public ResponseEntity<?> getAssignmentsForUserId(@RequestParam("id") String userId) {
         List<AssignmentView> assignments = assignmentService.getForPatientId(Base64Converter.fromUrlSafeString(userId));
         return ResponseEntity.ok(assignments);
     }
 
+    @PreAuthorize("hasAnyAuthority('THERAPIST', 'ADMIN')")
     @PostMapping("/api/assignments/add")
     public ResponseEntity<?> addAssignmentForUser(@RequestParam("userId") String userId, @RequestParam("exerciseId") String exerciseId,
                                                   @RequestParam(value = "order", required = false) Integer order) {
@@ -43,6 +46,7 @@ public class AssignmentController {
         return ResponseEntity.ok(createdAssignment);
     }
 
+    @PreAuthorize("hasAnyAuthority('THERAPIST', 'ADMIN')")
     @DeleteMapping("/api/assignments/remove")
     public ResponseEntity<?> removeAssignment(@RequestParam("id") String assignmentId) {
         assignmentService.deleteAssignment(Base64Converter.fromUrlSafeString(assignmentId));
