@@ -19,7 +19,7 @@
             <div class="row">
                 <div class="col-7 offset-1">
                     <div class="row embed-responsive embed-responsive-16by9">
-                        <video class="embed-responsive-item" id="video-player" controls="controls">
+                        <video class="embed-responsive-item" id="video-player" autoplay loop muted>
                             <source src="" th:src="${exercise.mediaUrl} + @{/api/video(id=${exercise.id})}" type="video/mp4"/>
                         </video>
                     </div>
