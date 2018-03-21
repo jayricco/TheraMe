@@ -5,6 +5,8 @@ import com.therame.service.ExerciseService;
 import com.therame.util.Base64Converter;
 import com.therame.view.ExerciseView;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.Base64Utils;
@@ -36,11 +38,13 @@ public class ExerciseController {
         return "watch";
     }
 
+    @PreAuthorize("hasAnyAuthority('THERAPIST', 'ADMIN')")
     @GetMapping("/videos")
     public String viewVideos() {
         return "videos";
     }
 
+    @PreAuthorize("hasAnyAuthority('THERAPIST', 'ADMIN')")
     @GetMapping("/api/videos")
     public ResponseEntity<?> getVideos(@RequestParam(value = "q", required = false) String query) throws Exception {
         List<Exercise> exercises;

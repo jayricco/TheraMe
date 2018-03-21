@@ -24,7 +24,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
-@SpringBootApplication(scanBasePackages={"com.therame"})
+@SpringBootApplication
 @EnableAutoConfiguration
 @EnableSolrRepositories(basePackages = "com.therame.repository.solr", multicoreSupport = true)
 @EnableJpaRepositories(basePackages = "com.therame.repository.jpa")

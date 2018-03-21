@@ -10,6 +10,7 @@ import com.therame.view.ValidationErrorView;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.FieldError;
@@ -33,6 +34,7 @@ public class UserController {
 
     @GetMapping(value = "/")
     public String home(@AuthenticationPrincipal DetailedUserDetails userDetails) {
+        System.out.println(userDetails.getAuthorities());
         if (userDetails.getUser().getType() == User.Type.THERAPIST || userDetails.getUser().getType() == User.Type.ADMIN) {
             return "pt_home";
         } else {
@@ -44,6 +46,8 @@ public class UserController {
     public String login() {
         return "login";
     }
+
+
 
    /* @RequestMapping(value="/register", method = RequestMethod.GET)
     public ModelAndView registration() {
@@ -66,12 +70,15 @@ public class UserController {
             return new ResponseEntity<>(errorView, HttpStatus.CONFLICT);
         }
     }
+<<<<<<< HEAD
 */
+    @PreAuthorize("hasAnyAuthority('THERAPIST', 'ADMIN')")
     @GetMapping("/users")
     public String usersView() {
         return "users";
     }
 
+    @PreAuthorize("hasAnyAuthority('THERAPIST', 'ADMIN')")
     @GetMapping("/api/users")
     public ResponseEntity<?> getAllUsers(@RequestParam(value = "q", required = false) String nameQuery) {
         if (nameQuery == null) {
@@ -81,6 +88,7 @@ public class UserController {
         return ResponseEntity.ok(userService.searchByName(nameQuery));
     }
 
+    @PreAuthorize("hasAnyAuthority('THERAPIST', 'ADMIN')")
     @GetMapping("/user")
     public ModelAndView userView(@RequestParam("id") String userId) {
         ModelAndView modelAndView = new ModelAndView();
