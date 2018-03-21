@@ -9,6 +9,7 @@ import org.apache.tomcat.util.descriptor.web.SecurityCollection;
 import org.apache.tomcat.util.descriptor.web.SecurityConstraint;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerFactory;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
@@ -17,8 +18,6 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 
-import com.therame.persistence.StorageProperties;
-import com.therame.persistence.StorageService;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.solr.repository.config.EnableSolrRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -26,13 +25,16 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
 @SpringBootApplication(scanBasePackages={"com.therame"})
-@EnableConfigurationProperties(StorageProperties.class)
+@EnableAutoConfiguration
 @EnableSolrRepositories(basePackages = "com.therame.repository.solr", multicoreSupport = true)
 @EnableJpaRepositories(basePackages = "com.therame.repository.jpa")
 public class ApplicationMain {
 
     public static void main(String[] args) {
+
         SpringApplication.run(ApplicationMain.class, args);
+
+
     }
 
     @Bean
