@@ -6,7 +6,6 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
-import org.springframework.util.Base64Utils;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -29,7 +28,7 @@ public class Exercise {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "description")
+    @Column(name = "description", length = 8192)
     private String description;
 
     @URL
