@@ -34,7 +34,6 @@ public class UserController {
 
     @GetMapping(value = "/")
     public String home(@AuthenticationPrincipal DetailedUserDetails userDetails) {
-        System.out.println(userDetails.getAuthorities());
         if (userDetails.getUser().getType() == User.Type.THERAPIST || userDetails.getUser().getType() == User.Type.ADMIN) {
             return "pt_home";
         } else {
