@@ -7,6 +7,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 
+import javax.annotation.Nullable;
 import javax.persistence.*;
 import java.util.UUID;
 
@@ -42,6 +43,11 @@ public class Exercise {
 
     @Column(name = "tag_set_id")
     private UUID tagSetId;
+
+    @Nullable
+    @ManyToOne
+    @JoinColumn(name = "provider_id")
+    private Provider provider;
 
     public ExerciseView toView() {
         ExerciseView view = new ExerciseView();

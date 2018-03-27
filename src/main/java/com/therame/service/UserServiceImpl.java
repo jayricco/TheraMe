@@ -64,7 +64,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            return new DetailedUserDetails(user, ImmutableList.of(new SimpleGrantedAuthority(user.getType().name())));
+
+            // Give sentinel a special role
+            if (user.getType() == User.Type.ADMIN && user.getProvider() == null) {
+                return new DetailedUserDetails(user, ImmutableList.of(new SimpleGrantedAuthority(user.getType().name()),
+                        new SimpleGrantedAuthority("SENTINEL")));
+            } else {
+                return new DetailedUserDetails(user, ImmutableList.of(new SimpleGrantedAuthority(user.getType().name())));
+            }
         } else {
             throw new UsernameNotFoundException(userName);
         }

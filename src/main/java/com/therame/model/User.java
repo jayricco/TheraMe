@@ -68,6 +68,11 @@ public class User {
     @Column(name = "init_code")
     private String init_code;
 
+    @Nullable
+    @ManyToOne
+    @JoinColumn(name = "provider_id")
+    private Provider provider;
+
     public UserView toView() {
         UserView view = new UserView();
         view.setId(Base64Converter.toUrlSafeString(id));
