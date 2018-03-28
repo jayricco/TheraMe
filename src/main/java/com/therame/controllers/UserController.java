@@ -47,7 +47,7 @@ public class UserController {
         return "login";
     }
 
-    @RequestMapping(value="/register", method = RequestMethod.GET)
+   /* @RequestMapping(value="/register", method = RequestMethod.GET)
     public ModelAndView registration() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("user", new User());
@@ -69,7 +69,7 @@ public class UserController {
             return new ResponseEntity<>(errorView, HttpStatus.CONFLICT);
         }
     }
-
+*/
     @PreAuthorize("hasAnyAuthority('THERAPIST', 'ADMIN')")
     @GetMapping("/users")
     public String usersView() {
