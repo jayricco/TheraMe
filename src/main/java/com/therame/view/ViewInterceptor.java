@@ -1,4 +1,4 @@
-package com.therame.service;
+package com.therame.view;
 
 import com.therame.model.DetailedUserDetails;
 import org.springframework.security.core.Authentication;
@@ -9,7 +9,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class ViewInterceptorService extends HandlerInterceptorAdapter {
+public class ViewInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {

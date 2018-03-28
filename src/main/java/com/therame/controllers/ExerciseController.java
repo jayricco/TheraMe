@@ -28,7 +28,7 @@ public class ExerciseController {
     }
 
     @GetMapping("/watch")
-    public String videoView(@RequestParam("v") String encodedId, Model model) {
+    public String exerciseViewById(@RequestParam("v") String encodedId, Model model) {
 
         UUID videoId = Base64Converter.fromUrlSafeString(encodedId);
 
@@ -40,13 +40,13 @@ public class ExerciseController {
 
     @PreAuthorize("hasAnyAuthority('THERAPIST', 'ADMIN')")
     @GetMapping("/videos")
-    public String viewVideos() {
+    public String exerciseVideoListView() {
         return "videos";
     }
 
     @PreAuthorize("hasAnyAuthority('THERAPIST', 'ADMIN')")
     @GetMapping("/api/videos")
-    public ResponseEntity<?> getVideos(@RequestParam(value = "q", required = false) String query) throws Exception {
+    public ResponseEntity<?> getAllExerciseOrByQuery(@RequestParam(value = "q", required = false) String query) {
         List<Exercise> exercises;
 
         if (query != null) {

@@ -39,7 +39,7 @@ public class AssignmentController {
 
     @PreAuthorize("hasAnyAuthority('THERAPIST', 'ADMIN')")
     @PostMapping("/api/assignments/add")
-    public ResponseEntity<?> addAssignmentForUser(@RequestParam("userId") String userId, @RequestParam("exerciseId") String exerciseId,
+    public ResponseEntity<?> addAssignmentByUserId(@RequestParam("userId") String userId, @RequestParam("exerciseId") String exerciseId,
                                                   @RequestParam(value = "order", required = false) Integer order) {
         AssignmentView createdAssignment = assignmentService.createAssignment(Base64Converter.fromUrlSafeString(userId),
                 Base64Converter.fromUrlSafeString(exerciseId), order != null ? order : 0);
@@ -48,7 +48,7 @@ public class AssignmentController {
 
     @PreAuthorize("hasAnyAuthority('THERAPIST', 'ADMIN')")
     @DeleteMapping("/api/assignments/remove")
-    public ResponseEntity<?> removeAssignment(@RequestParam("id") String assignmentId) {
+    public ResponseEntity<?> removeAssignmentById(@RequestParam("id") String assignmentId) {
         assignmentService.deleteAssignment(Base64Converter.fromUrlSafeString(assignmentId));
         return ResponseEntity.ok().build();
     }

@@ -13,7 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Objects;
 
-@Service
+@Service("MediaEncoderService")
 public class MediaEncoderService {
 
     @Async
@@ -58,6 +58,7 @@ public class MediaEncoderService {
         executor.createJob(ssBuilder).run();
     }
 
+    @Async
     public FFmpegProbeResult getVideoDetails(String inputFile) throws IOException {
         return new FFprobe().probe(inputFile);
     }

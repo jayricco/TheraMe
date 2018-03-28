@@ -95,7 +95,7 @@ public class UserController {
     @GetMapping("/user")
     public ModelAndView userView(@RequestParam("id") String userId) {
         ModelAndView modelAndView = new ModelAndView();
-        Optional<UserView> optionalUser = userService.findById(Base64Converter.fromUrlSafeString(userId));
+        Optional<UserView> optionalUser = userService.findUserById(Base64Converter.fromUrlSafeString(userId));
 
         optionalUser.ifPresent(user -> {
             modelAndView.addObject("forUser", user);

@@ -3,6 +3,7 @@ package com.therame.service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
@@ -10,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.nio.file.Path;
 
-@Service
+@Service("MediaResolverService")
 public class MediaResolverService extends ResourceHttpRequestHandler {
 
     private static final String VIDEO_EXTENSION = ".mp4";

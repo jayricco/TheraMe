@@ -13,10 +13,10 @@ public interface ExerciseService {
 
     Exercise createExercise(Exercise exercise);
 
-    Optional<Exercise> findById(UUID id);
+    Optional<Exercise> findExerciseById(UUID id);
 
-    List<Exercise> findAll();
+    List<Exercise> findAllExercises();
 
-    Future<List<Exercise>> searchByTitle(String title);
+    Future<List<Exercise>> searchExercisesByTitle(String title);
 
 }
