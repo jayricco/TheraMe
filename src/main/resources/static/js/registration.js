@@ -13,12 +13,12 @@ $(document).ready(function () {
             method: 'GET',
             cache: false,
             success: function(providers) {
-                var providerList = $('provider');
+                var providerList = $('#provider');
 
-                providers.forEach(function(provider) {
-                    providers.add(provider);
+                providers.forEach(function(provider, index) {
+                    providers.push(provider);
 
-                    providerList.append('<option value="' + provider.id + '">' + provider.name + '</option>');
+                    providerList.append($('<option />').val(provider.id).text(provider.name));
                 })
             }
         });

@@ -8,4 +8,6 @@ public interface ProviderService {
 
     List<Provider> getProviders(String q);
 
+    Provider createProvider(Provider provider);
+
 }

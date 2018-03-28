@@ -19,4 +19,9 @@ public class ProviderServiceImpl implements ProviderService {
     public List<Provider> getProviders(String q) {
         return providerRepository.findAllByName(q);
     }
+
+    @Override
+    public Provider createProvider(Provider provider) {
+        return providerRepository.save(provider);
+    }
 }
