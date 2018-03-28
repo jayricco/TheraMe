@@ -7,9 +7,11 @@ import javax.transaction.Transactional;
 
 import com.google.common.collect.ImmutableList;
 import com.therame.model.DetailedUserDetails;
+import com.therame.model.Provider;
 import com.therame.model.UserRepository;
 import com.therame.view.UserView;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -52,7 +54,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public List<UserView> findAllUsersByNameAndType(String name, List<User.Type> typeFilters) {
+        DetailedUserDetails currentUser = (DetailedUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        final Provider currentUserProvider = currentUser.getUser().getProvider();
+
         return userRepo.findByNameAndType(name, typeFilters).stream()
+                .filter(user -> currentUserProvider == null || currentUserProvider.equals(user.getProvider()))
                 .map(User::toView)
                 .collect(Collectors.toList());
     }

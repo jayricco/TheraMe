@@ -1,12 +1,16 @@
 package com.therame.service;
 
+import com.therame.model.DetailedUserDetails;
 import com.therame.model.Exercise;
 import com.therame.model.ExerciseRepository;
+import com.therame.model.Provider;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class ExerciseServiceImpl implements ExerciseService {
@@ -29,11 +33,21 @@ public class ExerciseServiceImpl implements ExerciseService {
 
     @Override
     public List<Exercise> findAll() {
-        return exerciseRepository.findAll();
+        DetailedUserDetails currentUser = (DetailedUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        final Provider currentUserProvider = currentUser.getUser().getProvider();
+
+        return exerciseRepository.findAll().stream()
+                .filter(exercise -> currentUserProvider == null || exercise.getProvider() == null || currentUserProvider.equals(exercise.getProvider()))
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<Exercise> searchByTitle(String title) {
-        return exerciseRepository.findAllByTitle(title);
+        DetailedUserDetails currentUser = (DetailedUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        final Provider currentUserProvider = currentUser.getUser().getProvider();
+
+        return exerciseRepository.findAllByTitle(title).stream()
+                .filter(exercise -> currentUserProvider == null || exercise.getProvider() == null || currentUserProvider.equals(exercise.getProvider()))
+                .collect(Collectors.toList());
     }
 }
