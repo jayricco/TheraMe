@@ -17,6 +17,6 @@ public interface ExerciseService {
 
     List<Exercise> findAllExercises();
 
-    Future<List<Exercise>> searchExercisesByTitle(String title);
+    List<Exercise> searchExercisesByTitle(String title);
 
 }

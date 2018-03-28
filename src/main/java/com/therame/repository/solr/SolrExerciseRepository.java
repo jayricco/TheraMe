@@ -13,12 +13,12 @@ import java.util.UUID;
 import java.util.concurrent.Future;
 
 @Repository("solrExerciseRepo")
-public interface SolrExerciseDetailRepository extends SolrCrudRepository<Exercise, UUID> {
+public interface SolrExerciseRepository extends SolrCrudRepository<Exercise, UUID> {
 
     @Query("description:*?0* OR title:*?0*")
     Page<Exercise> findByCustomQuery(String searchTerm, Pageable pageable);
 
-    @Async
-    Future<List<Exercise>> findByTitle(String title);
+
+    List<Exercise> findByTitle(String title);
 
 }

@@ -2,7 +2,7 @@ package com.therame.service;
 
 import com.therame.model.Exercise;
 import com.therame.repository.jpa.ExerciseRepository;
-import com.therame.repository.solr.SolrExerciseDetailRepository;
+import com.therame.repository.solr.SolrExerciseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,7 +23,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     private ExerciseRepository exerciseRepo;
 
     @Autowired
-    private SolrExerciseDetailRepository solrExerciseRepo;
+    private SolrExerciseRepository solrExerciseRepo;
 
 
     @Override
@@ -33,18 +33,18 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public Optional<Exercise> findById(UUID id) {
+    public Optional<Exercise> findExerciseById(UUID id) {
         return Optional.ofNullable(exerciseRepo.findOne(id));
     }
 
     @Override
-    public List<Exercise> findAll() {
+    public List<Exercise> findAllExercises() {
         return exerciseRepo.findAll();
     }
 
     @Override
-    @Async
-    public Future<List<Exercise>> searchByTitle(String title) {
+
+    public List<Exercise> searchExercisesByTitle(String title) {
         return solrExerciseRepo.findByTitle(title);
     }
 }

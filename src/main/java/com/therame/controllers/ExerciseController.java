@@ -32,7 +32,7 @@ public class ExerciseController {
 
         UUID videoId = Base64Converter.fromUrlSafeString(encodedId);
 
-        Optional<Exercise> optionalExercise = exerciseService.findById(videoId);
+        Optional<Exercise> optionalExercise = exerciseService.findExerciseById(videoId);
         optionalExercise.ifPresent((exercise) -> model.addAttribute("exercise", exercise.toView()));
 
         return "watch";
@@ -47,15 +47,22 @@ public class ExerciseController {
     @PreAuthorize("hasAnyAuthority('THERAPIST', 'ADMIN')")
     @GetMapping("/api/videos")
     public ResponseEntity<?> getAllExerciseOrByQuery(@RequestParam(value = "q", required = false) String query) {
-        List<Exercise> exercises;
+        List<Exercise> exercises = null;
 
         if (query != null) {
-            exercises = exerciseService.searchByTitle(query).get();
-            System.out.println(exercises);
-        } else {
-            exercises = exerciseService.findAll();
-        }
+            try {
+                exercises = exerciseService.searchExercisesByTitle(query);
+                System.out.println(exercises);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
+        } else {
+            exercises = exerciseService.findAllExercises();
+        }
+        if (exercises == null) {
+            return ResponseEntity.badRequest().body(query);
+        }
         List<ExerciseView> views = exercises.stream()
                 .map(Exercise::toView)
                 .collect(Collectors.toList());

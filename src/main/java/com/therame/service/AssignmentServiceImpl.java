@@ -38,6 +38,7 @@ public class AssignmentServiceImpl implements AssignmentService {
                 .collect(Collectors.toList());
     }
 
+
     @Override
     @Transactional
     public AssignmentView createAssignment(UUID patientId, UUID exerciseId, int order) {

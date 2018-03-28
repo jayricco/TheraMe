@@ -2,6 +2,7 @@ package com.therame.view;
 
 import lombok.Data;
 
+import java.time.LocalTime;
 import java.util.Date;
 
 @Data

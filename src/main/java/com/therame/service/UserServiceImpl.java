@@ -41,7 +41,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public Optional<UserView> findById(UUID id) {
+    public Optional<UserView> findUserAsView(UUID id) {
         User user = userRepo.findOne(id);
         if (user != null) {
             return Optional.of(user.toView());

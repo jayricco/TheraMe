@@ -9,7 +9,8 @@ import java.util.UUID;
 
 public interface UserService {
 
-    Optional<UserView> findUserById(UUID id);
+    Optional<User> findUserById(UUID id);
+    Optional<UserView> findUserAsView(UUID id);
     Optional<User> findUserByEmail(String email);
     Optional<User> findByConfirmationToken(String confirmationToken);
     User createUser(User user);

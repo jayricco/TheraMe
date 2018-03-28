@@ -42,10 +42,11 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value="/login", method = RequestMethod.GET)
+    @RequestMapping(value="/login")
     public String login() {
         return "login";
     }
+
 
    /* @RequestMapping(value="/register", method = RequestMethod.GET)
     public ModelAndView registration() {
@@ -95,7 +96,7 @@ public class UserController {
     @GetMapping("/user")
     public ModelAndView userView(@RequestParam("id") String userId) {
         ModelAndView modelAndView = new ModelAndView();
-        Optional<UserView> optionalUser = userService.findUserById(Base64Converter.fromUrlSafeString(userId));
+        Optional<UserView> optionalUser = userService.findUserAsView(Base64Converter.fromUrlSafeString(userId));
 
         optionalUser.ifPresent(user -> {
             modelAndView.addObject("forUser", user);

@@ -31,7 +31,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 public class ApplicationMain {
 
     public static void main(String[] args) {
-
         SpringApplication.run(ApplicationMain.class, args);
 
 
@@ -54,6 +53,7 @@ public class ApplicationMain {
         tomcat.addAdditionalTomcatConnectors(initiateHttpConnector());
         return tomcat;
     }
+
 
     private Connector initiateHttpConnector() {
         Connector connector = new Connector("org.apache.coyote.http11.Http11NioProtocol");
