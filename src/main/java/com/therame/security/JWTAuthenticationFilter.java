@@ -36,9 +36,9 @@ import static com.therame.security.SecurityConstants.*;
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private AuthenticationManager authenticationManager;
-    private UserDetailsService userService;
 
-    public JWTAuthenticationFilter(AuthenticationManager authenticationManager, UserDetailsService userService) {
+
+    public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
 
@@ -48,9 +48,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                                 HttpServletResponse res) throws AuthenticationException {
         try {
             User creds = new ObjectMapper().readValue(req.getInputStream(), User.class);
-
-            System.out.println(creds.getEmail());
-            System.out.println(creds.getPassword());
+            
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             creds.getEmail(),
