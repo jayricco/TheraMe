@@ -47,9 +47,7 @@ public class UserController {
         return "login";
     }
 
-
-
-   /* @RequestMapping(value="/register", method = RequestMethod.GET)
+    @RequestMapping(value="/register", method = RequestMethod.GET)
     public ModelAndView registration() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("user", new User());
@@ -61,7 +59,8 @@ public class UserController {
     @RequestMapping(value = "/api/register", method = RequestMethod.POST)
     public ResponseEntity<?> createNewUser(@Valid User user) {
         try {
-            User createdUser = userService.createRootUser(user);
+            User createdUser = userService.createUser(user);
+            createdUser.setPassword(null);
             return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
         } catch (DataIntegrityViolationException e) {
             // We assume the cause is the 'email' field here, maybe in the future we should verify this to be true
@@ -70,8 +69,7 @@ public class UserController {
             return new ResponseEntity<>(errorView, HttpStatus.CONFLICT);
         }
     }
-<<<<<<< HEAD
-*/
+
     @PreAuthorize("hasAnyAuthority('THERAPIST', 'ADMIN')")
     @GetMapping("/users")
     public String usersView() {
@@ -80,12 +78,17 @@ public class UserController {
 
     @PreAuthorize("hasAnyAuthority('THERAPIST', 'ADMIN')")
     @GetMapping("/api/users")
-    public ResponseEntity<?> getAllUsers(@RequestParam(value = "q", required = false) String nameQuery) {
+    public ResponseEntity<?> getAllUsers(@RequestParam(value = "q", required = false) String nameQuery,
+            @RequestParam(value = "types", required = false) List<User.Type> typeFilters) {
+        if (typeFilters == null) {
+            typeFilters = ImmutableList.of(User.Type.ADMIN, User.Type.THERAPIST, User.Type.PATIENT);
+        }
+
         if (nameQuery == null) {
             nameQuery = "";
         }
 
-        return ResponseEntity.ok(userService.searchByName(nameQuery));
+        return ResponseEntity.ok(userService.findAllUsersByNameAndType(nameQuery, typeFilters));
     }
 
     @PreAuthorize("hasAnyAuthority('THERAPIST', 'ADMIN')")
