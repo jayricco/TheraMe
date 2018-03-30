@@ -7,10 +7,8 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface HistoryRepository extends JpaRepository<History, UUID> {
+public interface FeedbackRepository extends JpaRepository<Feedback, UUID> {
 
-    List<History> findByPatientId(UUID patientId);
-
-    List<History> findByTherapistId(UUID therapistId);
+    List<Feedback> findByPatientId(UUID patientId);
 
 }

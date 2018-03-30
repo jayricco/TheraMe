@@ -1,10 +1,13 @@
 package com.therame.service;
 
 import com.therame.model.*;
+import com.therame.view.FeedbackView;
 import com.therame.view.HistoryView;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.transaction.TransactionScoped;
+import java.sql.Time;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -16,6 +19,8 @@ public class HistoryServiceImpl implements HistoryService {
     private AssignmentRepository assignmentRepository;
     private ExerciseRepository exerciseRepository;
     private UserRepository userRepository;
+    private HistoryRepository historyRepository;
+    private FeedbackRepository feedbackRepository;
 
     public HistoryServiceImpl(AssignmentRepository assignmentRepository, ExerciseRepository exerciseRepository,
                               UserRepository userRepository) {
@@ -31,36 +36,54 @@ public class HistoryServiceImpl implements HistoryService {
                 .collect(Collectors.toList());
     }
 
-    List<HistoryView> getForAllPatients();
-
-    HistoryView addFeedback(UUID patientId, UUID exerciseId, String feedback);
-
-    HistoryView createHistory(UUID patientId, UUID exerciseId, Date date);
-
-
+    @Override
+    public List<HistoryView> getForAllPatients(UUID therapistId){
+        return historyRepository.findByTherapistId(therapistId).stream()
+                .map(History::toView)
+                .collect(Collectors.toList());
+    }
 
     @Override
+    public List<FeedbackView> getFeedbackForPatientId(UUID patientId){
+        return feedbackRepository.findByPatientId(patientId).stream()
+                .map(Feedback::toView)
+                .collect(Collectors.toList());
+    }
+
+    //need to fix this
+    @Override
     @Transactional
-    public AssignmentView createAssignment(UUID patientId, UUID exerciseId, int order) {
-        Assignment toCreate = new Assignment();
+    public FeedbackView addFeedback(UUID patientId, UUID exerciseId, String feedback){
+        Feedback toAdd = new Feedback();
 
         User user = userRepository.findOne(patientId);
         Exercise exercise = exerciseRepository.findOne(exerciseId);
 
-        if (user == null) {
+        if (user == null){
             throw new IllegalArgumentException("User not found!");
-        } else if (exercise == null) {
+        }
+        else if (exercise == null){
             throw new IllegalArgumentException("Exercise not found!");
         }
+        else if (feedback == ""){
+            throw new IllegalArgumentException("Feedback not provided!");
+        }
 
-        toCreate.setPatient(user);
-        toCreate.setExercise(exercise);
+        toAdd.setComments(feedback);
 
-        return assignmentRepository.save(toCreate).toView();
+        return feedbackRepository.save(toAdd).toView();
     }
 
+    //need to fix this one too
     @Override
-    public void deleteAssignment(UUID assignmentId) {
-        assignmentRepository.delete(assignmentId);
+    @Transactional
+    public HistoryView addHistory(UUID patientId, UUID exerciseId, Time startTime, Time endTime){
+        History toAdd = new History();
+
+        toAdd.setAssignmentId(exerciseId);
+        toAdd.setTimeEnd(startTime);
+        toAdd.setTimeEnd(endTime);
+
+        return historyRepository.save(toAdd).toView();
     }
 }
