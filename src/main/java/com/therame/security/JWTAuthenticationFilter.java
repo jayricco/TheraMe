@@ -26,7 +26,6 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.soap.Detail;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,7 +47,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                                                 HttpServletResponse res) throws AuthenticationException {
         try {
             User creds = new ObjectMapper().readValue(req.getInputStream(), User.class);
-            
+
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             creds.getEmail(),

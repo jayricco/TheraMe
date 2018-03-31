@@ -43,10 +43,21 @@ public class UserController {
     }
 
     @RequestMapping(value="/login")
-    public String login() {
-        return "login";
-    }
+    public String login(RequestMethod header) {
+        if (header == RequestMethod.GET) {
+            return "login";
+        }
+        else {
+            return "ok";
+        }
 
+
+    }
+    @RequestMapping(value="/checkauth", method = RequestMethod.POST)
+    public ResponseEntity<?> checkAuth(@RequestHeader(name="Authorization") String auth_token) {
+        System.out.println(auth_token);
+        return ResponseEntity.ok().build();
+    }
 
    /* @RequestMapping(value="/register", method = RequestMethod.GET)
     public ModelAndView registration() {
