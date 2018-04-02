@@ -32,6 +32,16 @@ public class History {
     private UUID assignmentId;
 
     @NotNull
+    @ManyToOne
+    @JoinColumn(name = "patient_id")
+    private User patientId;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "therapist_id")
+    private User therapistId;
+
+    @NotNull
     @JoinColumn(name = "time_start")
     private Time timeStart;
 

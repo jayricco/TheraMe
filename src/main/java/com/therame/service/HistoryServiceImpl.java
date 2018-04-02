@@ -30,22 +30,29 @@ public class HistoryServiceImpl implements HistoryService {
     }
 
     @Override
+    public List<HistoryView> getHistoryForCurrentUser(UUID patientId){
+        return historyRepository.findByPatientId(userRepository.findOne(patientId)).stream()
+                .map(History::toView)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<HistoryView> getHistoryForPatientId(UUID patientId){
-        return historyRepository.findByPatientId(patientId).stream()
+        return historyRepository.findByPatientId(userRepository.findOne(patientId)).stream()
                 .map(History::toView)
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<HistoryView> getForAllPatients(UUID therapistId){
-        return historyRepository.findByTherapistId(therapistId).stream()
+        return historyRepository.findByTherapistId(userRepository.findOne(therapistId)).stream()
                 .map(History::toView)
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<FeedbackView> getFeedbackForPatientId(UUID patientId){
-        return feedbackRepository.findByPatientId(patientId).stream()
+        return feedbackRepository.findByPatientId(userRepository.findOne(patientId)).stream()
                 .map(Feedback::toView)
                 .collect(Collectors.toList());
     }
@@ -79,6 +86,8 @@ public class HistoryServiceImpl implements HistoryService {
     @Transactional
     public HistoryView addHistory(UUID patientId, UUID exerciseId, Time startTime, Time endTime){
         History toAdd = new History();
+
+
 
         toAdd.setAssignmentId(exerciseId);
         toAdd.setTimeEnd(startTime);

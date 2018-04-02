@@ -9,6 +9,6 @@ import java.util.UUID;
 @Repository
 public interface FeedbackRepository extends JpaRepository<Feedback, UUID> {
 
-    List<Feedback> findByPatientId(UUID patientId);
+    List<Feedback> findByPatientId(User patient);
 
 }

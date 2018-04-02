@@ -1,6 +1,7 @@
 package com.therame.controllers;
 
 import com.therame.model.DetailedUserDetails;
+import com.therame.model.Feedback;
 import com.therame.service.HistoryService;
 import com.therame.util.Base64Converter;
 import com.therame.view.FeedbackView;
@@ -26,37 +27,42 @@ public class HistoryController {
         this.historyService = historyService;
     }
 
-    @GetMapping("/api/history")
+    @GetMapping("/api/history/currentuser")
     public ResponseEntity<?> getHistoryForCurrentUser(@AuthenticationPrincipal DetailedUserDetails userDetails) {
         List<HistoryView> history = historyService.getHistoryForPatientId(userDetails.getUser().getId());
         return ResponseEntity.ok(history);
     }
 
     @PreAuthorize("hasAnyAuthority('THERAPIST', 'ADMIN')")
-    @GetMapping("api/history")
-    public ResponseEntity<?> getHistoryForAllPatients(@RequestParam("therapistId") String therapistId){
+    @GetMapping("/api/history/allpatients")
+    public ResponseEntity<?> getHistoryForAllPatients(String therapistId){
         List<HistoryView> history = historyService.getForAllPatients(Base64Converter.fromUrlSafeString(therapistId));
         return ResponseEntity.ok(history);
     }
 
-    @GetMapping("api/history")
-    public ResponseEntity<?> getHistoryForPatientId(@RequestParam("id") String userId){
+    @GetMapping("api/history/specificpatient")
+    public ResponseEntity<?> getHistoryForPatientId(String userId){
         List<HistoryView> history = historyService.getHistoryForPatientId(Base64Converter.fromUrlSafeString(userId));
         return ResponseEntity.ok(history);
     }
 
     @PostMapping("/api/history/add")
-    public ResponseEntity<?> addHistoryForUser(@RequestParam("userId") String userId, @RequestParam("exerciseId") String exerciseId,
+    public ResponseEntity<?> addHistoryForUser(String userId, String exerciseId,
                                                Time startTime, Time endTime) {
         HistoryView addedHistory = historyService.addHistory(Base64Converter.fromUrlSafeString(userId), Base64Converter.fromUrlSafeString(exerciseId), startTime, endTime);
         return ResponseEntity.ok(addedHistory);
     }
 
     @PostMapping("/api/history/feedbackAdd")
-    public ResponseEntity<?> addFeedbackForExercise(@RequestParam("userId") String userId, @RequestParam("exerciseId") String exerciseId,
-                                                    String feedback){
-        FeedbackView addedFeedback = historyService.addFeedback(Base64Converter.fromUrlSafeString(userId), Base64Converter.fromUrlSafeString(exerciseId), feedback);
+    public ResponseEntity<?> addFeedbackForExercise(String patientId, String exerciseId, String feedback){
+        FeedbackView addedFeedback = historyService.addFeedback(Base64Converter.fromUrlSafeString(patientId), Base64Converter.fromUrlSafeString(exerciseId), feedback);
         return ResponseEntity.ok(addedFeedback);
+    }
+
+    @GetMapping("/api/history/feedback")
+    public ResponseEntity<?> getFeedbackForPatientId(String userId){
+        List<FeedbackView> feedback = historyService.getFeedbackForPatientId(Base64Converter.fromUrlSafeString(userId));
+        return ResponseEntity.ok(feedback);
     }
 
 

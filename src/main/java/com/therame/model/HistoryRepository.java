@@ -9,8 +9,8 @@ import java.util.UUID;
 @Repository
 public interface HistoryRepository extends JpaRepository<History, UUID> {
 
-    List<History> findByPatientId(UUID patientId);
+    List<History> findByPatientId(User patient);
 
-    List<History> findByTherapistId(UUID therapistId);
+    List<History> findByTherapistId(User therapist);
 
 }

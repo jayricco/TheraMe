@@ -13,6 +13,8 @@ import java.util.UUID;
 
 public interface HistoryService {
 
+    List<HistoryView> getHistoryForCurrentUser(UUID patientId);
+
     List<HistoryView> getHistoryForPatientId(UUID patientId);
 
     List<HistoryView> getForAllPatients(UUID therapistId);
