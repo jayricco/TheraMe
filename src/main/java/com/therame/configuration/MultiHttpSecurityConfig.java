@@ -3,6 +3,7 @@ package com.therame.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -14,12 +15,15 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-@Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+public class MultiHttpSecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -35,29 +39,52 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return authenticationProvider;
     }
 
+
+
     @Autowired
-    protected void configure(AuthenticationManagerBuilder auth, AuthenticationProvider authenticationProvider) {
+    protected void configureGlobal(AuthenticationManagerBuilder auth, AuthenticationProvider authenticationProvider) {
         auth.authenticationProvider(authenticationProvider);
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/login").permitAll()
-                .anyRequest().authenticated().and().csrf().disable().formLogin()
-                .loginPage("/login").failureUrl("/login?error=true")
-                .defaultSuccessUrl("/")
-                .usernameParameter("email")
-                .passwordParameter("password")
-                .and().logout()
-                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login").and().exceptionHandling()
-                .accessDeniedPage("/access-denied");
-    }
 
-    @Override
-    public void configure(WebSecurity web) {
-        web.ignoring()
-                .antMatchers("/css/**", "/img/**", "/js/**");
+
+    @Configuration
+    @Order(1)
+    public static class ApiWebSecurityConfig extends WebSecurityConfigurerAdapter {
+        @Autowired
+        private AuthEntryPoint authEntryPoint;
+
+        protected void configure(HttpSecurity http) throws Exception {
+            http.antMatcher("/api/**").authorizeRequests().anyRequest().authenticated().and().httpBasic()
+                    .authenticationEntryPoint(authEntryPoint)
+                    .and()
+                    .csrf().disable();
+        }
+    }
+    @Configuration
+    public static class FormLoginSecurityConfig extends WebSecurityConfigurerAdapter {
+
+
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            http.authorizeRequests()
+                    .antMatchers("/login").permitAll()
+                    .anyRequest().authenticated().and().csrf().disable()
+                    .formLogin()
+                    .loginPage("/login").failureUrl("/login?error=true")
+                    .defaultSuccessUrl("/")
+                    .usernameParameter("email")
+                    .passwordParameter("password")
+                    .and().logout()
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                    .logoutSuccessUrl("/login").and().exceptionHandling()
+                    .accessDeniedPage("/access-denied");
+        }
+
+        @Override
+        public void configure(WebSecurity web) {
+            web.ignoring()
+                    .antMatchers("/css/**", "/img/**", "/js/**");
+        }
     }
 }

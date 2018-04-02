@@ -12,5 +12,5 @@ public class AssignmentView {
     private ExerciseView exercise;
     private Date dateAssigned;
     private int order;
-
+    private String last_completed;
 }

@@ -16,7 +16,7 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "history")
-public class History {
+public class History implements java.io.Serializable {
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -28,19 +28,30 @@ public class History {
     private UUID id;
 
     @NotNull
+    @ManyToOne
     @JoinColumn(name = "assignment_id")
-    private UUID assignmentId;
+    private Assignment assignment;
 
     @NotNull
-    @JoinColumn(name = "time_start")
+    @ManyToOne
+    @JoinColumn(name = "patient_id")
+    private User patientId;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "therapist_id")
+    private User therapistId;
+
+    @NotNull
+    @Column(name = "time_start")
     private Time timeStart;
 
     @NotNull
-    @JoinColumn(name = "time_end")
+    @Column(name = "time_end")
     private Time timeEnd;
 
     @NotNull
-    @JoinColumn(name = "completed")
+    @Column(name = "completed")
     private boolean completed;
 
     @Column(name = "response_id")
@@ -49,7 +60,9 @@ public class History {
     public HistoryView toView() {
         HistoryView view = new HistoryView();
         view.setId(Base64Converter.toUrlSafeString(id));
-        view.setAssignmentId(Base64Converter.toUrlSafeString(assignmentId));
+        view.setTherapistId(Base64Converter.toUrlSafeString(assignment.getTherapist().getId()));
+        view.setPatientId(Base64Converter.toUrlSafeString(assignment.getPatient().getId()));
+        view.setAssignmentId(Base64Converter.toUrlSafeString(assignment.getId()));
         view.setTimeStart(timeStart);
         view.setTimeEnd(timeEnd);
         view.setCompleted(completed);

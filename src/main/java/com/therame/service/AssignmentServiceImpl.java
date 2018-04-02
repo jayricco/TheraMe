@@ -30,6 +30,13 @@ public class AssignmentServiceImpl implements AssignmentService {
         this.userRepository = userRepository;
     }
 
+
+    @Override
+    public Assignment getAssignmentById(UUID assignmentId) {
+        return assignmentRepository.findOne(assignmentId);
+    }
+
+
     @Override
     @Cacheable
     public List<AssignmentView> getForPatientId(UUID patientId) {

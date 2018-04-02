@@ -1,5 +1,6 @@
 package com.therame.service;
 
+import com.therame.model.Assignment;
 import com.therame.model.Exercise;
 import com.therame.model.Feedback;
 import com.therame.view.FeedbackView;
@@ -19,8 +20,10 @@ public interface HistoryService {
 
     FeedbackView addFeedback(UUID patientId, UUID exerciseId, String feedback);
 
-    HistoryView addHistory(UUID patientId, UUID exerciseId, Time startTime, Time endTime);
+    HistoryView addHistory(Assignment assignment, Time startTime, Time endTime);
 
     List<FeedbackView> getFeedbackForPatientId(UUID patientId);
+
+    List<HistoryView> getAllHistoryEntries();
 
 }

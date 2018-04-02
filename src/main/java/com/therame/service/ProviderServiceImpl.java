@@ -1,7 +1,7 @@
 package com.therame.service;
 
 import com.therame.model.Provider;
-import com.therame.model.ProviderRepository;
+import com.therame.repository.jpa.ProviderRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

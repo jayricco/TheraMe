@@ -11,11 +11,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 @Component
-public class AuthenticationEntryPoint extends BasicAuthenticationEntryPoint {
+public class AuthEntryPoint extends BasicAuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException ex)
-            throws IOException, ServletException {
+            throws IOException {
         response.addHeader("WWW-Authenticate", "Basic realm="+getRealmName());
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         PrintWriter writer = response.getWriter();

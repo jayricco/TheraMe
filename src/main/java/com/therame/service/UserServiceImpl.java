@@ -8,7 +8,7 @@ import javax.transaction.Transactional;
 import com.google.common.collect.ImmutableList;
 import com.therame.model.DetailedUserDetails;
 import com.therame.model.Provider;
-import com.therame.model.UserRepository;
+import com.therame.repository.jpa.UserRepository;
 import com.therame.view.UserView;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,7 +32,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public Optional<UserView> findById(UUID id) {
+    public Optional<User> findUserById(UUID id) {
+        User user = userRepo.findOne(id);
+        if (user != null) {
+            return Optional.of(user);
+        } else {
+            return Optional.empty();
+        }
+    }
+    @Override
+    public Optional<UserView> findUserAsView(UUID id) {
         User user = userRepo.findOne(id);
         if (user != null) {
             return Optional.of(user.toView());
@@ -47,9 +56,46 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public Optional<User> findByConfirmationToken(String confirmationToken) {
+        return Optional.empty();
+    }
+
+    @Override
     public User createUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepo.save(user);
+    }
+
+    @Override
+    public List<User> searchByName(String name) {
+        return null;
+    }
+
+    @Override
+    public User createRootUser(User user) {
+        return null;
+    }
+
+    @Override
+    public User saveUser(User user) {
+        return null;
+    }
+
+    @Override
+    @Transactional
+    public User updateUser(User user) {
+        // fix this
+        return userRepo.getOne(user.getId());
+    }
+
+    @Override
+    public void deleteUserById(UUID uuid) {
+        userRepo.delete(uuid);
+    }
+
+    @Override
+    public void deleteAllUsers() {
+        userRepo.deleteAll();
     }
 
     @Override
@@ -81,5 +127,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         } else {
             throw new UsernameNotFoundException(userName);
         }
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepo.findAll();
+    }
+
+    @Override
+    public boolean doesUserExist(User user) {
+        return false;
     }
 }

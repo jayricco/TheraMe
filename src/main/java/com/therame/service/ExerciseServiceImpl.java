@@ -2,7 +2,7 @@ package com.therame.service;
 
 import com.therame.model.DetailedUserDetails;
 import com.therame.model.Exercise;
-import com.therame.model.ExerciseRepository;
+import com.therame.repository.jpa.ExerciseRepository;
 import com.therame.model.Provider;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -27,12 +27,12 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public Optional<Exercise> findById(UUID id) {
+    public Optional<Exercise> findExerciseById(UUID id) {
         return Optional.ofNullable(exerciseRepository.findOne(id));
     }
 
     @Override
-    public List<Exercise> findAll() {
+    public List<Exercise> findAllExercises() {
         DetailedUserDetails currentUser = (DetailedUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         final Provider currentUserProvider = currentUser.getUser().getProvider();
 
@@ -42,7 +42,7 @@ public class ExerciseServiceImpl implements ExerciseService {
     }
 
     @Override
-    public List<Exercise> searchByTitle(String title) {
+    public List<Exercise> searchExercisesByTitle(String title) {
         DetailedUserDetails currentUser = (DetailedUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         final Provider currentUserProvider = currentUser.getUser().getProvider();
 

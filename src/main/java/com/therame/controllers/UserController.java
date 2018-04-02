@@ -1,6 +1,7 @@
 package com.therame.controllers;
 
 import javax.validation.Valid;
+import javax.xml.soap.Detail;
 
 import com.google.common.collect.ImmutableList;
 import com.therame.model.DetailedUserDetails;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -41,21 +43,15 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value="/login")
-    public String login(RequestMethod header) {
-        if (header == RequestMethod.GET) {
+    @RequestMapping(value="/login", method = RequestMethod.GET)
+    public String login() {
             return "login";
-        }
-        else {
-            return "ok";
-        }
-
-
     }
-    @RequestMapping(value="/checkauth", method = RequestMethod.POST)
-    public ResponseEntity<?> checkAuth(@RequestHeader(name="Authorization") String auth_token) {
-        System.out.println(auth_token);
-        return ResponseEntity.ok().build();
+
+    @PreAuthorize("hasAnyAuthority('THERAPIST', 'ADMIN', 'PATIENT')")
+    @RequestMapping(value="/api/checkauth", method = RequestMethod.GET)
+    public ResponseEntity<?> checkAuth(@AuthenticationPrincipal DetailedUserDetails userDetails) {
+        return ResponseEntity.ok(userDetails.getUser().toView());
     }
 
    /* @RequestMapping(value="/register", method = RequestMethod.GET)

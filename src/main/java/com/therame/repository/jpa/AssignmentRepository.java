@@ -12,4 +12,6 @@ public interface AssignmentRepository extends JpaRepository<Assignment, UUID> {
 
     List<Assignment> findByPatientId(UUID patientId);
 
+    List<Assignment> findByTherapistId(UUID therapistId);
+
 }

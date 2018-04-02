@@ -33,9 +33,14 @@ public class Assignment {
     private UUID id;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "patient_id")
     private User patient;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "therapist_id")
+    private User therapist;
 
     @NotNull
     @ManyToOne
@@ -49,10 +54,10 @@ public class Assignment {
     @Column(name = "ordering")
     private int order;
 
-    @Nullable
     @OneToOne
-    @JoinColumn(name = "last_done", referencedColumnName = "id")
-    private HistoryEntry last_done;
+    @JoinColumn(name = "last_completed", referencedColumnName = "id")
+    private History last_completed;
+
 
     public AssignmentView toView() {
         AssignmentView view = new AssignmentView();
