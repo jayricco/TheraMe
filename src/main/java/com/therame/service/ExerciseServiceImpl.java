@@ -1,50 +1,53 @@
 package com.therame.service;
 
+import com.therame.model.DetailedUserDetails;
 import com.therame.model.Exercise;
-import com.therame.repository.jpa.ExerciseRepository;
-import com.therame.repository.solr.SolrExerciseRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.solr.core.query.SolrPageRequest;
-import org.springframework.scheduling.annotation.Async;
+import com.therame.model.ExerciseRepository;
+import com.therame.model.Provider;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.concurrent.Future;
+import java.util.stream.Collectors;
 
 @Service
 public class ExerciseServiceImpl implements ExerciseService {
 
-    @Autowired
-    private ExerciseRepository exerciseRepo;
+    private ExerciseRepository exerciseRepository;
 
-    @Autowired
-    private SolrExerciseRepository solrExerciseRepo;
-
+    public ExerciseServiceImpl(ExerciseRepository exerciseRepository) {
+        this.exerciseRepository = exerciseRepository;
+    }
 
     @Override
     public Exercise createExercise(Exercise exercise) {
-        return exerciseRepo.save(exercise);
-
+        return exerciseRepository.save(exercise);
     }
 
     @Override
-    public Optional<Exercise> findExerciseById(UUID id) {
-        return Optional.ofNullable(exerciseRepo.findOne(id));
+    public Optional<Exercise> findById(UUID id) {
+        return Optional.ofNullable(exerciseRepository.findOne(id));
     }
 
     @Override
-    public List<Exercise> findAllExercises() {
-        return exerciseRepo.findAll();
+    public List<Exercise> findAll() {
+        DetailedUserDetails currentUser = (DetailedUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        final Provider currentUserProvider = currentUser.getUser().getProvider();
+
+        return exerciseRepository.findAll().stream()
+                .filter(exercise -> currentUserProvider == null || exercise.getProvider() == null || currentUserProvider.equals(exercise.getProvider()))
+                .collect(Collectors.toList());
     }
 
     @Override
+    public List<Exercise> searchByTitle(String title) {
+        DetailedUserDetails currentUser = (DetailedUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        final Provider currentUserProvider = currentUser.getUser().getProvider();
 
-    public List<Exercise> searchExercisesByTitle(String title) {
-        return solrExerciseRepo.findByTitle(title);
+        return exerciseRepository.findAllByTitle(title).stream()
+                .filter(exercise -> currentUserProvider == null || exercise.getProvider() == null || currentUserProvider.equals(exercise.getProvider()))
+                .collect(Collectors.toList());
     }
 }

@@ -7,12 +7,11 @@ import javax.transaction.Transactional;
 
 import com.google.common.collect.ImmutableList;
 import com.therame.model.DetailedUserDetails;
-import com.therame.repository.jpa.UserRepository;
-import com.therame.repository.solr.SolrUserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.therame.model.Provider;
+import com.therame.model.UserRepository;
 import com.therame.view.UserView;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,27 +20,19 @@ import org.springframework.stereotype.Service;
 
 import com.therame.model.User;
 
-
-@Service("userService")
-@Transactional
+@Service
 public class UserServiceImpl implements UserService, UserDetailsService {
 
-    @Autowired
     private UserRepository userRepo;
-
-    @Autowired
-    private SolrUserRepository solrUserRepo;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Override
-    public Optional<User> findUserById(UUID uuid) {
-        return Optional.of(userRepo.findOne(uuid));
+    public UserServiceImpl(UserRepository userRepo, PasswordEncoder passwordEncoder) {
+        this.userRepo = userRepo;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    public Optional<UserView> findUserAsView(UUID id) {
+    public Optional<UserView> findById(UUID id) {
         User user = userRepo.findOne(id);
         if (user != null) {
             return Optional.of(user.toView());
@@ -56,62 +47,18 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public List<User> searchByName(String name) {
-        return solrUserRepo.findByCustomQuery(name, new PageRequest(0, 10)).getContent();
-    }
-    @Override
-    public User saveUser(User user) {
-        userRepo.save(user);
-        solrUserRepo.save(user);
-        return user;
-    }
-
-    @Override
     public User createUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        saveUser(user);
-        return user;
-    }
-
-    @Override
-    public User createRootUser(User user) {
-        user.setPassword(null);
-        saveUser(user);
-        return user;
-    }
-
-    @Override
-    public User updateUser(User user) {
-        saveUser(user);
-        return user;
-    }
-
-    @Override
-    public void deleteUserById(UUID uuid) {
-        userRepo.delete(uuid);
-        solrUserRepo.delete(uuid);
-    }
-
-    @Override
-    public void deleteAllUsers() {
-        userRepo.deleteAll();
-        solrUserRepo.deleteAll();
-    }
-
-    @Override
-    public List<User> getAllUsers() {
-        return userRepo.findAll();
-    }
-
-
-    @Override
-    public boolean doesUserExist(User user) {
-        return findUserByEmail(user.getEmail()).isPresent();
+        return userRepo.save(user);
     }
 
     @Override
     public List<UserView> findAllUsersByNameAndType(String name, List<User.Type> typeFilters) {
+        DetailedUserDetails currentUser = (DetailedUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        final Provider currentUserProvider = currentUser.getUser().getProvider();
+
         return userRepo.findByNameAndType(name, typeFilters).stream()
+                .filter(user -> currentUserProvider == null || currentUserProvider.equals(user.getProvider()))
                 .map(User::toView)
                 .collect(Collectors.toList());
     }
@@ -123,14 +70,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            return new DetailedUserDetails(user, ImmutableList.of(new SimpleGrantedAuthority(user.getType().name())));
+
+            // Give sentinel a special role
+            if (user.getType() == User.Type.ADMIN && user.getProvider() == null) {
+                return new DetailedUserDetails(user, ImmutableList.of(new SimpleGrantedAuthority(user.getType().name()),
+                        new SimpleGrantedAuthority("SENTINEL")));
+            } else {
+                return new DetailedUserDetails(user, ImmutableList.of(new SimpleGrantedAuthority(user.getType().name())));
+            }
         } else {
             throw new UsernameNotFoundException(userName);
         }
-    }
-
-    @Override
-    public Optional<User> findByConfirmationToken(String confirmationToken) {
-        return userRepo.findByConfirmationToken(confirmationToken);
     }
 }

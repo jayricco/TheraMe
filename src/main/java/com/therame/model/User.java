@@ -96,6 +96,11 @@ public class User {
         last_updated = new Date();
     }
 
+    @Nullable
+    @ManyToOne
+    @JoinColumn(name = "provider_id")
+    private Provider provider;
+
     public UserView toView() {
         UserView view = new UserView();
         view.setId(Base64Converter.toUrlSafeString(id));

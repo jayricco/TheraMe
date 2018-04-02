@@ -34,7 +34,6 @@ public class UserController {
 
     @GetMapping(value = "/")
     public String home(@AuthenticationPrincipal DetailedUserDetails userDetails) {
-        System.out.println(userDetails.getAuthorities());
         if (userDetails.getUser().getType() == User.Type.THERAPIST || userDetails.getUser().getType() == User.Type.ADMIN) {
             return "pt_home";
         } else {
@@ -67,10 +66,21 @@ public class UserController {
         return modelAndView;
     }
 
-    @ResponseBody
+    @PreAuthorize("hasAnyAuthority('THERAPIST', 'ADMIN')")
     @RequestMapping(value = "/api/register", method = RequestMethod.POST)
-    public ResponseEntity<?> createNewUser(@Valid User user) {
+    public ResponseEntity<?> createNewUser(@Valid User user, @AuthenticationPrincipal DetailedUserDetails userDetails) {
         try {
+            if (user.getType() == User.Type.PATIENT && user.getTherapist() == null) {
+
+                // Set current user as PT if we're adding a patient and none was specified
+                user.setTherapist(userDetails.getUser());
+            }
+
+            // If we're not the sentinel user, set it to the current user's provider
+            if (userDetails.getUser().getType() != User.Type.ADMIN || userDetails.getUser().getProvider() != null) {
+                user.setProvider(userDetails.getUser().getProvider());
+            }
+
             User createdUser = userService.createUser(user);
             createdUser.setPassword(null);
             return new ResponseEntity<>(createdUser, HttpStatus.CREATED);

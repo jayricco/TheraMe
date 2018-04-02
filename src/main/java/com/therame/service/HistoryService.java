@@ -1,10 +1,26 @@
 package com.therame.service;
 
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import com.therame.model.Exercise;
+import com.therame.model.Feedback;
+import com.therame.view.FeedbackView;
+import com.therame.view.HistoryView;
 
-@Service("historyService")
-@Transactional
-public class HistoryService {
+import java.sql.Time;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+public interface HistoryService {
+
+    List<HistoryView> getHistoryForPatientId(UUID patientId);
+
+    List<HistoryView> getForAllPatients(UUID therapistId);
+
+    FeedbackView addFeedback(UUID patientId, UUID exerciseId, String feedback);
+
+    HistoryView addHistory(UUID patientId, UUID exerciseId, Time startTime, Time endTime);
+
+    List<FeedbackView> getFeedbackForPatientId(UUID patientId);
 
 }

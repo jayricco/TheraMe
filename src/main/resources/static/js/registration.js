@@ -1,5 +1,29 @@
 
 $(document).ready(function () {
+
+    var providers = [];
+
+    updateProviders();
+
+    function updateProviders() {
+        var requestUrl = '/api/providers';
+
+        $.ajax({
+            url: requestUrl,
+            method: 'GET',
+            cache: false,
+            success: function(providers) {
+                var providerList = $('#provider');
+
+                providers.forEach(function(provider, index) {
+                    providers.push(provider);
+
+                    providerList.append($('<option />').val(provider.id).text(provider.name));
+                })
+            }
+        });
+    }
+
     $('form').submit(function(event) {
         event.preventDefault();
 

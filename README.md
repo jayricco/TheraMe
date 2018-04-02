@@ -53,3 +53,9 @@ button on the toolbar and select `Download Sources and Documentation`.
 We also make use of Lombok, which requires a special IntelliJ plugin to function properly. To install this, go to 
 `Preferences... -> Plugins -> Browse Repositories` and search for `Lombok Plugin`. Once you install and restart
 IntelliJ, it should prompt you to enable annotation processing, do that.
+
+#### Notes
+
+You'll want to run the `src/main/resources/static/db/create_sentinel.sql` script after your first successful run of the 
+backend. This will create a user that you can first log in as to create providers and users for those providers. Use the 
+email `sentinel@therame.com` with password `sentinel` to log in.
