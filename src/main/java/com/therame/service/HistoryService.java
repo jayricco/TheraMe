@@ -21,7 +21,7 @@ public interface HistoryService {
 
     FeedbackView addFeedback(UUID patientId, UUID exerciseId, String feedback);
 
-    HistoryView addHistory(UUID patientId, UUID exerciseId, Time startTime, Time endTime);
+    HistoryView addHistory(UUID patientId, UUID assignmentId, Time startTime, Time endTime);
 
     List<FeedbackView> getFeedbackForPatientId(UUID patientId);
 

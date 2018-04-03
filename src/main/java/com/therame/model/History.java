@@ -28,8 +28,9 @@ public class History {
     private UUID id;
 
     @NotNull
+    @ManyToOne
     @JoinColumn(name = "assignment_id")
-    private UUID assignmentId;
+    private Assignment assignmentId;
 
     @NotNull
     @ManyToOne
@@ -42,28 +43,29 @@ public class History {
     private User therapistId;
 
     @NotNull
-    @JoinColumn(name = "time_start")
+    @Column(name = "time_start")
     private Time timeStart;
 
     @NotNull
-    @JoinColumn(name = "time_end")
+    @Column(name = "time_end")
     private Time timeEnd;
 
     @NotNull
-    @JoinColumn(name = "completed")
+    @Column(name = "completed")
     private boolean completed;
 
-    @Column(name = "response_id")
-    private UUID responseId;
+    @ManyToOne
+    @JoinColumn(name = "response_id")
+    private History responseId;
 
     public HistoryView toView() {
         HistoryView view = new HistoryView();
         view.setId(Base64Converter.toUrlSafeString(id));
-        view.setAssignmentId(Base64Converter.toUrlSafeString(assignmentId));
+        view.setAssignmentId(assignmentId.toView());
         view.setTimeStart(timeStart);
         view.setTimeEnd(timeEnd);
         view.setCompleted(completed);
-        view.setResponseId(Base64Converter.toUrlSafeString(responseId));
+        view.setResponseId(responseId.toView());
         return view;
     }
 }

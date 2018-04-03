@@ -65,5 +65,10 @@ public class HistoryController {
         return ResponseEntity.ok(feedback);
     }
 
+    @GetMapping("/reports")
+    public String viewReports() {
+        return "reports";
+    }
+
 
 }

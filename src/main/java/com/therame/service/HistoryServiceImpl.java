@@ -23,29 +23,32 @@ public class HistoryServiceImpl implements HistoryService {
     private FeedbackRepository feedbackRepository;
 
     public HistoryServiceImpl(AssignmentRepository assignmentRepository, ExerciseRepository exerciseRepository,
-                              UserRepository userRepository) {
+                              UserRepository userRepository, HistoryRepository historyRepository,
+                              FeedbackRepository feedbackRepository) {
         this.assignmentRepository = assignmentRepository;
         this.exerciseRepository = exerciseRepository;
         this.userRepository = userRepository;
+        this.historyRepository = historyRepository;
+        this.feedbackRepository = feedbackRepository;
     }
 
     @Override
     public List<HistoryView> getHistoryForCurrentUser(UUID patientId){
-        return historyRepository.findByPatientId(userRepository.findOne(patientId)).stream()
+        return historyRepository.findByPatientId(patientId).stream()
                 .map(History::toView)
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<HistoryView> getHistoryForPatientId(UUID patientId){
-        return historyRepository.findByPatientId(userRepository.findOne(patientId)).stream()
+        return historyRepository.findByPatientId(patientId).stream()
                 .map(History::toView)
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<HistoryView> getForAllPatients(UUID therapistId){
-        return historyRepository.findByTherapistId(userRepository.findOne(therapistId)).stream()
+        return historyRepository.findByTherapistId(therapistId).stream()
                 .map(History::toView)
                 .collect(Collectors.toList());
     }
@@ -62,7 +65,6 @@ public class HistoryServiceImpl implements HistoryService {
     @Transactional
     public FeedbackView addFeedback(UUID patientId, UUID exerciseId, String feedback){
         Feedback toAdd = new Feedback();
-
         User user = userRepository.findOne(patientId);
         Exercise exercise = exerciseRepository.findOne(exerciseId);
 
@@ -84,12 +86,12 @@ public class HistoryServiceImpl implements HistoryService {
     //need to fix this one too
     @Override
     @Transactional
-    public HistoryView addHistory(UUID patientId, UUID exerciseId, Time startTime, Time endTime){
+    public HistoryView addHistory(UUID patientId, UUID assignmentId, Time startTime, Time endTime){
+        Assignment assignment = assignmentRepository.findOne(assignmentId);
         History toAdd = new History();
 
 
-
-        toAdd.setAssignmentId(exerciseId);
+        toAdd.setAssignmentId(assignment);
         toAdd.setTimeEnd(startTime);
         toAdd.setTimeEnd(endTime);
 

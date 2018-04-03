@@ -9,9 +9,9 @@ import java.util.Date;
 public class HistoryView {
 
     private String id;
-    private String assignmentId;
+    private AssignmentView assignmentId;
     private Time timeStart;
     private Time timeEnd;
     private boolean completed;
-    private String responseId;
+    private HistoryView responseId;
 }
