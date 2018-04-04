@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 public class ProviderController {
@@ -40,7 +41,10 @@ public class ProviderController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/api/provider/update")
     public ResponseEntity<?> updateProvider(@Valid Provider provider, @AuthenticationPrincipal DetailedUserDetails userDetails) {
-        provider.setId(userDetails.getUser().getProvider().getId());
+        if (userDetails.getUser().getProvider() != null) {
+            provider.setId(userDetails.getUser().getProvider().getId());
+        }
+
         return ResponseEntity.ok(providerService.createProvider(provider));
     }
 
@@ -56,6 +60,10 @@ public class ProviderController {
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/updateProvider")
     public ModelAndView updateView(@AuthenticationPrincipal DetailedUserDetails userDetails) {
+        if (userDetails.getUser().getProvider() == null) {
+            return new ModelAndView("redirect:registerProvider");
+        }
+
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("provider", providerService.getProviderById(userDetails.getUser().getProvider().getId()).get());
         modelAndView.setViewName("update_provider");
