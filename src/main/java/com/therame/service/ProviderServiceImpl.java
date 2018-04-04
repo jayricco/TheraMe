@@ -5,6 +5,8 @@ import com.therame.model.ProviderRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ProviderServiceImpl implements ProviderService {
@@ -18,6 +20,11 @@ public class ProviderServiceImpl implements ProviderService {
     @Override
     public List<Provider> getProviders(String q) {
         return providerRepository.findAllByName(q);
+    }
+
+    @Override
+    public Optional<Provider> getProviderById(UUID id) {
+        return Optional.ofNullable(providerRepository.findOne(id));
     }
 
     @Override
