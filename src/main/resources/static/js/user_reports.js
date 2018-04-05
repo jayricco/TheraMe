@@ -1,7 +1,6 @@
-
 $(document).ready(function () {
 
-    var baseRequestUrl = '/api/history/allpatients?therapistId=';
+    var baseRequestUrl = '/api/history/currentuser?userId=';
     var reports = [];
     const baseUserHref = '/user?id=';
 
@@ -33,9 +32,9 @@ $(document).ready(function () {
         weekday[4] = "Thursday";
         weekday[5] = "Friday";
         weekday[6] = "Saturday";
-        var entryContainer = $('#report-table-body');
+        var entryContainer = $('#completion-days-body');
         entryContainer.empty();
-        var template = $('#report-entry-template');
+        var template = $('#user-history-template');
         var users = "";
         var today = new Date();
         today.setHours(0, 0, 0, 0);
@@ -55,6 +54,7 @@ $(document).ready(function () {
             var date = weekAgo;
             var count = 0;
             var day = 0;
+            var total = 0;
             reports.forEach(function(report){
                 if (report.patientId.id == users[i]){
                     if (count == 0){
@@ -65,20 +65,18 @@ $(document).ready(function () {
                     var exerciseDate = new Date(report.timeStart);
                     while (date < exerciseDate){
                         console.log("Incomplete exercises: "+date);
-                        var elementToFind = '#report-entry-day'.concat(day);
-                        element.find('#report-entry-day'+day).html("<i class=\"far fa-square\"></i><br>"+weekday[date.getDay()]);
+                        element.find('#user-history-day'+day).html("<i class=\"far fa-square\"></i><br>"+weekday[date.getDay()]);
                         date = new Date(date.getTime() + 1 * 24 * 60 * 60 * 1000);
                         day++;
                     }
                     if (date.getTime() == exerciseDate.getTime())
                     {
                         if (report.completed){
-                            console.log("Complete exercises: "+date);
-                            element.find('#report-entry-day'+day).html("<i class=\"far fa-check-square\"></i><br>"+weekday[date.getDay()]);
+                            element.find('#user-history-day'+day).html("<i class=\"far fa-check-square\"></i><br>"+weekday[date.getDay()]);
+                            total++;
                         }
                         else{
-                            console.log("Incomplete exercises: "+date);
-                            element.find('#report-entry-day'+day).html("<i class=\"far fa-square\"></i><br>"+weekday[date.getDay()]);
+                            element.find('#user-history-day'+day).html("<i class=\"far fa-square\"></i><br>"+weekday[date.getDay()]);
                         }
                         day++;
                         date = new Date(date.getTime() + 1 * 24 * 60 * 60 * 1000);
@@ -87,10 +85,11 @@ $(document).ready(function () {
             })
             while(date <= today && day < 7){
                 console.log("Incomplete exercises: "+date);
-                element.find('#report-entry-day'+day).html("<i class=\"far fa-square\"></i><br>"+weekday[date.getDay()]);
+                element.find('#user-history-day'+day).html("<i class=\"far fa-square\"></i><br>"+weekday[date.getDay()]);
                 date = new Date(date.getTime() + 1 * 24 * 60 * 60 * 1000);
                 day++;
             }
+            element.find('#user-history-title').html("You've completed your exercises "+total+" out of the last 7 days.");
             entryContainer.append(element);
         }
     }
