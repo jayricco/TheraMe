@@ -19,7 +19,7 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" th:if="${user.type == T(com.therame.model.User.Type).ADMIN && user.provider != null}" th:href="@{/updateProvider}">Company Settings</a>
-                            <div class="dropdown-divider"></div>
+                            <div class="dropdown-divider" th:if="${user.type == T(com.therame.model.User.Type).ADMIN && user.provider != null}"></div>
                             <a class="dropdown-item" th:href="@{/logout}">Log Out</a>
                         </div>
                     </li>
