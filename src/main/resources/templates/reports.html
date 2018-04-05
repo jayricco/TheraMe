@@ -9,6 +9,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script th:src="@{/js/nanobar.min.js}"></script>
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
 </head>
 <body>
 <div th:replace="fragments/header :: header">
@@ -28,28 +29,28 @@
     <tbody>
     <tr id="report-entry-template">
         <td>
-            <a id="report-entry-name">Name</a>
+            <a id="report-entry-name"></a>
         </td>
         <td>
-            <a id="report-entry-day1">Day 1</a>
+            <p id="report-entry-day0" align="center"></p>
         </td>
         <td>
-            <a id="report-entry-day2">Day 2</a>
+            <p id="report-entry-day1" align="center"></p>
         </td>
         <td>
-            <a id="report-entry-day3">Day 3</a>
+            <p id="report-entry-day2" align="center"></p>
         </td>
         <td>
-            <a id="report-entry-day4">Day 4</a>
+            <p id="report-entry-day3" align="center"></p>
         </td>
         <td>
-            <a id="report-entry-day5">Day 5</a>
+            <p id="report-entry-day4" align="center"></p>
         </td>
         <td>
-            <a id="report-entry-day6">Day 6</a>
+            <p id="report-entry-day5" align="center"></p>
         </td>
         <td>
-            <a id="report-entry-day7">Day 7</a>
+            <p id="report-entry-day6" align="center"></p>
         </td>
     </tr>
     </tbody>

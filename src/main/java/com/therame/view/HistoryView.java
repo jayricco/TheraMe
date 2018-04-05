@@ -10,8 +10,9 @@ public class HistoryView {
 
     private String id;
     private AssignmentView assignmentId;
-    private Time timeStart;
-    private Time timeEnd;
+    private UserView patientId;
+    private Date timeStart;
+    private Date timeEnd;
     private boolean completed;
     private HistoryView responseId;
 }

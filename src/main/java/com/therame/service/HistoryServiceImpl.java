@@ -8,6 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.transaction.TransactionScoped;
 import java.sql.Time;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -41,6 +43,7 @@ public class HistoryServiceImpl implements HistoryService {
 
     @Override
     public List<HistoryView> getHistoryForPatientId(UUID patientId){
+        System.out.println("testing by patientId: "+patientId);
         return historyRepository.findByPatientId(patientId).stream()
                 .map(History::toView)
                 .collect(Collectors.toList());
@@ -86,12 +89,12 @@ public class HistoryServiceImpl implements HistoryService {
     //need to fix this one too
     @Override
     @Transactional
-    public HistoryView addHistory(UUID patientId, UUID assignmentId, Time startTime, Time endTime){
+    public HistoryView addHistory(UUID patientId, UUID assignmentId, Date startTime, Date endTime){
         Assignment assignment = assignmentRepository.findOne(assignmentId);
         History toAdd = new History();
 
 
-        toAdd.setAssignmentId(assignment);
+        toAdd.setAssignment(assignment);
         toAdd.setTimeEnd(startTime);
         toAdd.setTimeEnd(endTime);
 
