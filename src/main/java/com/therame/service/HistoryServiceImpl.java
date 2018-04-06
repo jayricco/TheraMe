@@ -47,7 +47,7 @@ public class HistoryServiceImpl implements HistoryService {
 
     @Override
     public List<FeedbackView> getFeedbackForPatientId(UUID patientId){
-        return feedbackRepository.findByPatientId(userRepository.findOne(patientId)).stream()
+        return feedbackRepository.findByPatientId(patientId).stream()
                 .map(Feedback::toView)
                 .collect(Collectors.toList());
     }
@@ -90,6 +90,7 @@ public class HistoryServiceImpl implements HistoryService {
         toAdd.setPatient(patient);
         toAdd.setTherapist(patient.getTherapist());
         toAdd.setCompleted(true);
+        //toAdd.setResponse(new Feedback());
 
         return historyRepository.save(toAdd).toView();
     }

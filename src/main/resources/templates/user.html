@@ -8,6 +8,7 @@
         <link th:href="@{css/style.css}" rel="stylesheet" type="text/css"/>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
         <script th:src="@{/js/nanobar.min.js}"></script>
     </head>
     <body>
@@ -26,6 +27,9 @@
                                 <a th:if="${forUser.therapist != null}" th:text="${forUser.therapist.firstName + ' ' + forUser.therapist.lastName}" th:href="@{/user(id=${forUser.therapist.id})}"></a>
                                 <a th:if="${forUser.therapist == null}">N/A</a>
                             </span>
+                            <div id = "user-history-body">
+                                <!-- populated by JS -->
+                            </div>
                         </div>
                         <div>
                             <button class="btn btn-primary btn-block">Deactivate User</button>
@@ -34,6 +38,9 @@
                     <div class="row" id="user-issues-section">
                         <div class="col">
                             <h2 class="divider-bottom">Issues</h2>
+                            <div class="table" id = "issue-table-body">
+                                <!-- Populated by JS -->
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -105,6 +112,36 @@
                     <span class="close">&plus;</span>
                 </button>
             </div>
+        </div>
+
+        <div class="row" id="user-history-template">
+            <div class="col-auto">
+                <p id = "user-history-day0" align="center"></p>
+            </div>
+            <div class="col-auto">
+                <p id = "user-history-day1" align="center"></p>
+            </div>
+            <div class="col-auto">
+                <p id = "user-history-day2" align="center"></p>
+            </div>
+            <div class="col-auto">
+                <p id = "user-history-day3" align="center"></p>
+            </div>
+            <div class="col-auto">
+                <p id = "user-history-day4" align="center"></p>
+            </div>
+            <div class="col-auto">
+                <p id = "user-history-day5" align="center"></p>
+            </div>
+            <div class="col-auto">
+                <p id = "user-history-day6" align="center"></p>
+            </div>
+        </div>
+
+        <div class="hidden" id="issue-entry-template">
+            <h4 id="issue-exercise-name"></h4>
+            <p id = "issue-text-body"></p>
+            <hr>
         </div>
         <script th:src="@{/js/user.js}"></script>
     </body>

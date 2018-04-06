@@ -12,4 +12,6 @@ public class FeedbackView {
     private Time timestamp;
     private Time videoTime;
     private String comments;
+    private UserView patient;
+    private AssignmentView assignment;
 }

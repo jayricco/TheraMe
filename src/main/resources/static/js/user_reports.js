@@ -23,7 +23,6 @@ $(document).ready(function () {
     }
 
     function updateReports(reports) {
-        console.log(reports);
         var weekday = new Array(7);
         weekday[0] =  "Sunday";
         weekday[1] = "Monday";
@@ -50,21 +49,14 @@ $(document).ready(function () {
         for (var i = 0; i<users.length; i++){
             var element = template.clone();
             element.removeClass('hidden');
-            console.log(element);
             var date = weekAgo;
-            var count = 0;
             var day = 0;
             var total = 0;
             reports.forEach(function(report){
                 if (report.patientId.id == users[i]){
-                    if (count == 0){
-                        console.log(report.patientId.firstName+' '+report.patientId.lastName);
-                        element.find('#report-entry-name').html(report.patientId.firstName+' '+report.patientId.lastName).attr('href', baseUserHref + report.patientId.id);
-                        count++;
-                    }
                     var exerciseDate = new Date(report.timeStart);
+                    exerciseDate = new Date(exerciseDate.setHours(0, 0, 0, 0));
                     while (date < exerciseDate){
-                        console.log("Incomplete exercises: "+date);
                         element.find('#user-history-day'+day).html("<i class=\"far fa-square\"></i><br>"+weekday[date.getDay()]);
                         date = new Date(date.getTime() + 1 * 24 * 60 * 60 * 1000);
                         day++;
@@ -83,12 +75,6 @@ $(document).ready(function () {
                     }
                 }
             })
-            while(date <= today && day < 7){
-                console.log("Incomplete exercises: "+date);
-                element.find('#user-history-day'+day).html("<i class=\"far fa-square\"></i><br>"+weekday[date.getDay()]);
-                date = new Date(date.getTime() + 1 * 24 * 60 * 60 * 1000);
-                day++;
-            }
             element.find('#user-history-title').html("You've completed your exercises "+total+" out of the last 7 days.");
             entryContainer.append(element);
         }

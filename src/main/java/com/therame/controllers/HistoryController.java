@@ -56,8 +56,8 @@ public class HistoryController {
     }
 
     @GetMapping("/api/history/feedback")
-    public ResponseEntity<?> getFeedbackForPatientId(@RequestParam("id") String userId){
-        List<FeedbackView> feedback = historyService.getFeedbackForPatientId(Base64Converter.fromUrlSafeString(userId));
+    public ResponseEntity<?> getFeedbackForPatientId(@RequestParam("patient_id") String patientId){
+        List<FeedbackView> feedback = historyService.getFeedbackForPatientId(Base64Converter.fromUrlSafeString(patientId));
         return ResponseEntity.ok(feedback);
     }
 

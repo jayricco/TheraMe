@@ -215,7 +215,7 @@
 }
 
 #user-issues-section {
-    margin-top: 15%;
+    margin-top: 25px;
 }
 
 .text-only-button {
@@ -327,5 +327,10 @@ h1{
 #reportTable{
     padding: 25px;
     margin: 25px;
+}
+
+#user-history-body{
+    margin-top:25px;
+    margin-bottom: 0px;
 }
 

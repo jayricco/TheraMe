@@ -14,5 +14,5 @@ public class HistoryView {
     private Date timeStart;
     private Date timeEnd;
     private boolean completed;
-    private HistoryView responseId;
+    private FeedbackView responseId;
 }

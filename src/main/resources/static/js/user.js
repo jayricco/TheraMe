@@ -3,8 +3,12 @@ $(document).ready(function () {
 
     var userId = getParameterByName('id');
     var baseAssignmentsUrl = '/api/assignments/user?id=' + userId;
+    var baseFeedbackUrl = '/api/history/feedback?patient_id='+userId;
+    var baseHistoryUrl = '/api/history/specificpatient?id='+userId;
 
     getAssignments(baseAssignmentsUrl);
+    getFeedback(baseFeedbackUrl);
+    getHistory(baseHistoryUrl);
 
     searchExercises('');
 
@@ -99,6 +103,34 @@ $(document).ready(function () {
         });
     }
 
+    function getFeedback(requestUrl){
+        $.ajax({
+            url: requestUrl,
+            method: 'GET',
+            cache: false,
+            success: function(data){
+                updateFeedback(data);
+            },
+            error: function(){
+
+            }
+        })
+    }
+
+    function getHistory(requestUrl){
+        $.ajax({
+            url: requestUrl,
+            method: 'GET',
+            cache: false,
+            success: function(data){
+                updateHistory(data);
+            },
+            error: function(){
+
+            }
+        })
+    }
+
     function updateAssignmentsList(assignments, shouldClear) {
         var assignmentsContainer = $('#user-exercises-list');
 
@@ -132,5 +164,77 @@ $(document).ready(function () {
 
             assignmentsContainer.append(element);
         })
+    }
+
+    function updateFeedback(feedback){
+        var feedbackContainer = $('#issue-table-body');
+        var template = $('#issue-entry-template');
+        feedback.forEach(function (feedback){
+            var element = template.clone();
+            element.removeClass('hidden');
+            element.find('#issue-exercise-name').html(feedback.assignment.exercise.title);
+            element.find('#issue-text-body').html(feedback.comments);
+            feedbackContainer.append(element);
+        })
+    }
+
+    function updateHistory(history) {
+        console.log(history);
+        var weekday = new Array(7);
+        weekday[0] = "Sunday";
+        weekday[1] = "Monday";
+        weekday[2] = "Tuesday";
+        weekday[3] = "Wednesday";
+        weekday[4] = "Thursday";
+        weekday[5] = "Friday";
+        weekday[6] = "Saturday";
+        var entryContainer = $('#user-history-body');
+        entryContainer.empty();
+        var template = $('#user-history-template');
+        var users = "";
+        var today = new Date();
+        today.setHours(0, 0, 0, 0);
+        var weekAgo = new Date(today.getTime() - 6 * 24 * 60 * 60 * 1000);
+        var arr = [];
+        history.forEach(function (history) {
+            arr.push(history.patientId.id);
+        })
+        var users = [];
+        $.each(arr, function (i, el) {
+            if ($.inArray(el, users) === -1) users.push(el);
+        });
+        for (var i = 0; i < users.length; i++) {
+            var element = template.clone();
+            element.removeClass('hidden');
+            var date = weekAgo;
+            var day = 0;
+            var total = 0;
+            history.forEach(function (history) {
+                console.log("Week ago: " + weekAgo);
+                if (history.patientId.id == users[i]) {
+                    var exerciseDate = new Date(history.timeStart);
+                    exerciseDate = new Date(exerciseDate.setHours(0, 0, 0, 0));
+                    while (date < exerciseDate) {
+                        element.find('#user-history-day' + day).html("<i class=\"far fa-square\"></i><br>" + weekday[date.getDay()]);
+                        date = new Date(date.getTime() + 1 * 24 * 60 * 60 * 1000);
+                        day++;
+                    }
+                    console.log(date.getTime());
+                    console.log(exerciseDate.getTime());
+                    if (date.getTime() == exerciseDate.getTime()) {
+                        if (history.completed) {
+                            element.find('#user-history-day' + day).html("<i class=\"far fa-check-square\"></i><br>" + weekday[date.getDay()]);
+                            total++;
+                        }
+                        else {
+                            element.find('#user-history-day' + day).html("<i class=\"far fa-square\"></i><br>" + weekday[date.getDay()]);
+                        }
+                        day++;
+                        date = new Date(date.getTime() + 1 * 24 * 60 * 60 * 1000);
+                    }
+                }
+            })
+            entryContainer.append(element);
+        }
     }
 });
