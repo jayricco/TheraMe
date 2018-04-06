@@ -6,12 +6,9 @@ import com.therame.view.HistoryView;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.TransactionScoped;
-import java.sql.Time;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -35,15 +32,7 @@ public class HistoryServiceImpl implements HistoryService {
     }
 
     @Override
-    public List<HistoryView> getHistoryForCurrentUser(UUID patientId){
-        return historyRepository.findByPatientId(patientId).stream()
-                .map(History::toView)
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public List<HistoryView> getHistoryForPatientId(UUID patientId){
-        System.out.println("testing by patientId: "+patientId);
         return historyRepository.findByPatientId(patientId).stream()
                 .map(History::toView)
                 .collect(Collectors.toList());
@@ -71,13 +60,13 @@ public class HistoryServiceImpl implements HistoryService {
         User user = userRepository.findOne(patientId);
         Exercise exercise = exerciseRepository.findOne(exerciseId);
 
-        if (user == null){
+        if (user == null) {
             throw new IllegalArgumentException("User not found!");
         }
-        else if (exercise == null){
+        else if (exercise == null) {
             throw new IllegalArgumentException("Exercise not found!");
         }
-        else if (feedback == ""){
+        else if (feedback == null || feedback.isEmpty()) {
             throw new IllegalArgumentException("Feedback not provided!");
         }
 
@@ -86,17 +75,21 @@ public class HistoryServiceImpl implements HistoryService {
         return feedbackRepository.save(toAdd).toView();
     }
 
-    //need to fix this one too
     @Override
     @Transactional
-    public HistoryView addHistory(UUID patientId, UUID assignmentId, Date startTime, Date endTime){
-        Assignment assignment = assignmentRepository.findOne(assignmentId);
+    public HistoryView addHistory(UUID patientId, UUID assignmentId) {
+        Assignment assignment = Objects.requireNonNull(assignmentRepository.findOne(assignmentId));
+        User patient = Objects.requireNonNull(userRepository.findOne(patientId));
+
         History toAdd = new History();
 
-
+        // I'm not sure what start time is useful for, so just setting it at the same time as end time for now...
+        toAdd.setTimeStart(new Date());
+        toAdd.setTimeEnd(new Date());
         toAdd.setAssignment(assignment);
-        toAdd.setTimeEnd(startTime);
-        toAdd.setTimeEnd(endTime);
+        toAdd.setPatient(patient);
+        toAdd.setTherapist(patient.getTherapist());
+        toAdd.setCompleted(true);
 
         return historyRepository.save(toAdd).toView();
     }

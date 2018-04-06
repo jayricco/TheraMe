@@ -8,8 +8,15 @@ $(document).ready(function () {
     getAssignments();
 
     $('video').on('ended',function() {
+        recordHistory(assignments[0]);
         playNextVideo(true);
     });
+
+    function recordHistory(assignment) {
+        $.post("/api/history/add", {'assignmentId': assignment.id}, function() {
+            // success
+        })
+    }
 
     function playNextVideo(autoPlay) {
         if (assignments.length <= 0) {

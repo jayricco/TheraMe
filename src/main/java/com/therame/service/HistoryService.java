@@ -1,19 +1,12 @@
 package com.therame.service;
 
-import com.therame.model.Exercise;
-import com.therame.model.Feedback;
 import com.therame.view.FeedbackView;
 import com.therame.view.HistoryView;
 
-import java.sql.Time;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface HistoryService {
-
-    List<HistoryView> getHistoryForCurrentUser(UUID patientId);
 
     List<HistoryView> getHistoryForPatientId(UUID patientId);
 
@@ -21,7 +14,7 @@ public interface HistoryService {
 
     FeedbackView addFeedback(UUID patientId, UUID exerciseId, String feedback);
 
-    HistoryView addHistory(UUID patientId, UUID assignmentId, Date startTime, Date endTime);
+    HistoryView addHistory(UUID patientId, UUID assignmentId);
 
     List<FeedbackView> getFeedbackForPatientId(UUID patientId);
 

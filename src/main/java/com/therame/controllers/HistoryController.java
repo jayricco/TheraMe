@@ -1,7 +1,6 @@
 package com.therame.controllers;
 
 import com.therame.model.DetailedUserDetails;
-import com.therame.model.Feedback;
 import com.therame.service.HistoryService;
 import com.therame.util.Base64Converter;
 import com.therame.view.FeedbackView;
@@ -10,13 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.sql.Time;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -40,16 +36,15 @@ public class HistoryController {
         return ResponseEntity.ok(history);
     }
 
-    @GetMapping("api/history/specificpatient")
+    @GetMapping("/api/history/specificpatient")
     public ResponseEntity<?> getHistoryForPatientId(@RequestParam("id") String userId){
         List<HistoryView> history = historyService.getHistoryForPatientId(Base64Converter.fromUrlSafeString(userId));
         return ResponseEntity.ok(history);
     }
 
     @PostMapping("/api/history/add")
-    public ResponseEntity<?> addHistoryForUser(@RequestParam("id") String userId, @RequestParam("exerciseId") String exerciseId,
-                                               @RequestParam("startTime") Time startTime, @RequestParam("endTime") Time endTime) {
-        HistoryView addedHistory = historyService.addHistory(Base64Converter.fromUrlSafeString(userId), Base64Converter.fromUrlSafeString(exerciseId), startTime, endTime);
+    public ResponseEntity<?> addHistoryForUser(@RequestParam("assignmentId") String assignmentId, @AuthenticationPrincipal DetailedUserDetails userDetails) {
+        HistoryView addedHistory = historyService.addHistory(userDetails.getUser().getId(), Base64Converter.fromUrlSafeString(assignmentId));
         return ResponseEntity.ok(addedHistory);
     }
 
