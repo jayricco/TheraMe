@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public Optional<User> findByConfirmationToken(String confirmationToken) {
-        return Optional.empty();
+        return userRepo.findByConfirmationToken(confirmationToken);
     }
 
     @Override
@@ -73,12 +73,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User createRootUser(User user) {
-        return null;
+        userRepo.save(user);
+        return user;
     }
 
     @Override
     public User saveUser(User user) {
-        return null;
+        userRepo.save(user);
+        return user;
     }
 
     @Override

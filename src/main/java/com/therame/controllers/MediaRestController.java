@@ -41,6 +41,7 @@ public class MediaRestController {
                          @RequestParam("id") String id) throws ServletException, IOException {
         request.setAttribute("resource-name", id);
         request.setAttribute("resource-type", "video");
+        System.out.println("Grabbing video with ID: " + id);
         mediaResolverService.handleRequest(request, response);
     }
 

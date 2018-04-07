@@ -6,6 +6,8 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
+import org.springframework.data.solr.core.mapping.Indexed;
+import org.springframework.data.solr.core.mapping.SolrDocument;
 
 import javax.annotation.Nullable;
 import javax.persistence.*;
@@ -14,6 +16,7 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "exercise")
+@SolrDocument(solrCoreName = "exercise")
 public class Exercise {
 
     @Id
@@ -23,13 +26,16 @@ public class Exercise {
             strategy = "org.hibernate.id.UUIDGenerator"
     )
     @Column(name = "id", updatable = false, nullable = false)
+    @Indexed(name = "id", type = "uuid", readonly = true)
     private UUID id;
 
     @NotEmpty
     @Column(name = "title", nullable = false)
+    @Indexed(name = "title", type = "string")
     private String title;
 
     @Column(name = "description", length = 8192)
+    @Indexed(name = "description", type = "string")
     private String description;
 
     @URL
@@ -47,6 +53,7 @@ public class Exercise {
     @Nullable
     @ManyToOne
     @JoinColumn(name = "provider_id")
+    @Indexed(name = "provider", type = "string")
     private Provider provider;
 
     public ExerciseView toView() {

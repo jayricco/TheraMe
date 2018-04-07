@@ -87,7 +87,7 @@ public class HistoryServiceImpl implements HistoryService {
         History toAdd = new History();
         toAdd.setAssignment(assignment);
         toAdd.setPatientId(assignment.getPatient());
-        toAdd.setTherapistId(assignment.getTherapist());
+        toAdd.setTherapistId(assignment.getPatient().getTherapist());
         toAdd.setTimeEnd(startTime);
         toAdd.setTimeEnd(endTime);
 

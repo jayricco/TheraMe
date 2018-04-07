@@ -60,7 +60,7 @@ public class History implements java.io.Serializable {
     public HistoryView toView() {
         HistoryView view = new HistoryView();
         view.setId(Base64Converter.toUrlSafeString(id));
-        view.setTherapistId(Base64Converter.toUrlSafeString(assignment.getTherapist().getId()));
+        view.setTherapistId(Base64Converter.toUrlSafeString(assignment.getPatient().getTherapist().getId()));
         view.setPatientId(Base64Converter.toUrlSafeString(assignment.getPatient().getId()));
         view.setAssignmentId(Base64Converter.toUrlSafeString(assignment.getId()));
         view.setTimeStart(timeStart);

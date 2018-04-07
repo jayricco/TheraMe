@@ -1,7 +1,8 @@
 package com.therame;
 
+import com.therame.model.User;
 import com.therame.repository.jpa.ExerciseRepository;
-import com.therame.repository.solr.SolrExerciseDetailRepository;
+import com.therame.repository.jpa.UserRepository;
 import com.therame.repository.solr.SolrUserRepository;
 import org.apache.catalina.Context;
 import org.apache.catalina.connector.Connector;
@@ -21,7 +22,13 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.solr.repository.config.EnableSolrRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @SpringBootApplication
@@ -34,6 +41,12 @@ public class ApplicationMain {
         SpringApplication.run(ApplicationMain.class, args);
 
 
+    }
+
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -64,4 +77,40 @@ public class ApplicationMain {
 
         return connector;
     }
+
+    private User createAndInitUser(String email, String firstName, String lastName,
+                                   String unencryptedPassword, User.Type type, User therapist) {
+        User newUser = new User();
+        newUser.generateConfirmationToken();
+        newUser.setActive(true);
+        newUser.setEnabled(true);
+        newUser.setEmail(email);
+        newUser.setFirstName(firstName);
+        newUser.setLastName(lastName);
+        newUser.setType(type);
+        newUser.setTherapist(therapist);
+        newUser.setPassword(passwordEncoder().encode(unencryptedPassword));
+        return newUser;
+    }
+
+    @Bean
+    public CommandLineRunner loadInitialUsers(UserRepository userRepository) {
+        return (args) -> {
+
+            ArrayList<User> initUsers = new ArrayList<>();
+            initUsers.add(
+            createAndInitUser("jayericco@gmail.com",
+                            "Jay", "Ricco",
+                            "hulkhoganisgod",
+                            User.Type.PATIENT, null));
+
+            /*initUsers.forEach(user -> {
+                System.out.println(user);
+                userRepository.findByEmail(user.getEmail())
+                        .ifPresent(existingUser -> {System.out.println(existingUser); userRepository.delete(existingUser);});
+                userRepository.save(user);
+            });*/
+        };
+    }
+
 }

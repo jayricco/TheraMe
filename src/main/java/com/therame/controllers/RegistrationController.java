@@ -2,11 +2,15 @@ package com.therame.controllers;
 
 import com.nulabinc.zxcvbn.Strength;
 import com.nulabinc.zxcvbn.Zxcvbn;
+import com.therame.model.DetailedUserDetails;
 import com.therame.model.User;
 import com.therame.service.EmailService;
 import com.therame.service.UserService;
+import com.therame.util.Base64Converter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -27,7 +31,7 @@ import java.util.UUID;
 public class RegistrationController {
 
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserService userService;
@@ -42,9 +46,11 @@ public class RegistrationController {
         return modelAndView;
     }
 
+    @PreAuthorize("hasAnyAuthority('THERAPIST', 'ADMIN')")
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ModelAndView processRegistrationForm(ModelAndView modelAndView, @Valid User user,
-        BindingResult bindingResult, HttpServletRequest request) {
+                                                BindingResult bindingResult, HttpServletRequest request,
+                                                @AuthenticationPrincipal DetailedUserDetails creator) {
         //lookup by email
         Optional<User> userOptional = userService.findUserByEmail(user.getEmail());
         System.out.println(userOptional.toString());
@@ -59,11 +65,19 @@ public class RegistrationController {
             modelAndView.setViewName("register");
         }
         else {
+            System.out.println(creator);
+            if(creator != null) {
+                if (creator.getUser().getType() == User.Type.THERAPIST) {
+                    user.setTherapist(creator.getUser());
+                }
+            } else {
+                System.out.println("creator is null!");
+            }
             //case of new user, never before seen
             user.setEnabled(false);
             user.setActive(false);
 
-            user.setConfirmationToken(UUID.randomUUID().toString());
+            user.generateConfirmationToken();
 
             userService.createRootUser(user);
 
@@ -86,17 +100,23 @@ public class RegistrationController {
     // Set up a point to process confirmation
     @RequestMapping(value="/confirm", method = RequestMethod.GET)
     public ModelAndView showConfirmationPage(ModelAndView modelAndView, @RequestParam("token") String token) {
-        Optional<User> userOptional = userService.findByConfirmationToken(token);
+        if(token != null || !token.isEmpty()){
+            Optional<User> userOptional = userService.findByConfirmationToken(token);
 
-        if(userOptional.isPresent())
-        {
-            modelAndView.addObject("confirmationToken", userOptional.get().getConfirmationToken());
+            if(userOptional.isPresent())
+            {
+                modelAndView.addObject("confirmationToken", userOptional.get().getConfirmationToken());
+            }
+            else {
+                modelAndView.addObject("invalidToken", "This is an invalid link...?");
+            }
+            modelAndView.setViewName("confirm");
+
+            return modelAndView;
+        } else {
+            modelAndView.setViewName("redirect:/");
+            return modelAndView;
         }
-        else {
-            modelAndView.addObject("invalidToken", "This is an invalid link...?");
-        }
-        modelAndView.setViewName("confirm");
-        return modelAndView;
     }
 
     // Process confirmation link.
@@ -113,7 +133,6 @@ public class RegistrationController {
             redirect.addFlashAttribute("errorMessage", "Your password is too weak.");
 
             modelAndView.setViewName("redirect:confirm?token=" + requestParams.get("token"));
-            System.out.println(requestParams.get("token"));
             return modelAndView;
         }
         if (!requestParams.get("password").contentEquals(requestParams.get("passwordConfirm")))
@@ -122,7 +141,6 @@ public class RegistrationController {
             bindingResult.reject("passwordConfirm");
             redirect.addFlashAttribute("errorMessage", "Your entries for new password confirmation do not match!");
             modelAndView.setViewName("redirect:confirm?token=" + requestParams.get("token"));
-            System.out.println(requestParams.get("token"));
             return modelAndView;
         }
 
@@ -135,8 +153,10 @@ public class RegistrationController {
         user.setPassword(passwordEncoder.encode(requestParams.get("password")));
         user.setActive(true);
         user.setEnabled(true);
+        user.setConfirmationToken(null);
         userService.saveUser(user);
         modelAndView.addObject("successMessage", "Your password has been set successfully!");
+
         return modelAndView;
     }
 }

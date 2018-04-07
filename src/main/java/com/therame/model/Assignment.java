@@ -42,6 +42,7 @@ public class Assignment {
     @JoinColumn(name = "therapist_id")
     private User therapist;
 
+
     @NotNull
     @ManyToOne
     @JoinColumn(name = "exercise_id")
@@ -56,7 +57,7 @@ public class Assignment {
 
     @OneToOne
     @JoinColumn(name = "last_completed", referencedColumnName = "id")
-    private History last_completed;
+    private History lastCompleted;
 
 
     public AssignmentView toView() {

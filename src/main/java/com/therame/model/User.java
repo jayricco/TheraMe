@@ -11,9 +11,11 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.solr.core.mapping.Indexed;
 import org.springframework.data.solr.core.mapping.SolrDocument;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.thymeleaf.util.StringUtils;
 
 import java.util.Date;
@@ -65,7 +67,7 @@ public class User {
     @Enumerated
     private Type type;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "pt_id")
     private User therapist;
 
@@ -110,8 +112,16 @@ public class User {
 
         if (therapist != null) {
             view.setTherapist(therapist.toView());
+        } else {
+            view.setTherapist(null);
         }
 
         return view;
+    }
+
+    public String generateConfirmationToken() {
+        String token = Base64Converter.toUrlSafeString(UUID.randomUUID());
+        setConfirmationToken(token);
+        return token;
     }
 }

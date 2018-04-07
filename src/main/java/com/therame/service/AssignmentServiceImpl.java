@@ -61,6 +61,7 @@ public class AssignmentServiceImpl implements AssignmentService {
         }
 
         toCreate.setPatient(user);
+        toCreate.setTherapist(user.getTherapist());
         toCreate.setExercise(exercise);
 
         return assignmentRepository.save(toCreate).toView();
