@@ -26,7 +26,7 @@ public class AssignmentController {
 
     @GetMapping("/api/assignments")
     public ResponseEntity<?> getAssignmentsForCurrentUser(@AuthenticationPrincipal DetailedUserDetails userDetails) {
-        List<AssignmentView> assignments = assignmentService.getForPatientId(userDetails.getUser().getId());
+        List<AssignmentView> assignments = assignmentService.getIncompleteForPatientId(userDetails.getUser().getId());
         return ResponseEntity.ok(assignments);
     }
 

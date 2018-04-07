@@ -12,6 +12,8 @@ public interface AssignmentService {
 
     List<AssignmentView> getForPatientId(UUID patientId);
 
+    List<AssignmentView> getIncompleteForPatientId(UUID patientId);
+
     AssignmentView createAssignment(UUID patientId, UUID exerciseId, int order);
 
     void deleteAssignment(UUID assignmentId);

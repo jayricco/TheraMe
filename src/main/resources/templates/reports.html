@@ -1,92 +1,60 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Patient Reports</title>
-    <link href="/img/favicon.ico" rel="shortcut icon"/>
+    <meta charset="UTF-8">
+    <title>Reports</title>
+    <link th:href="@{img/favicon.ico}" rel="shortcut icon"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
-    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script th:src="@{/js/nanobar.min.js}"></script>
     <link th:href="@{css/style.css}" rel="stylesheet" type="text/css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script th:src="@{/js/nanobar.min.js}"></script>
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
 </head>
 <body>
 <div th:replace="fragments/header :: header">
     <!-- Header will be inserted here -->
 </div>
-<div class="container" id="reportTable">
-<table class="table">
-    <thead>
-    <tr>
-        <th scope="col"><h2>Reports</h2></th>
-    </tr>
-    </thead>
-    <tbody id="user-table-body">
-    <tr>
-        <th><h4>Emma Findlay-Walters</h4></th>
-        <th><p align="center"><i class="far fa-check-square"></i><br>Monday</p></th>
-        <th><p align="center"><i class="far fa-square"></i><br>Tuesday</p></th>
-        <th><p align="center"><i class="far fa-check-square"></i><br>Wednesday</p></th>
-        <th><p align="center"><i class="far fa-check-square"></i><br>Thursday</p></th>
-        <th><p align="center"><i class="far fa-square"></i><br>Friday</p></th>
-        <th><p align="center"><i class="far fa-square"></i><br>Saturday</p></th>
-        <th><p align="center"><i class="far fa-check-square"></i><br>Sunday</p></th>
-    </tr>
-    <tr>
-        <th><h4>Jay Ricco</h4></th>
-        <th><p align="center"><i class="far fa-check-square"></i><br>Monday</p></th>
-        <th><p align="center"><i class="far fa-check-square"></i><br>Tuesday</p></th>
-        <th><p align="center"><i class="far fa-square"></i><br>Wednesday</p></th>
-        <th><p align="center"><i class="far fa-check-square"></i><br>Thursday</p></th>
-        <th><p align="center"><i class="far fa-check-square"></i><br>Friday</p></th>
-        <th><p align="center"><i class="far fa-check-square"></i><br>Saturday</p></th>
-        <th><p align="center"><i class="far fa-square"></i><br>Sunday</p></th>
-    </tr>
-    <tr>
-        <th><h4>Joe O'Hara</h4></th>
-        <th><p align="center"><i class="far fa-check-square"></i><br>Monday</p></th>
-        <th><p align="center"><i class="far fa-square"></i><br>Tuesday</p></th>
-        <th><p align="center"><i class="far fa-check-square"></i><br>Wednesday</p></th>
-        <th><p align="center"><i class="far fa-check-square"></i><br>Thursday</p></th>
-        <th><p align="center"><i class="far fa-square"></i><br>Friday</p></th>
-        <th><p align="center"><i class="far fa-square"></i><br>Saturday</p></th>
-        <th><p align="center"><i class="far fa-check-square"></i><br>Sunday</p></th>
-    </tr>
-    <tr>
-        <th><h4>Georgia Selfridge</h4></th>
-        <th><p align="center"><i class="far fa-square"></i><br>Monday</p></th>
-        <th><p align="center"><i class="far fa-square"></i><br>Tuesday</p></th>
-        <th><p align="center"><i class="far fa-square"></i><br>Wednesday</p></th>
-        <th><p align="center"><i class="far fa-check-square"></i><br>Thursday</p></th>
-        <th><p align="center"><i class="far fa-square"></i><br>Friday</p></th>
-        <th><p align="center"><i class="far fa-check-square"></i><br>Saturday</p></th>
-        <th><p align="center"><i class="far fa-check-square"></i><br>Sunday</p></th>
-    </tr>
-    <tr>
-        <th><h4>William Burns</h4></th>
-        <th><p align="center"><i class="far fa-check-square"></i><br>Monday</p></th>
-        <th><p align="center"><i class="far fa-check-square"></i><br>Tuesday</p></th>
-        <th><p align="center"><i class="far fa-check-square"></i><br>Wednesday</p></th>
-        <th><p align="center"><i class="far fa-square"></i><br>Thursday</p></th>
-        <th><p align="center"><i class="far fa-square"></i><br>Friday</p></th>
-        <th><p align="center"><i class="far fa-check-square"></i><br>Saturday</p></th>
-        <th><p align="center"><i class="far fa-square"></i><br>Sunday</p></th>
-    </tr>
-    <tr>
-        <th><h4>Danny King</h4></th>
-        <th><p align="center"><i class="far fa-square"></i><br>Monday</p></th>
-        <th><p align="center"><i class="far fa-check-square"></i><br>Tuesday</p></th>
-        <th><p align="center"><i class="far fa-check-square"></i><br>Wednesday</p></th>
-        <th><p align="center"><i class="far fa-check-square"></i><br>Thursday</p></th>
-        <th><p align="center"><i class="far fa-square"></i><br>Friday</p></th>
-        <th><p align="center"><i class="far fa-square"></i><br>Saturday</p></th>
-        <th><p align="center"><i class="far fa-check-square"></i><br>Sunday</p></th>
+<div class="container">
+    <div class="row divider-bottom" id="results-header">
+        <h3>Reports</h3>
+    </div>
+    <table class="table">
+        <tbody id="report-table-body">
+        <!-- Populated by JS -->
+        </tbody>
+    </table>
+</div>
+<table class="hidden">
+    <tbody>
+    <tr id="report-entry-template">
+        <td>
+            <a id="report-entry-name"></a>
+        </td>
+        <td>
+            <p id="report-entry-day0" align="center"></p>
+        </td>
+        <td>
+            <p id="report-entry-day1" align="center"></p>
+        </td>
+        <td>
+            <p id="report-entry-day2" align="center"></p>
+        </td>
+        <td>
+            <p id="report-entry-day3" align="center"></p>
+        </td>
+        <td>
+            <p id="report-entry-day4" align="center"></p>
+        </td>
+        <td>
+            <p id="report-entry-day5" align="center"></p>
+        </td>
+        <td>
+            <p id="report-entry-day6" align="center"></p>
+        </td>
     </tr>
     </tbody>
 </table>
-</div>
-</div>
+<script th:src="@{/js/reports.js}"></script>
 </body>
 </html>

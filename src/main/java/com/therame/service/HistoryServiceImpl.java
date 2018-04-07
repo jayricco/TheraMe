@@ -1,14 +1,14 @@
 package com.therame.service;
 
 import com.therame.model.*;
-import com.therame.repository.jpa.*;
 import com.therame.view.FeedbackView;
 import com.therame.view.HistoryView;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Time;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -22,29 +22,32 @@ public class HistoryServiceImpl implements HistoryService {
     private FeedbackRepository feedbackRepository;
 
     public HistoryServiceImpl(AssignmentRepository assignmentRepository, ExerciseRepository exerciseRepository,
-                              UserRepository userRepository) {
+                              UserRepository userRepository, HistoryRepository historyRepository,
+                              FeedbackRepository feedbackRepository) {
         this.assignmentRepository = assignmentRepository;
         this.exerciseRepository = exerciseRepository;
         this.userRepository = userRepository;
+        this.historyRepository = historyRepository;
+        this.feedbackRepository = feedbackRepository;
     }
 
     @Override
     public List<HistoryView> getHistoryForPatientId(UUID patientId){
-        return historyRepository.findByPatientId(userRepository.findOne(patientId)).stream()
+        return historyRepository.findByPatientId(patientId).stream()
                 .map(History::toView)
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<HistoryView> getForAllPatients(UUID therapistId){
-        return historyRepository.findByTherapistId(userRepository.findOne(therapistId)).stream()
+        return historyRepository.findByTherapistId(therapistId).stream()
                 .map(History::toView)
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<FeedbackView> getFeedbackForPatientId(UUID patientId){
-        return feedbackRepository.findByPatient(userRepository.getOne(patientId)).stream()
+        return feedbackRepository.findByPatientId(patientId).stream()
                 .map(Feedback::toView)
                 .collect(Collectors.toList());
     }
@@ -54,17 +57,16 @@ public class HistoryServiceImpl implements HistoryService {
     @Transactional
     public FeedbackView addFeedback(UUID patientId, UUID exerciseId, String feedback){
         Feedback toAdd = new Feedback();
-
         User user = userRepository.findOne(patientId);
         Exercise exercise = exerciseRepository.findOne(exerciseId);
 
-        if (user == null){
+        if (user == null) {
             throw new IllegalArgumentException("User not found!");
         }
-        else if (exercise == null){
+        else if (exercise == null) {
             throw new IllegalArgumentException("Exercise not found!");
         }
-        else if (feedback == ""){
+        else if (feedback == null || feedback.isEmpty()) {
             throw new IllegalArgumentException("Feedback not provided!");
         }
 
@@ -74,22 +76,21 @@ public class HistoryServiceImpl implements HistoryService {
     }
 
     @Override
-    public List<HistoryView> getAllHistoryEntries() {
-       return historyRepository.findAll().stream()
-                .map(History::toView)
-                .collect(Collectors.toList());
-    }
-
-    //need to fix this one too
-    @Override
     @Transactional
-    public HistoryView addHistory(Assignment assignment, Time startTime, Time endTime){
+    public HistoryView addHistory(UUID patientId, UUID assignmentId) {
+        Assignment assignment = Objects.requireNonNull(assignmentRepository.findOne(assignmentId));
+        User patient = Objects.requireNonNull(userRepository.findOne(patientId));
+
         History toAdd = new History();
+
+        // I'm not sure what start time is useful for, so just setting it at the same time as end time for now...
+        toAdd.setTimeStart(new Date());
+        toAdd.setTimeEnd(new Date());
         toAdd.setAssignment(assignment);
-        toAdd.setPatientId(assignment.getPatient());
-        toAdd.setTherapistId(assignment.getPatient().getTherapist());
-        toAdd.setTimeEnd(startTime);
-        toAdd.setTimeEnd(endTime);
+        toAdd.setPatient(patient);
+        toAdd.setTherapist(patient.getTherapist());
+        toAdd.setCompleted(true);
+        //toAdd.setResponse(new Feedback());
 
         return historyRepository.save(toAdd).toView();
     }

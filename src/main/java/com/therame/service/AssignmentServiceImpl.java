@@ -47,6 +47,13 @@ public class AssignmentServiceImpl implements AssignmentService {
 
 
     @Override
+    public List<AssignmentView> getIncompleteForPatientId(UUID patientId) {
+        return assignmentRepository.findIncompleteByPatientId(patientId).stream()
+                .map(Assignment::toView)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     @Transactional
     public AssignmentView createAssignment(UUID patientId, UUID exerciseId, int order) {
         Assignment toCreate = new Assignment();
