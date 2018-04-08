@@ -2,13 +2,16 @@ package com.therame.model;
 
 import com.therame.util.Base64Converter;
 import com.therame.view.AssignmentView;
+import com.therame.view.FeedbackView;
 import com.therame.view.HistoryView;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 
+import javax.annotation.Nullable;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.sql.Time;
 import java.util.Date;
 import java.util.UUID;
@@ -54,10 +57,6 @@ public class History {
     @Column(name = "completed")
     private boolean completed;
 
-    /*@ManyToOne
-    @JoinColumn(name = "response_id")
-    private History response;*/
-
     public HistoryView toView() {
         HistoryView view = new HistoryView();
         view.setId(Base64Converter.toUrlSafeString(id));
@@ -66,7 +65,6 @@ public class History {
         view.setTimeStart(timeStart);
         view.setTimeEnd(timeEnd);
         view.setCompleted(completed);
-        //view.setResponseId(response.toView());
         return view;
     }
 }

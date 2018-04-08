@@ -14,4 +14,5 @@ public class FeedbackView {
     private String comments;
     private UserView patient;
     private AssignmentView assignment;
+    private HistoryView history;
 }

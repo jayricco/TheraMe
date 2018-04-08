@@ -6,6 +6,7 @@ import com.therame.view.HistoryView;
 import lombok.Data;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.JoinColumnOrFormula;
 
 import javax.annotation.Nullable;
 import javax.persistence.*;
@@ -54,6 +55,15 @@ public class Feedback {
     @JoinColumn(name = "pt_id")
     private User user;
 
+    @NotNull
+    @OneToOne
+    @JoinColumn(name = "assignment")
+    private Assignment assignment;
+
+    @ManyToOne
+    @JoinColumn(name ="history_id")
+    private History history;
+
 
     //fix this
     public FeedbackView toView() {
@@ -63,6 +73,9 @@ public class Feedback {
         view.setTimestamp(timestamp);
         view.setVideoTime(videoTime);
         view.setComments(comments);
+        view.setPatient(patient.toView());
+        view.setAssignment(assignment.toView());
+        view.setHistory(history.toView());
         return view;
     }
 }
