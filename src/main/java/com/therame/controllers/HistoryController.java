@@ -5,6 +5,7 @@ import com.therame.service.HistoryService;
 import com.therame.util.Base64Converter;
 import com.therame.view.FeedbackView;
 import com.therame.view.HistoryView;
+import com.therame.view.ReportView;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,20 +26,20 @@ public class HistoryController {
 
     @GetMapping("/api/history/currentuser")
     public ResponseEntity<?> getHistoryForCurrentUser(@AuthenticationPrincipal DetailedUserDetails userDetails) {
-        List<HistoryView> history = historyService.getHistoryForPatientId(userDetails.getUser().getId());
+        ReportView history = historyService.getHistoryForPatientId(userDetails.getUser().getId());
         return ResponseEntity.ok(history);
     }
 
     @PreAuthorize("hasAnyAuthority('THERAPIST', 'ADMIN')")
     @GetMapping("/api/history/allpatients")
     public ResponseEntity<?> getHistoryForAllPatients(@AuthenticationPrincipal DetailedUserDetails userDetails) {
-        List<HistoryView> history = historyService.getForAllPatients(userDetails.getUser().getId());
+        List<ReportView> history = historyService.getForAllPatients(userDetails.getUser().getId());
         return ResponseEntity.ok(history);
     }
 
     @GetMapping("/api/history/specificpatient")
-    public ResponseEntity<?> getHistoryForPatientId(@RequestParam("id") String userId){
-        List<HistoryView> history = historyService.getHistoryForPatientId(Base64Converter.fromUrlSafeString(userId));
+    public ResponseEntity<?> getHistoryForPatientId(@RequestParam("id") String userId) {
+        ReportView history = historyService.getHistoryForPatientId(Base64Converter.fromUrlSafeString(userId));
         return ResponseEntity.ok(history);
     }
 

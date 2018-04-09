@@ -15,4 +15,6 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     @Query("select u from User u where upper(concat(u.firstName, ' ', u.lastName)) like upper(concat('%', :name, '%')) and u.type in :types")
     List<User> findByNameAndType(@Param("name") String name, @Param("types") List<User.Type> types);
+
+    List<User> findAllByTherapistId(UUID therapistId);
 }

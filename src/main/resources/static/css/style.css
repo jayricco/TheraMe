@@ -303,8 +303,8 @@ a:hover {
     color: rgba(0,0,0,.6);
 }
 
-#completion-days {
-    margin-top: 15%;
+#completion-days-body {
+    margin-top: 13%;
 }
 
 #completion-check {

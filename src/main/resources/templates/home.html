@@ -25,7 +25,7 @@
             </div>
             <div class="row justify-content-center">
                 <div class="col-md-auto">
-                    <h4 class="patient-home-subtitle">You have 6 exercises to complete today.</h4>
+                    <h4 class="patient-home-subtitle" th:text="${'You have ' + numIncomplete + ' exercises to complete today.'}"></h4>
                 </div>
             </div>
             <div class="row justify-content-center">
@@ -39,10 +39,6 @@
             </div>
 
             <div id="completion-days-body">
-                <!-- populated by JS -->
-            </div>
-
-            <div class="hidden" id="user-history-template">
                 <div class = "row justify-content-center">
                     <h6 id="user-history-title" class="patient-home-subtitle" style="font-size: 20px"></h6>
                 </div>

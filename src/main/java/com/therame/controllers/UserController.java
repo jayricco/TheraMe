@@ -4,6 +4,7 @@ import javax.validation.Valid;
 
 import com.google.common.collect.ImmutableList;
 import com.therame.model.DetailedUserDetails;
+import com.therame.service.AssignmentService;
 import com.therame.util.Base64Converter;
 import com.therame.view.UserView;
 import com.therame.view.ValidationErrorView;
@@ -27,18 +28,27 @@ import java.util.Optional;
 public class UserController {
 
     private UserService userService;
+    private AssignmentService assignmentService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, AssignmentService assignmentService) {
         this.userService = userService;
+        this.assignmentService = assignmentService;
     }
 
     @GetMapping(value = "/")
-    public String home(@AuthenticationPrincipal DetailedUserDetails userDetails) {
+    public ModelAndView home(@AuthenticationPrincipal DetailedUserDetails userDetails) {
+        ModelAndView modelAndView = new ModelAndView();
+
         if (userDetails.getUser().getType() == User.Type.THERAPIST || userDetails.getUser().getType() == User.Type.ADMIN) {
-            return "pt_home";
+            modelAndView.setViewName("pt_home");
         } else {
-            return "home";
+            int numIncomplete = assignmentService.getIncompleteForPatientId(userDetails.getUser().getId()).size();
+
+            modelAndView.addObject("numIncomplete", numIncomplete);
+            modelAndView.setViewName("home");
         }
+
+        return modelAndView;
     }
 
     @RequestMapping(value="/login", method = RequestMethod.GET)
