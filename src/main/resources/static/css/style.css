@@ -70,6 +70,17 @@
     border-color: #71c720;
 }
 
+.btn-outline-primary {
+    color: #71c720;
+    border-color: #71c720;
+    border-radius: 1px;
+}
+
+.btn-outline-primary:hover, .btn-outline-primary:active, .btn-outline-primary:focus, .btn-outline-primary.active {
+    background: #7ed428 !important;
+    border-color: #7ed428 !important;
+}
+
 .form-control {
     border-radius: 1px;
 }
@@ -311,12 +322,13 @@ a:hover {
     margin-top: 3%;
 }
 
-h1{
-    font-size: 72px;
+h1 {
+    font-size: 54px;
     padding: 15px;
 }
+
 #pt-home-header {
-    margin-top: 10px;
+    margin-top: 96px;
     margin-bottom: 5px;
 }
 
@@ -366,4 +378,8 @@ h1{
 #error-body .row a {
     margin-left: auto;
     margin-right: auto;
+}
+
+#nav-button-div {
+    margin-top: 96px;
 }
