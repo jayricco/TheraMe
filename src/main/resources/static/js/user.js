@@ -206,4 +206,29 @@ $(document).ready(function () {
             }
         });
     }
+
+    $('form').submit(function(event) {
+        event.preventDefault();
+
+        var formData = $('form').serialize();
+
+        var successMessage = $('#success-message');
+        successMessage.html('').hide();
+
+        var button = $('#deactivate');
+        button.html('').hide();
+
+        $.ajax({
+            url: '/api/deactivate?id='+userId,
+            method: 'POST',
+            cache: false,
+            success: function (data) {
+                successMessage.show().html('User Deactivated Successfully!');
+                button.classList.add("disabled");
+            },
+            error: function () {
+
+            }
+        })
+    });
 });

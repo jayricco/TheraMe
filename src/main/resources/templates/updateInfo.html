@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Information</title>
+    <link th:href="@{img/favicon.ico}" rel="shortcut icon"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
+    <link th:href="@{css/style.css}" rel="stylesheet" type="text/css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</head>
+<body>
+<div th:replace="fragments/header-light :: header-light">
+    <!-- Header will be inserted here -->
+</div>
+
+<div class="container">
+    <div id="auth-form">
+        <img src="" th:src="@{img/full-logo-black-large.png}"/>
+        <div id="error-message" class="alert alert-danger hidden"></div>
+        <div id="success-message" class="alert alert-success hidden"></div>
+        <form action="#" method="post" th:object="${user}">
+            <div class="form-group">
+                <input type="email" th:field="*{email}" th:placeholder="${user.email}" class="form-control" id="email" disabled />
+            </div>
+
+            <div class="form-group">
+                <input type="text" th:field="*{firstName}" th:placeholder="${user.firstName}" class="form-control" id="firstName" />
+            </div>
+
+            <div class="form-group">
+                <input type="text" th:field="*{lastName}" th:placeholder="${user.lastName}" class="form-control" id="lastName" />
+            </div>
+
+
+            <input class="btn btn-primary btn-block" name="submit" type="submit" value="Update Information"/>
+        </form>
+    </div>
+</div>
+<script th:src="@{/js/update.js}"></script>
+</body>
+</html>

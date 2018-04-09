@@ -66,6 +66,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public User updateUser(User user){
+        return userRepo.save(user);
+    }
+
+    @Override
+    public User deactivateUser(UUID userID){
+        User user = userRepo.findOne(userID);
+        user.setActive(false);
+        userRepo.save(user);
+        return user;
+    }
+
+    @Override
     public List<UserView> findAllUsersByNameAndType(String name, List<User.Type> typeFilters) {
         DetailedUserDetails currentUser = (DetailedUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         final Provider currentUserProvider = currentUser.getUser().getProvider();
