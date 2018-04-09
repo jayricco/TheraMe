@@ -4,11 +4,13 @@ $(document).ready(function () {
     var baseRequestUrl = '/api/assignments';
     var baseVideoUrl = '/api/video?id=';
     var assignments = [];
+    var currentAssignment;
 
     getAssignments();
 
     $('video').on('ended',function() {
-        recordHistory(assignments[0]);
+        console.log('ender');
+        recordHistory(currentAssignment);
         playNextVideo(true);
     });
 
@@ -23,18 +25,18 @@ $(document).ready(function () {
             return;
         }
 
-        var assignment = assignments.shift();
+        currentAssignment = assignments.shift();
         var videoPlayer = $('video');
 
-        videoPlayer.find('source').attr('src', assignment.exercise.mediaUrl + baseVideoUrl + assignment.exercise.id);
+        videoPlayer.find('source').attr('src', currentAssignment.exercise.mediaUrl + baseVideoUrl + currentAssignment.exercise.id);
         videoPlayer[0].load();
 
         if (autoPlay) {
             videoPlayer[0].play();
         }
 
-        $('#video-player-title').html(assignment.exercise.title);
-        $('#video-player-description').html(assignment.exercise.description);
+        $('#video-player-title').html(currentAssignment.exercise.title);
+        $('#video-player-description').html(currentAssignment.exercise.description);
 
         updateAssignments(assignments);
     }
