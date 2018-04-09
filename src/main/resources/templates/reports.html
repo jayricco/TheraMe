@@ -1,60 +1,60 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Reports</title>
-    <link th:href="@{img/favicon.ico}" rel="shortcut icon"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
-    <link th:href="@{css/style.css}" rel="stylesheet" type="text/css"/>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <script th:src="@{/js/nanobar.min.js}"></script>
-    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
-</head>
-<body>
-<div th:replace="fragments/header :: header">
-    <!-- Header will be inserted here -->
-</div>
-<div class="container">
-    <div class="row divider-bottom" id="results-header">
-        <h3>Reports</h3>
-    </div>
-    <table class="table">
-        <tbody id="report-table-body">
-        <!-- Populated by JS -->
-        </tbody>
-    </table>
-</div>
-<table class="hidden">
-    <tbody>
-    <tr id="report-entry-template">
-        <td>
-            <a id="report-entry-name"></a>
-        </td>
-        <td>
-            <p id="report-entry-day0" align="center"></p>
-        </td>
-        <td>
-            <p id="report-entry-day1" align="center"></p>
-        </td>
-        <td>
-            <p id="report-entry-day2" align="center"></p>
-        </td>
-        <td>
-            <p id="report-entry-day3" align="center"></p>
-        </td>
-        <td>
-            <p id="report-entry-day4" align="center"></p>
-        </td>
-        <td>
-            <p id="report-entry-day5" align="center"></p>
-        </td>
-        <td>
-            <p id="report-entry-day6" align="center"></p>
-        </td>
-    </tr>
-    </tbody>
-</table>
-<script th:src="@{/js/reports.js}"></script>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Reports</title>
+        <link th:href="@{img/favicon.ico}" rel="shortcut icon"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
+        <link th:href="@{css/style.css}" rel="stylesheet" type="text/css"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script th:src="@{/js/nanobar.min.js}"></script>
+        <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    </head>
+    <body>
+        <div th:replace="fragments/header :: header">
+            <!-- Header will be inserted here -->
+        </div>
+        <div class="container">
+            <div class="row divider-bottom" id="results-header">
+                <h3>Reports</h3>
+            </div>
+            <table class="table">
+                <tbody id="report-table-body">
+                    <!-- Populated by JS -->
+                </tbody>
+            </table>
+        </div>
+        <table class="hidden">
+            <tbody>
+            <tr id="report-entry-template">
+                <td>
+                    <a id="report-entry-name"></a>
+                </td>
+                <td>
+                    <p id="report-entry-day0" align="center"></p>
+                </td>
+                <td>
+                    <p id="report-entry-day1" align="center"></p>
+                </td>
+                <td>
+                    <p id="report-entry-day2" align="center"></p>
+                </td>
+                <td>
+                    <p id="report-entry-day3" align="center"></p>
+                </td>
+                <td>
+                    <p id="report-entry-day4" align="center"></p>
+                </td>
+                <td>
+                    <p id="report-entry-day5" align="center"></p>
+                </td>
+                <td>
+                    <p id="report-entry-day6" align="center"></p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <script th:src="@{/js/reports.js}"></script>
+    </body>
 </html>

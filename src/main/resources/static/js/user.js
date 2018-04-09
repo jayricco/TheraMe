@@ -3,8 +3,10 @@ $(document).ready(function () {
 
     var userId = getParameterByName('id');
     var baseAssignmentsUrl = '/api/assignments/user?id=' + userId;
-    var baseFeedbackUrl = '/api/history/feedback?patient_id='+userId;
-    var baseHistoryUrl = '/api/history/specificpatient?id='+userId;
+    var baseFeedbackUrl = '/api/history/feedback?patient_id=' + userId;
+    var baseHistoryUrl = '/api/history/specificpatient?id=' + userId;
+
+    var daysOfTheWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
     getAssignments(baseAssignmentsUrl);
     getFeedback(baseFeedbackUrl);
@@ -166,7 +168,7 @@ $(document).ready(function () {
         })
     }
 
-    function updateFeedback(feedback){
+    function updateFeedback(feedback) {
         var feedbackContainer = $('#issue-table-body');
         var template = $('#issue-entry-template');
         feedback.forEach(function (feedback){
@@ -178,63 +180,30 @@ $(document).ready(function () {
         })
     }
 
-    function updateHistory(history) {
-        console.log(history);
-        var weekday = new Array(7);
-        weekday[0] = "Sunday";
-        weekday[1] = "Monday";
-        weekday[2] = "Tuesday";
-        weekday[3] = "Wednesday";
-        weekday[4] = "Thursday";
-        weekday[5] = "Friday";
-        weekday[6] = "Saturday";
-        var entryContainer = $('#user-history-body');
-        entryContainer.empty();
-        var template = $('#user-history-template');
-        var users = "";
-        var today = new Date();
-        today.setHours(0, 0, 0, 0);
-        var weekAgo = new Date(today.getTime() - 6 * 24 * 60 * 60 * 1000);
-        var arr = [];
-        history.forEach(function (history) {
-            arr.push(history.patientId.id);
-        })
-        var users = [];
-        $.each(arr, function (i, el) {
-            if ($.inArray(el, users) === -1) users.push(el);
+    function updateHistory(report) {
+        var tuples = [];
+
+        Object.keys(report.history).forEach(function(date) {
+            tuples.push({ date: new Date(date + ' 00:00'), complete: report.history[date] });
         });
-        for (var i = 0; i < users.length; i++) {
-            var element = template.clone();
-            element.removeClass('hidden');
-            var date = weekAgo;
-            var day = 0;
-            var total = 0;
-            history.forEach(function (history) {
-                console.log("Week ago: " + weekAgo);
-                if (history.patientId.id == users[i]) {
-                    var exerciseDate = new Date(history.timeStart);
-                    exerciseDate = new Date(exerciseDate.setHours(0, 0, 0, 0));
-                    while (date < exerciseDate) {
-                        element.find('#user-history-day' + day).html("<i class=\"far fa-square\"></i><br>" + weekday[date.getDay()]);
-                        date = new Date(date.getTime() + 1 * 24 * 60 * 60 * 1000);
-                        day++;
-                    }
-                    console.log(date.getTime());
-                    console.log(exerciseDate.getTime());
-                    if (date.getTime() == exerciseDate.getTime()) {
-                        if (history.completed) {
-                            element.find('#user-history-day' + day).html("<i class=\"far fa-check-square\"></i><br>" + weekday[date.getDay()]);
-                            total++;
-                        }
-                        else {
-                            element.find('#user-history-day' + day).html("<i class=\"far fa-square\"></i><br>" + weekday[date.getDay()]);
-                        }
-                        day++;
-                        date = new Date(date.getTime() + 1 * 24 * 60 * 60 * 1000);
-                    }
-                }
-            })
-            entryContainer.append(element);
-        }
+
+        // Make sure they're sorted correctly
+        tuples.sort(function (a, b) {
+            return a.date - b.date;
+        });
+
+        var entryContainer = $('#user-history-body');
+        var completions = 0;
+
+        tuples.forEach(function(tuple, index) {
+            var element = entryContainer.find('#user-history-day' + index);
+
+            if (tuple.complete) {
+                element.html('<i class=\"far fa-check-square\"></i><br>' + daysOfTheWeek[tuple.date.getDay()]);
+                completions++;
+            } else {
+                element.html('<i class=\"far fa-square\"></i><br>' + daysOfTheWeek[tuple.date.getDay()]);
+            }
+        });
     }
 });
