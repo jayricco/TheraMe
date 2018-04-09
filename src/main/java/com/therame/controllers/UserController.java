@@ -3,6 +3,7 @@ package com.therame.controllers;
 import javax.validation.Valid;
 
 import com.google.common.collect.ImmutableList;
+import com.therame.exception.ResourceNotFoundException;
 import com.therame.model.DetailedUserDetails;
 import com.therame.service.AssignmentService;
 import com.therame.util.Base64Converter;
@@ -98,14 +99,20 @@ public class UserController {
         if (forUser.isPresent()) {
             return "initialize_account";
         } else {
-            return "404";
+            throw new ResourceNotFoundException("Invalid confirmation token.");
         }
     }
 
     @PostMapping("/api/confirm")
     public ResponseEntity<?> updatePassword(@RequestParam("token") String code, @RequestParam("password") String password) {
         Optional<User> user = userService.updatePasswordForInitCode(code, password);
-        return ResponseEntity.ok(user.get().toView());
+
+        if (user.isPresent()) {
+            return ResponseEntity.ok(user.get().toView());
+        } else {
+            throw new ResourceNotFoundException("Invalid confirmation token.");
+        }
+
     }
 
     @GetMapping("/resetPassword")

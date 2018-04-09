@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Error</title>
+        <link th:href="@{img/favicon.ico}" rel="shortcut icon"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
+        <link th:href="@{css/style.css}" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    </head>
+    <body>
+        <div th:replace="fragments/header :: header">
+            <!-- Header will be inserted here -->
+        </div>
+        <div class="container-fluid">
+            <div id="error-body">
+                <div class="row">
+                    <div id="error-page-header">
+                        <i id="error-page-icon" class="fa fa-exclamation-circle" aria-hidden="true"></i>
+                        <a id="error-page-title">Oops...</a>
+                    </div>
+                </div>
+                <div class="row" th:if="${status >= 500}">
+                    <a class="error-subtitle">Something went wrong.</a>
+                </div>
+                <div class="row" th:if="${status == 404}">
+                    <a class="error-subtitle">The requested page could not be found.</a>
+                </div>
+                <div class="row">
+                    <a th:text="${'(Status Code: ' + status + ')'}"></a>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
