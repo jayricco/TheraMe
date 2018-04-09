@@ -1,17 +1,5 @@
 $(document).ready(function () {
 
-    var token = getParameterByName('token');
-
-    function getParameterByName(name) {
-        var url = window.location.href;
-        name = name.replace(/[\[\]]/g, "\\$&");
-        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-            results = regex.exec(url);
-        if (!results) return null;
-        if (!results[2]) return '';
-        return decodeURIComponent(results[2].replace(/\+/g, " "));
-    }
-
     $('form').submit(function (event) {
         event.preventDefault();
 
@@ -24,9 +12,9 @@ $(document).ready(function () {
         var errorMessage = $('#error-message');
         errorMessage.html('').hide();
 
-        var pass = $('#password').val();
-        $.post("/api/confirm?token=" + token, { password: pass }, function () {
-            window.location.href = '/login?reset=true';
+        var email = $('#email').val();
+        $.post("/api/resetPassword", { email: email }, function () {
+            successMessage.show().html('Please check your email for a reset link.');
         })
         .fail(function (response) {
             var errorString = '';

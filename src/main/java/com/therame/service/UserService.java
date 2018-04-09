@@ -38,4 +38,6 @@ public interface UserService {
     Optional<User> findUserByInitCode(String initCode);
 
     Optional<User> updatePasswordForInitCode(String initCode, String password);
+
+    void sendPasswordResetEmail(String email);
 }

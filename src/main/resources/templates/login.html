@@ -13,6 +13,9 @@
             <div class="alert alert-danger" th:if="${param.error}">
                 Incorrect email or password!
             </div>
+            <div class="alert alert-success" th:if="${param.reset}">
+                Password set! Please log in.
+            </div>
             <form th:action="@{/login}" method="post">
                 <div class="form-group">
                     <input class="form-control" id="email_field" type="email" name="email" placeholder="Email" value=""/>
@@ -22,6 +25,10 @@
                 </div>
                 <input class="btn btn-primary btn-block" name="submit" type="submit" value="Log in"/>
             </form>
+            <p>
+                Forgot your password?
+                <a th:href="@{/resetPassword}">Reset it.</a>
+            </p>
         </div>
         <div id="footer">
             <img src="" id="footer-img" th:src="@{img/full-logo-black-large.png}"/>

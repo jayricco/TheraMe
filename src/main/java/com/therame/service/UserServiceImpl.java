@@ -10,7 +10,7 @@ import com.therame.model.DetailedUserDetails;
 import com.therame.model.Provider;
 import com.therame.model.UserRepository;
 import com.therame.util.Base64Converter;
-import com.therame.util.InitializationMessageBuilder;
+import com.therame.util.EmailMessageBuilder;
 import com.therame.view.UserView;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setInitCode(initCode);
         user = userRepo.save(user);
 
-        mailSender.send(InitializationMessageBuilder.buildInitializationMessage(user, hostUrl));
+        mailSender.send(EmailMessageBuilder.buildInitializationMessage(user, hostUrl));
         return user;
     }
 
@@ -93,6 +93,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
 
         return optionalUser;
+    }
+
+    @Override
+    @Transactional
+    public void sendPasswordResetEmail(String email) {
+        Optional<User> optionalUser = userRepo.findByEmail(email);
+
+        optionalUser.ifPresent(user -> {
+            String initCode = Base64Converter.toUrlSafeString(UUID.randomUUID());
+            user.setInitCode(initCode);
+            user.setPassword(null);
+            user = userRepo.save(user);
+
+            mailSender.send(EmailMessageBuilder.buildResetMessage(user, hostUrl));
+        });
     }
 
     @Override

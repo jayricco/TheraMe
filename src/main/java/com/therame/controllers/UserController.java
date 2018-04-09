@@ -108,6 +108,17 @@ public class UserController {
         return ResponseEntity.ok(user.get().toView());
     }
 
+    @GetMapping("/resetPassword")
+    public String resetPasswordView() {
+        return "password_reset";
+    }
+
+    @PostMapping("/api/resetPassword")
+    public ResponseEntity<?> resetPassword(@RequestParam("email") String email) {
+        userService.sendPasswordResetEmail(email);
+        return ResponseEntity.ok().build();
+    }
+
     @PreAuthorize("hasAnyAuthority('THERAPIST', 'ADMIN')")
     @GetMapping("/users")
     public String usersView() {
