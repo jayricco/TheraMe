@@ -56,6 +56,7 @@ public class UserController {
         return "login";
     }
 
+    @PreAuthorize("hasAnyAuthority('THERAPIST', 'ADMIN')")
     @RequestMapping(value="/register", method = RequestMethod.GET)
     public ModelAndView registration() {
         ModelAndView modelAndView = new ModelAndView();
