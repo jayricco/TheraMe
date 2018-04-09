@@ -2,17 +2,12 @@ package com.therame.model;
 
 import com.therame.util.Base64Converter;
 import com.therame.view.FeedbackView;
-import com.therame.view.HistoryView;
 import lombok.Data;
-import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.JoinColumnOrFormula;
 
-import javax.annotation.Nullable;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
-import java.sql.Time;
+import java.util.Date;
 import java.util.UUID;
 
 @Data
@@ -30,52 +25,30 @@ public class Feedback {
     private UUID id;
 
     @NotNull
-    @Column(name = "attempt_id")
-    private UUID attemptId;
-
-    @NotNull
     @ManyToOne
     @JoinColumn(name ="patient_id")
     private User patient;
 
     @NotNull
     @Column(name = "timestamp")
-    private Time timestamp;
-
-    @NotNull
-    @Column(name = "video_timecode")
-    private Time videoTime;
+    private Date timestamp;
 
     @NotNull
     @Column(name = "patient_comment")
     private String comments;
 
-    @Nullable
-    @ManyToOne
-    @JoinColumn(name = "pt_id")
-    private User user;
-
     @NotNull
-    @OneToOne
-    @JoinColumn(name = "assignment")
-    private Assignment assignment;
-
     @ManyToOne
-    @JoinColumn(name ="history_id")
-    private History history;
+    @JoinColumn(name = "exercise_id")
+    private Exercise exercise;
 
-
-    //fix this
     public FeedbackView toView() {
         FeedbackView view = new FeedbackView();
         view.setId(Base64Converter.toUrlSafeString(id));
-        view.setAttemptId(Base64Converter.toUrlSafeString(attemptId));
         view.setTimestamp(timestamp);
-        view.setVideoTime(videoTime);
         view.setComments(comments);
         view.setPatient(patient.toView());
-        view.setAssignment(assignment.toView());
-        view.setHistory(history.toView());
+        view.setAssignment(exercise.toView());
         return view;
     }
 }

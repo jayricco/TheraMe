@@ -65,31 +65,23 @@ public class HistoryServiceImpl implements HistoryService {
     }
 
     @Override
-    public List<FeedbackView> getFeedbackForPatientId(UUID patientId){
+    public List<FeedbackView> getFeedbackForPatientId(UUID patientId) {
         return feedbackRepository.findByPatientId(patientId).stream()
                 .map(Feedback::toView)
                 .collect(Collectors.toList());
     }
 
-    //need to fix this
     @Override
     @Transactional
-    public FeedbackView addFeedback(UUID patientId, UUID exerciseId, String feedback){
+    public FeedbackView addFeedback(UUID patientId, UUID exerciseId, String feedback) {
         Feedback toAdd = new Feedback();
-        User user = userRepository.findOne(patientId);
-        Exercise exercise = exerciseRepository.findOne(exerciseId);
+        User user = Objects.requireNonNull(userRepository.findOne(patientId));
+        Exercise exercise = Objects.requireNonNull(exerciseRepository.findOne(exerciseId));
 
-        if (user == null) {
-            throw new IllegalArgumentException("User not found!");
-        }
-        else if (exercise == null) {
-            throw new IllegalArgumentException("Exercise not found!");
-        }
-        else if (feedback == null || feedback.isEmpty()) {
-            throw new IllegalArgumentException("Feedback not provided!");
-        }
-
+        toAdd.setPatient(user);
+        toAdd.setExercise(exercise);
         toAdd.setComments(feedback);
+        toAdd.setTimestamp(new Date());
 
         return feedbackRepository.save(toAdd).toView();
     }

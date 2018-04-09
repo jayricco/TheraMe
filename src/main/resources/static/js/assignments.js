@@ -73,6 +73,24 @@ $(document).ready(function () {
             element.find('#assignment-entry-title').html(assignment.exercise.title);
 
             entryContainer.append(element);
-        })
+        });
     }
+
+    $('#submit-feedback-button').click(function() {
+        var feedback = $('#feedback-input').val();
+
+        var data = { feedback: feedback, exerciseId: currentAssignment.exercise.id };
+
+        $.ajax({
+            url: '/api/history/feedbackAdd',
+            method: 'POST',
+            data: data,
+            success: function() {
+
+            },
+            error: function () {
+                // Need to actually notify the user at some point, maybe redirect to an error page?
+            }
+        });
+    });
 });

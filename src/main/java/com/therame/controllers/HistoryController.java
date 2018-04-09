@@ -50,9 +50,9 @@ public class HistoryController {
     }
 
     @PostMapping("/api/history/feedbackAdd")
-    public ResponseEntity<?> addFeedbackForExercise(@RequestParam("patientId") String patientId, @RequestParam("exerciseId") String exerciseId,
-                                                    @RequestParam("feedback") String feedback){
-        FeedbackView addedFeedback = historyService.addFeedback(Base64Converter.fromUrlSafeString(patientId), Base64Converter.fromUrlSafeString(exerciseId), feedback);
+    public ResponseEntity<?> addFeedbackForExercise(@RequestParam("exerciseId") String exerciseId, @RequestParam("feedback") String feedback,
+                                                    @AuthenticationPrincipal DetailedUserDetails userDetails) {
+        FeedbackView addedFeedback = historyService.addFeedback(userDetails.getUser().getId(), Base64Converter.fromUrlSafeString(exerciseId), feedback);
         return ResponseEntity.ok(addedFeedback);
     }
 
