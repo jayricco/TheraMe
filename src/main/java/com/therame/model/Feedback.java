@@ -48,7 +48,7 @@ public class Feedback {
         view.setTimestamp(timestamp);
         view.setComments(comments);
         view.setPatient(patient.toView());
-        view.setAssignment(exercise.toView());
+        view.setExercise(exercise.toView());
         return view;
     }
 }

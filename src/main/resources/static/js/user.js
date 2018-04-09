@@ -174,7 +174,7 @@ $(document).ready(function () {
         feedback.forEach(function (feedback){
             var element = template.clone();
             element.removeClass('hidden');
-            element.find('#issue-exercise-name').html(feedback.assignment.exercise.title);
+            element.find('#issue-exercise-name').html(feedback.exercise.title);
             element.find('#issue-text-body').html(feedback.comments);
             feedbackContainer.append(element);
         })

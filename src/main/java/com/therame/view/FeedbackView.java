@@ -12,5 +12,5 @@ public class FeedbackView {
     private Date timestamp;
     private String comments;
     private UserView patient;
-    private ExerciseView assignment;
+    private ExerciseView exercise;
 }
