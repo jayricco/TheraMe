@@ -34,4 +34,8 @@ public interface UserService {
      * @return the matching user views
      */
     List<UserView> findAllUsersByNameAndType(String name, List<User.Type> typeFilters);
+
+    Optional<User> findUserByInitCode(String initCode);
+
+    Optional<User> updatePasswordForInitCode(String initCode, String password);
 }

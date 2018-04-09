@@ -90,6 +90,23 @@ public class UserController {
         }
     }
 
+    @GetMapping("/confirm")
+    public String updatePasswordView(@RequestParam("token") String code) {
+        Optional<User> forUser = userService.findUserByInitCode(code);
+
+        if (forUser.isPresent()) {
+            return "initialize_account";
+        } else {
+            return "404";
+        }
+    }
+
+    @PostMapping("/api/confirm")
+    public ResponseEntity<?> updatePassword(@RequestParam("token") String code, @RequestParam("password") String password) {
+        Optional<User> user = userService.updatePasswordForInitCode(code, password);
+        return ResponseEntity.ok(user.get().toView());
+    }
+
     @PreAuthorize("hasAnyAuthority('THERAPIST', 'ADMIN')")
     @GetMapping("/users")
     public String usersView() {

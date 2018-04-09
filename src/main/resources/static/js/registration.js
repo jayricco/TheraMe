@@ -36,12 +36,6 @@ $(document).ready(function () {
         var errorMessage = $('#error-message');
         errorMessage.html('').hide();
 
-        if ($('#password').val() !== $('#repeat-password').val()) {
-            errorMessage.show().html('Passwords don\'t match!');
-            $(':password').addClass('is-invalid');
-            return;
-        }
-
         var formData = $('form').serialize();
         $.post("/api/register", formData, function() {
             successMessage.show().html('User registered successfully!');

@@ -48,10 +48,9 @@ public class User {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @NotNull
+    @Nullable
     @Transient
-    @Length(min = 5, message="Password must contain over 5 characters.")
-    @Column(name = "password", nullable = false)
+    @Column(name = "password")
     private String password;
 
     @Column(name = "permission_level", columnDefinition = "smallint", nullable = false)
@@ -66,7 +65,7 @@ public class User {
 
     @Nullable
     @Column(name = "init_code")
-    private String init_code;
+    private String initCode;
 
     @Nullable
     @ManyToOne

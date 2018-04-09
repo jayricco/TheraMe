@@ -9,7 +9,11 @@ import com.google.common.collect.ImmutableList;
 import com.therame.model.DetailedUserDetails;
 import com.therame.model.Provider;
 import com.therame.model.UserRepository;
+import com.therame.util.Base64Converter;
+import com.therame.util.InitializationMessageBuilder;
 import com.therame.view.UserView;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,12 +27,17 @@ import com.therame.model.User;
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
 
+    @Value("${therame.media.host.url}")
+    private String hostUrl;
+
     private UserRepository userRepo;
     private PasswordEncoder passwordEncoder;
+    private JavaMailSender mailSender;
 
-    public UserServiceImpl(UserRepository userRepo, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepo, PasswordEncoder passwordEncoder, JavaMailSender javaMailSender) {
         this.userRepo = userRepo;
         this.passwordEncoder = passwordEncoder;
+        this.mailSender = javaMailSender;
     }
 
     @Override
@@ -48,8 +57,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User createUser(User user) {
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepo.save(user);
+        String initCode = Base64Converter.toUrlSafeString(UUID.randomUUID());
+        user.setInitCode(initCode);
+        user = userRepo.save(user);
+
+        mailSender.send(InitializationMessageBuilder.buildInitializationMessage(user, hostUrl));
+        return user;
     }
 
     @Override
@@ -61,6 +74,25 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .filter(user -> currentUserProvider == null || currentUserProvider.equals(user.getProvider()))
                 .map(User::toView)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<User> findUserByInitCode(String initCode) {
+        return userRepo.findByInitCode(initCode);
+    }
+
+    @Override
+    @Transactional
+    public Optional<User> updatePasswordForInitCode(String initCode, String password) {
+        Optional<User> optionalUser = userRepo.findByInitCode(initCode);
+
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setInitCode(null);
+            user.setPassword(passwordEncoder.encode(password));
+        }
+
+        return optionalUser;
     }
 
     @Override
