@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import com.google.common.collect.ImmutableList;
 import com.therame.exception.ResourceNotFoundException;
 import com.therame.model.DetailedUserDetails;
+import com.therame.model.UserRepository;
 import com.therame.service.AssignmentService;
 import com.therame.util.Base64Converter;
 import com.therame.view.UserView;
@@ -30,6 +31,7 @@ public class UserController {
 
     private UserService userService;
     private AssignmentService assignmentService;
+    private UserRepository userRepo;
 
     public UserController(UserService userService, AssignmentService assignmentService) {
         this.userService = userService;
@@ -55,6 +57,14 @@ public class UserController {
     @RequestMapping(value="/login", method = RequestMethod.GET)
     public String login() {
         return "login";
+    }
+
+    @RequestMapping(value="/updateInfo", method=RequestMethod.GET)
+    public ModelAndView updateInfo(){
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("user", new User());
+        modelAndView.setViewName("updateInfo");
+        return modelAndView;
     }
 
     @PreAuthorize("hasAnyAuthority('THERAPIST', 'ADMIN')")
@@ -124,6 +134,35 @@ public class UserController {
     public ResponseEntity<?> resetPassword(@RequestParam("email") String email) {
         userService.sendPasswordResetEmail(email);
         return ResponseEntity.ok().build();
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping(value = "/api/deactivate", method = RequestMethod.POST)
+    public ResponseEntity<?> deactivateUser(@RequestParam("id") String userId, @AuthenticationPrincipal DetailedUserDetails userDetails){
+        try {
+            System.out.println("just started deactivate: "+userId);
+            User deactivatedUser = userService.deactivateUser(Base64Converter.fromUrlSafeString(userId));
+            return new ResponseEntity<>(deactivatedUser, HttpStatus.CREATED);
+        }
+        catch(DataIntegrityViolationException e){
+            ValidationErrorView errorView = new ValidationErrorView();
+            errorView.addError(new FieldError("user", "email", "Cannot delete"));
+            return new ResponseEntity<>(errorView, HttpStatus.CONFLICT);
+        }
+    }
+
+    @RequestMapping(value = "/api/updateInfo", method = RequestMethod.GET)
+    public ResponseEntity<?> updateUserInfo(@RequestParam("id")String UserId, @AuthenticationPrincipal DetailedUserDetails userDetails){
+        System.out.println(userDetails);
+        User user = userRepo.findOne(Base64Converter.fromUrlSafeString(UserId));
+        if (user.getFirstName() != ""){
+            userDetails.getUser().setFirstName(user.getFirstName());
+        }
+        if(user.getLastName() != ""){
+            userDetails.getUser().setLastName(user.getLastName());
+        }
+        User updatedUser = userService.updateUser(userDetails.getUser());
+        return new ResponseEntity<>(updatedUser, HttpStatus.CREATED);
     }
 
     @PreAuthorize("hasAnyAuthority('THERAPIST', 'ADMIN')")

@@ -40,4 +40,8 @@ public interface UserService {
     Optional<User> updatePasswordForInitCode(String initCode, String password);
 
     void sendPasswordResetEmail(String email);
+
+    User updateUser(User user);
+
+    User deactivateUser(UUID userID);
 }

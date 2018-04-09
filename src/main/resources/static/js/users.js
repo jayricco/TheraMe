@@ -59,7 +59,12 @@ $(document).ready(function () {
                 element.find('#user-entry-ptname').html('N/A');
             }
 
-            element.find('#user-entry-status').html('Active');
+            if(user.active){
+                element.find('#user-entry-status').html('Active');
+            }
+            else{
+                element.find('#user-entry-status').html('Inactive');
+            }
 
             userTable.append(element);
         })

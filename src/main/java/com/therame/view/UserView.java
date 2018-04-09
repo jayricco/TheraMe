@@ -11,5 +11,6 @@ public class UserView {
     private String lastName;
     private User.Type type;
     private UserView therapist;
+    private boolean active;
 
 }

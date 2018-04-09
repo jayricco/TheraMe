@@ -59,13 +59,17 @@ public class User {
     private Type type;
 
     @Nullable
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "pt_id")
     private User therapist;
 
     @Nullable
     @Column(name = "init_code")
     private String initCode;
+
+    @NotNull
+    @Column(name = "active")
+    private boolean active;
 
     @Nullable
     @ManyToOne
@@ -78,6 +82,7 @@ public class User {
         view.setFirstName(firstName);
         view.setLastName(lastName);
         view.setType(type);
+        view.setActive(active);
 
         if (therapist != null) {
             view.setTherapist(therapist.toView());
