@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Video Library</title>
+        <link th:href="@{img/favicon.ico}" rel="shortcut icon"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
+        <link th:href="@{css/style.css}" rel="stylesheet" type="text/css"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script th:src="@{/js/nanobar.min.js}"></script>
+    </head>
+    <body>
+        <div th:replace="fragments/header :: header">
+            <!-- Header will be inserted here -->
+        </div>
+        <div class="container">
+            <div class="row divider-bottom" id="results-header">
+                <h3>My Assignments</h3>
+            </div>
+            <div id="video-container">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <!-- Template for use in JS, hidden by default -->
+        <div class="col-3 hidden" id="video-column-template">
+            <a href="" id="video-href-template">
+                <div class="thumbnail-container">
+                    <img class="img-fluid" src="" id="video-thumbnail-template" />
+                    <span class="video-timestamp" id="video-timestamp-template">01:00</span>
+                </div>
+                <span id="video-title-template">A Video Title!</span>
+            </a>
+        </div>
+        <script th:src="@{/js/all_assignments.js}"></script>
+    </body>
+</html>

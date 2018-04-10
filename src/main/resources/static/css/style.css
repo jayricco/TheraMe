@@ -388,3 +388,14 @@ h1 {
     margin-top: 64px;
     text-align: center;
 }
+
+#assign-complete-subheader {
+    font-size: 26px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.video-row {
+    margin-top: 32px;
+}
