@@ -180,55 +180,69 @@ $(document).ready(function () {
         })
     }
 
-    function updateHistory(report) {
-        var tuples = [];
-
-        Object.keys(report.history).forEach(function(date) {
-            tuples.push({ date: new Date(date + ' 00:00'), complete: report.history[date] });
-        });
-
-        // Make sure they're sorted correctly
-        tuples.sort(function (a, b) {
-            return a.date - b.date;
-        });
-
+    function updateHistory(reports) {
+        console.log(reports);
+        var weekday = new Array(7);
+        weekday[0] = "Sunday";
+        weekday[1] = "Monday";
+        weekday[2] = "Tuesday";
+        weekday[3] = "Wednesday";
+        weekday[4] = "Thursday";
+        weekday[5] = "Friday";
+        weekday[6] = "Saturday";
         var entryContainer = $('#user-history-body');
-        var completions = 0;
-
-        tuples.forEach(function(tuple, index) {
-            var element = entryContainer.find('#user-history-day' + index);
-
-            if (tuple.complete) {
-                element.html('<i class=\"far fa-check-square\"></i><br>' + daysOfTheWeek[tuple.date.getDay()]);
-                completions++;
-            } else {
-                element.html('<i class=\"far fa-square\"></i><br>' + daysOfTheWeek[tuple.date.getDay()]);
-            }
-        });
-    }
-
-    $('form').submit(function(event) {
-        event.preventDefault();
-
-        var formData = $('form').serialize();
-
-        var successMessage = $('#success-message');
-        successMessage.html('').hide();
-
-        var button = $('#deactivate');
-        button.html('').hide();
-
-        $.ajax({
-            url: '/api/deactivate?id='+userId,
-            method: 'POST',
-            cache: false,
-            success: function (data) {
-                successMessage.show().html('User Deactivated Successfully!');
-                button.classList.add("disabled");
-            },
-            error: function () {
-
-            }
+        entryContainer.empty();
+        var template = $('#user-history-template');
+        var users = "";
+        var today = new Date();
+        today.setHours(0, 0, 0, 0);
+        var weekAgo = new Date(today.getTime() - 6 * 24 * 60 * 60 * 1000);
+        var arr = [];
+        reports.forEach(function (report) {
+            arr.push(report.patientId.id);
         })
-    });
+        var users = [];
+        $.each(arr, function (i, el) {
+            if ($.inArray(el, users) === -1) users.push(el);
+        });
+        for (var i = 0; i < users.length; i++) {
+            var element = template.clone();
+            element.removeClass('hidden');
+            var date = weekAgo;
+            var day = 0;
+            var total = 0;
+            reports.forEach(function (report) {
+                if (report.patientId.id == users[i]) {
+                    var exerciseDate = new Date(report.timeStart);
+                    exerciseDate = new Date(exerciseDate.setHours(0, 0, 0, 0));
+                    while (date < exerciseDate) {
+                        console.log("Uncomplete: "+weekday[date.getDay()]);
+                        element.find('#user-history-day' + day).html("<i class=\"far fa-square\"></i><br>" + weekday[date.getDay()]);
+                        date = new Date(date.getTime() + 1 * 24 * 60 * 60 * 1000);
+                        day++;
+                    }
+                    if (date.getTime() == exerciseDate.getTime()) {
+                        if (report.completed) {
+                            console.log("Completed: "+weekday[date.getDay()]);
+                            element.find('#user-history-day' + day).html("<i class=\"far fa-check-square\"></i><br>" + weekday[date.getDay()]);
+                            total++;
+                        }
+                        else {
+                            console.log("Uncomplete: "+weekday[date.getDay()]);
+                            element.find('#user-history-day' + day).html("<i class=\"far fa-square\"></i><br>" + weekday[date.getDay()]);
+                        }
+                        day++;
+                        date = new Date(date.getTime() + 1 * 24 * 60 * 60 * 1000);
+                    }
+                }
+            })
+            while(date <= today && day < 7){
+                console.log("Uncomplete: "+weekday[date.getDay()]);
+                element.find('#user-history-day'+day).html("<i class=\"far fa-square\"></i><br>"+weekday[date.getDay()]);
+                date = new Date(date.getTime() + 1 * 24 * 60 * 60 * 1000);
+                day++;
+            }
+            entryContainer.append(element);
+        }
+    }
 });
