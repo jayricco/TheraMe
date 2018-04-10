@@ -178,7 +178,7 @@ public class UserController {
     public ResponseEntity<?> getAllUsers(@RequestParam(value = "q", required = false) String nameQuery,
             @RequestParam(value = "types", required = false) List<User.Type> typeFilters) {
         if (typeFilters == null) {
-            typeFilters = ImmutableList.of(User.Type.ADMIN, User.Type.THERAPIST, User.Type.PATIENT);
+            typeFilters = ImmutableList.of(User.Type.PATIENT);
         }
 
         if (nameQuery == null) {

@@ -22,6 +22,7 @@ $(document).ready(function () {
 
     function playNextVideo(autoPlay) {
         if (assignments.length <= 0) {
+            showAllCompleteView();
             return;
         }
 
@@ -93,4 +94,9 @@ $(document).ready(function () {
             }
         });
     });
+
+    function showAllCompleteView() {
+        $('.assignments-content-container').hide();
+        $('#assign-complete-div').show();
+    }
 });

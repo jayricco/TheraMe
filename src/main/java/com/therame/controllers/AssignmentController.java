@@ -30,6 +30,12 @@ public class AssignmentController {
         return ResponseEntity.ok(assignments);
     }
 
+    @GetMapping("/api/assignments/all")
+    public ResponseEntity<?> getAllAssignmentsForCurrentUser(@AuthenticationPrincipal DetailedUserDetails userDetails) {
+        List<AssignmentView> assignments = assignmentService.getForPatientId(userDetails.getUser().getId());
+        return ResponseEntity.ok(assignments);
+    }
+
     @PreAuthorize("hasAnyAuthority('THERAPIST', 'ADMIN')")
     @GetMapping("/api/assignments/user")
     public ResponseEntity<?> getAssignmentsForUserId(@RequestParam("id") String userId) {
@@ -56,5 +62,10 @@ public class AssignmentController {
     @GetMapping("/assignments")
     public String patientView() {
         return "assignments";
+    }
+
+    @GetMapping("/allAssignments")
+    public String allAssignmentsView() {
+        return "all_assignments";
     }
 }

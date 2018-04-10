@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>TheraMe Home</title>
+        <title>Home</title>
         <link href="/img/favicon.ico" rel="shortcut icon"/>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"/>
         <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
@@ -14,9 +14,9 @@
         <div th:replace="fragments/header :: header">
             <!-- Header will be inserted here -->
         </div>
-        <div class="container text-center">
+        <div class="container">
             <div class="row justify-content-center" id="pt-home-header">
-                <h1 th:text="${'Welcome Back, '+user.firstName+'!'}"></h1>
+                <h1 th:text="${'Welcome Back, '+ user.firstName + '!'}"></h1>
             </div>
 
             <div class="row justify-content-center" id="pt-home-search">
@@ -34,24 +34,24 @@
                 </div>
             </div>
 
-            <div class="row justify-content-center">
+            <div class="row justify-content-center" id="nav-button-div">
                 <div class="col-auto">
-                    <button type="button" class="btn btn-primary navButtons" onclick="window.location.href='videos'"><i class="fas fa-video fa-3x"></i><br>Video Library</button>
+                    <button type="button" class="btn btn-outline-primary navButtons" onclick="window.location.href='videos'"><i class="fas fa-video fa-2x"></i><br>Video Library</button>
                 </div>
                 <div class="col-auto">
-                    <button type="button" class="btn btn-primary navButtons" onclick="window.location.href='users'"><i class="fas fa-list-ul fa-3x"></i><br>Patient List</button>
+                    <button type="button" class="btn btn-outline-primary navButtons" onclick="window.location.href='users'"><i class="fas fa-list-ul fa-2x"></i><br>Patient List</button>
                 </div>
                 <div class="col-auto">
-                    <button type="button" class="btn btn-primary navButtons" onclick="window.location.href='reports'"><i class="fas fa-book fa-3x"></i><br>Patient Reports</button>
-                </div>
-            </div>
-
-            <div class="row justify-content-center">
-                <div class="col-auto">
-                    <button type="button" class="btn btn-primary navButtons" onclick="window.location.href='upload'"><i class="fas fa-upload fa-3x"></i><br>Upload a Video</button>
+                    <button type="button" class="btn btn-outline-primary navButtons" onclick="window.location.href='reports'"><i class="fas fa-book fa-2x"></i><br>Patient Reports</button>
                 </div>
                 <div class="col-auto">
-                    <button type="button" class="btn btn-primary navButtons" onclick="window.location.href='register'"><i class="fas fa-plus fa-3x"></i><br>Add a Patient</button>
+                    <button type="button" class="btn btn-outline-primary navButtons" onclick="window.location.href='upload'"><i class="fas fa-upload fa-2x"></i><br>Upload a Video</button>
+                </div>
+                <div class="col-auto">
+                    <button type="button" class="btn btn-outline-primary navButtons" onclick="window.location.href='register'"><i class="fas fa-plus fa-2x"></i><br>Add a Patient</button>
+                </div>
+                <div th:if="${user.type == T(com.therame.model.User.Type).ADMIN && user.provider == null}" class="col-auto">
+                    <button type="button" class="btn btn-outline-primary navButtons" onclick="window.location.href='registerProvider'"><i class="fas fa-plus fa-2x"></i><br>Add a Provider</button>
                 </div>
             </div>
         </div>
@@ -60,5 +60,6 @@
             <a class="pull-left">© 2018 TheraMe, Inc.</a>
             <a class="pull-right">About Us</a>
         </div>
+        <script th:src="@{/js/pt_home.js}"></script>
     </body>
 </html>

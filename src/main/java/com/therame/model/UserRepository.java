@@ -13,7 +13,7 @@ import java.util.UUID;
 public interface UserRepository extends JpaRepository<User, UUID> {
     Optional<User> findByEmail(String email);
 
-    @Query("select u from User u where upper(concat(u.firstName, ' ', u.lastName)) like upper(concat('%', :name, '%')) and u.type in :types")
+    @Query("select u from User u where upper(concat(u.firstName, ' ', u.lastName)) like upper(concat('%', :name, '%')) and u.type in :types order by u.active desc")
     List<User> findByNameAndType(@Param("name") String name, @Param("types") List<User.Type> types);
 
     List<User> findAllByTherapistId(UUID therapistId);

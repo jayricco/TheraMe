@@ -3,13 +3,20 @@ $(document).ready(function () {
 
     var nanoBar = new Nanobar();
     var baseRequestUrl = '/api/users?types=PATIENT';
-    const baseUserHref = '/user?id=';
+    var baseUserHref = '/user?id=';
 
     // Update list on page load
-    getUsers(baseRequestUrl);
+    getUsers();
 
     $('form').submit(function(event) {
         event.preventDefault();
+
+        clearUserList();
+        getUsers();
+    });
+
+    function getUsers() {
+        nanoBar.go(30);
 
         var requestUrl = baseRequestUrl;
         var query = $('#query').val();
@@ -18,12 +25,6 @@ $(document).ready(function () {
             requestUrl += '&q=' + query;
         }
 
-        clearUserList();
-        getUsers(requestUrl);
-    });
-
-    function getUsers(requestUrl) {
-        nanoBar.go(30);
         $.ajax({
             url: requestUrl,
             method: 'GET',
