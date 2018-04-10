@@ -23,6 +23,8 @@ build
 ./run
 ./libs
 .DS_Store
-media
+media/*
 target
 upload
+
+!media/default-thumbnail.jpg

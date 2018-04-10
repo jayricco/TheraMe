@@ -20,6 +20,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 @Controller
@@ -49,7 +50,13 @@ public class MediaRestController {
                          @RequestParam("id") String id) throws ServletException, IOException {
         request.setAttribute("resource-name", id);
         request.setAttribute("resource-type", "image");
-        mediaResolverService.handleRequest(request, response);
+
+        try {
+            mediaResolverService.handleRequest(request, response);
+        } catch(FileNotFoundException e) {
+            request.setAttribute("resource-name", "default-thumbnail");
+            mediaResolverService.handleRequest(request, response);
+        }
     }
 
     @PreAuthorize("hasAnyAuthority('THERAPIST', 'ADMIN')")
