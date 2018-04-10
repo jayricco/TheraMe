@@ -383,3 +383,8 @@ h1 {
 #nav-button-div {
     margin-top: 96px;
 }
+
+#assign-complete-header {
+    margin-top: 64px;
+    text-align: center;
+}
