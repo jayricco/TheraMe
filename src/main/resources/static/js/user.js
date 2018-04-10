@@ -198,7 +198,7 @@ $(document).ready(function () {
         var arr = [];
         history.forEach(function (history) {
             arr.push(history.patientId.id);
-        })
+        });
         var users = [];
         $.each(arr, function (i, el) {
             if ($.inArray(el, users) === -1) users.push(el);
@@ -233,7 +233,7 @@ $(document).ready(function () {
                         date = new Date(date.getTime() + 1 * 24 * 60 * 60 * 1000);
                     }
                 }
-            })
+            });
             entryContainer.append(element);
         }
     }

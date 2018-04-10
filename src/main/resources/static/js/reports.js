@@ -42,7 +42,7 @@ $(document).ready(function () {
         var arr = [];
         reports.forEach(function(report) {
             arr.push(report.patientId.id);
-        })
+        });
         var users = [];
         $.each(arr, function(i, el){
             if($.inArray(el, users) === -1) users.push(el);
@@ -79,7 +79,7 @@ $(document).ready(function () {
                         date = new Date(date.getTime() + 1 * 24 * 60 * 60 * 1000);
                     }
                 }
-            })
+            });
             while(date <= today && day < 7){
                 element.find('#report-entry-day'+day).html("<i class=\"far fa-square\"></i><br>"+weekday[date.getDay()]);
                 date = new Date(date.getTime() + 1 * 24 * 60 * 60 * 1000);

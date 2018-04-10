@@ -1,6 +1,8 @@
 package com.therame.service;
 
 import com.therame.model.*;
+
+import com.therame.repository.jpa.*;
 import com.therame.view.FeedbackView;
 import com.therame.view.HistoryView;
 import org.springframework.stereotype.Service;

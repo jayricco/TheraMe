@@ -51,7 +51,8 @@ public class MultiHttpSecurityConfig {
         private AuthEntryPoint authEntryPoint;
 
         protected void configure(HttpSecurity http) throws Exception {
-            http.antMatcher("/api/**").authorizeRequests().anyRequest().authenticated().and().httpBasic()
+            http.authorizeRequests().antMatchers("/api/video").permitAll().and()
+            .antMatcher("/api/**").authorizeRequests().anyRequest().authenticated().and().httpBasic()
                     .authenticationEntryPoint(authEntryPoint)
                     .and()
                     .csrf().disable();

@@ -41,7 +41,7 @@ $(document).ready(function () {
         var arr = [];
         reports.forEach(function(report) {
             arr.push(report.patientId.id);
-        })
+        });
         var users = [];
         $.each(arr, function(i, el){
             if($.inArray(el, users) === -1) users.push(el);
@@ -74,7 +74,7 @@ $(document).ready(function () {
                         date = new Date(date.getTime() + 1 * 24 * 60 * 60 * 1000);
                     }
                 }
-            })
+            });
             element.find('#user-history-title').html("You've completed your exercises "+total+" out of the last 7 days.");
             entryContainer.append(element);
         }
