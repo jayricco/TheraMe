@@ -151,14 +151,16 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/api/updateInfo", method = RequestMethod.GET)
-    public ResponseEntity<?> updateUserInfo(@RequestParam("id")String UserId, @AuthenticationPrincipal DetailedUserDetails userDetails){
-        System.out.println(userDetails);
-        User user = userRepo.findOne(Base64Converter.fromUrlSafeString(UserId));
+    @RequestMapping(value = "/api/change", method = RequestMethod.POST)
+    public ResponseEntity<?> updateUserInfo(User user, @AuthenticationPrincipal DetailedUserDetails userDetails){
+        System.out.println("User details: "+userDetails);
+        System.out.println("User details again: "+user);
         if (user.getFirstName() != ""){
+            System.out.println("Setting first name to: "+user.getFirstName());
             userDetails.getUser().setFirstName(user.getFirstName());
         }
         if(user.getLastName() != ""){
+            System.out.println("Setting last name to: "+user.getLastName());
             userDetails.getUser().setLastName(user.getLastName());
         }
         User updatedUser = userService.updateUser(userDetails.getUser());

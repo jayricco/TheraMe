@@ -1,7 +1,5 @@
 
 $(document).ready(function () {
-    console.log("updating for user");
-    var userId = new
 
     $('form').submit(function(event) {
         event.preventDefault();
@@ -16,8 +14,8 @@ $(document).ready(function () {
         errorMessage.html('').hide();
 
         var formData = $('form').serialize();
-        console.log(formData);
-        $.get("/api/updateInfo?id=", formData, function() {
+        console.log("Form data is: "+formData);
+        $.post("/api/change", formData, function() {
             successMessage.show().html('User Information Changed Successfully!');
         })
     });
