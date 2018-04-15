@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -13,5 +14,7 @@ public interface ExerciseRepository extends JpaRepository<Exercise, UUID> {
 
     @Query("select e from Exercise e where title like %:title%")
     List<Exercise> findAllByTitle(@Param("title") String title);
+
+    Optional<Exercise> getByTitleEquals(String title);
 
 }

@@ -50,4 +50,19 @@ public class ExerciseServiceImpl implements ExerciseService {
                 .filter(exercise -> currentUserProvider == null || exercise.getProvider() == null || currentUserProvider.equals(exercise.getProvider()))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public Optional<Exercise> findByTitle(String title) {
+        DetailedUserDetails currentUser = (DetailedUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        final Provider currentUserProvider = currentUser.getUser().getProvider();
+        return exerciseRepository.getByTitleEquals(title);
+    }
+
+    @Override
+    public Optional<Exercise> updateExercise(Exercise exercise) {
+        if (exerciseRepository.exists(exercise.getId())) {
+            return Optional.of(exerciseRepository.save(exercise));
+        }
+        return Optional.empty();
+    }
 }

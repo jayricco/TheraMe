@@ -57,11 +57,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User createUser(User user) {
-        String initCode = Base64Converter.toUrlSafeString(UUID.randomUUID());
-        user.setInitCode(initCode);
+        user.generateConfirmationToken();
         user = userRepo.save(user);
 
         mailSender.send(EmailMessageBuilder.buildInitializationMessage(user, hostUrl));
+        return user;
+    }
+
+    @Override
+    public User createTestUser(User user) {
+        user = userRepo.save(user);
         return user;
     }
 
@@ -90,18 +95,18 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public Optional<User> findUserByInitCode(String initCode) {
-        return userRepo.findByInitCode(initCode);
+    public Optional<User> findUserByConfirmationToken(String confirmationToken) {
+        return userRepo.findByConfirmationToken(confirmationToken);
     }
 
     @Override
     @Transactional
-    public Optional<User> updatePasswordForInitCode(String initCode, String password) {
-        Optional<User> optionalUser = userRepo.findByInitCode(initCode);
+    public Optional<User> updatePasswordForConfirmationToken(String confirmationToken, String password) {
+        Optional<User> optionalUser = userRepo.findByConfirmationToken(confirmationToken);
 
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
-            user.setInitCode(null);
+            user.setConfirmationToken(null);
             user.setPassword(passwordEncoder.encode(password));
         }
 
@@ -114,8 +119,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         Optional<User> optionalUser = userRepo.findByEmail(email);
 
         optionalUser.ifPresent(user -> {
-            String initCode = Base64Converter.toUrlSafeString(UUID.randomUUID());
-            user.setInitCode(initCode);
+            user.generateConfirmationToken();
             user.setPassword(null);
             user = userRepo.save(user);
 

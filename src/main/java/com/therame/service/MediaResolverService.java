@@ -9,7 +9,7 @@ import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 import javax.servlet.http.HttpServletRequest;
 import java.nio.file.Path;
 
-@Service
+@Service(value = "MediaResolverService")
 public class MediaResolverService extends ResourceHttpRequestHandler {
 
     private static final String VIDEO_EXTENSION = ".mp4";

@@ -4,6 +4,7 @@ import com.therame.exception.EmptyMediaException;
 import com.therame.exception.InvalidMediaException;
 import com.therame.model.Exercise;
 import com.therame.model.ExerciseForm;
+import com.therame.service.ExerciseService;
 import com.therame.service.MediaResolverService;
 import com.therame.service.MediaStorageService;
 import com.therame.view.ValidationErrorView;
@@ -31,10 +32,13 @@ public class MediaRestController {
 
     private MediaResolverService mediaResolverService;
     private MediaStorageService mediaStorageService;
+    private ExerciseService exerciseService;
 
-    public MediaRestController(MediaResolverService mediaResolverService, MediaStorageService mediaStorageService) {
+    public MediaRestController(MediaResolverService mediaResolverService, MediaStorageService mediaStorageService,
+                               ExerciseService exerciseService) {
         this.mediaResolverService = mediaResolverService;
         this.mediaStorageService = mediaStorageService;
+        this.exerciseService = exerciseService;
     }
 
     @GetMapping("/api/video")
@@ -73,6 +77,12 @@ public class MediaRestController {
     @PostMapping("/api/upload")
     public ResponseEntity<?> uploadVideo(@Valid ExerciseForm exerciseForm) throws IOException {
         Exercise exercise = exerciseForm.toExercise();
+        if (exerciseService.findByTitle(exerciseForm.getTitle()) != null) {
+            ValidationErrorView errorView = new ValidationErrorView();
+            errorView.addError(new FieldError("exerciseForm", "title", "An exercise with that title already exists!"));
+            return new ResponseEntity<>(errorView, HttpStatus.BAD_REQUEST);
+        }
+
         exercise.setMediaUrl(mediaHostUrl);
 
         try {

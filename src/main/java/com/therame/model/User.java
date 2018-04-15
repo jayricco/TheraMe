@@ -7,12 +7,15 @@ import javax.validation.constraints.NotNull;
 import com.therame.util.Base64Converter;
 import com.therame.view.UserView;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.Transient;
 
+import java.sql.Timestamp;
 import java.util.UUID;
 
 @Data
@@ -64,17 +67,29 @@ public class User {
     private User therapist;
 
     @Nullable
-    @Column(name = "init_code")
-    private String initCode;
+    @Column(name = "confirmation_token")
+    private String confirmationToken;
 
     @NotNull
     @Column(name = "active")
     private boolean active;
 
+    @NotNull
+    @Column(name = "enabled")
+    private boolean enabled;
+
     @Nullable
     @ManyToOne
     @JoinColumn(name = "provider_id")
     private Provider provider;
+
+    @CreationTimestamp
+    @Column(name = "created_timestamp")
+    private Timestamp created;
+
+    @UpdateTimestamp
+    @Column(name = "updated_timestamp")
+    private Timestamp last_updated;
 
     public UserView toView() {
         UserView view = new UserView();
@@ -89,5 +104,10 @@ public class User {
         }
 
         return view;
+    }
+    public String generateConfirmationToken() {
+        String token = Base64Converter.toUrlSafeString(UUID.randomUUID());
+        setConfirmationToken(token);
+        return token;
     }
 }

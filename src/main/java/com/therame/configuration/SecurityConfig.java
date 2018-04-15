@@ -23,11 +23,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig {
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
     public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService, PasswordEncoder encoder) {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService);
@@ -64,7 +59,7 @@ public class SecurityConfig {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http.authorizeRequests()
-                    .antMatchers("/login", "/confirm*", "/api/confirm*", "/resetPassword*", "/api/resetPassword*").permitAll()
+                    .antMatchers("/login", "/register", "/confirm*", "/api/confirm*", "/resetPassword*", "/api/resetPassword*").permitAll()
                     .anyRequest().authenticated().and().csrf().disable().formLogin()
                     .loginPage("/login").failureUrl("/login?error=true")
                     .defaultSuccessUrl("/")

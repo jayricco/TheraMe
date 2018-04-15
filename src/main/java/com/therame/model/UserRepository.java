@@ -18,5 +18,5 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     List<User> findAllByTherapistId(UUID therapistId);
 
-    Optional<User> findByInitCode(String initCode);
+    Optional<User> findByConfirmationToken(String confirmationToken);
 }

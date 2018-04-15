@@ -27,6 +27,8 @@ public interface UserService {
      */
     User createUser(User user);
 
+    User createTestUser(User user);
+
     /**
      * Finds all users that match the specified type filters
      *
@@ -35,9 +37,9 @@ public interface UserService {
      */
     List<UserView> findAllUsersByNameAndType(String name, List<User.Type> typeFilters);
 
-    Optional<User> findUserByInitCode(String initCode);
+    Optional<User> findUserByConfirmationToken(String initCode);
 
-    Optional<User> updatePasswordForInitCode(String initCode, String password);
+    Optional<User> updatePasswordForConfirmationToken(String initCode, String password);
 
     void sendPasswordResetEmail(String email);
 

@@ -31,11 +31,19 @@ public class UserController {
 
     private UserService userService;
     private AssignmentService assignmentService;
-    private UserRepository userRepo;
 
     public UserController(UserService userService, AssignmentService assignmentService) {
         this.userService = userService;
         this.assignmentService = assignmentService;
+    }
+
+    @GetMapping(value = "/api/checkauth")
+    public ResponseEntity<?> checkAuthentication(@AuthenticationPrincipal DetailedUserDetails userDetails) {
+        if (userDetails.isEnabled()) {
+            return ResponseEntity.ok(userDetails.getUser().toView());
+        } else {
+            return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).body("You bad.");
+        }
     }
 
     @GetMapping(value = "/")
@@ -104,7 +112,7 @@ public class UserController {
 
     @GetMapping("/confirm")
     public String updatePasswordView(@RequestParam("token") String code) {
-        Optional<User> forUser = userService.findUserByInitCode(code);
+        Optional<User> forUser = userService.findUserByConfirmationToken(code);
 
         if (forUser.isPresent()) {
             return "initialize_account";
@@ -115,7 +123,7 @@ public class UserController {
 
     @PostMapping("/api/confirm")
     public ResponseEntity<?> updatePassword(@RequestParam("token") String code, @RequestParam("password") String password) {
-        Optional<User> user = userService.updatePasswordForInitCode(code, password);
+        Optional<User> user = userService.updatePasswordForConfirmationToken(code, password);
 
         if (user.isPresent()) {
             return ResponseEntity.ok(user.get().toView());
