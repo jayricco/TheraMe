@@ -53,7 +53,7 @@ public class SecurityConfig {
 
         protected void configure(HttpSecurity http) throws Exception {
             http.antMatcher("/api/**").authorizeRequests()
-                    .antMatchers("/api/resetPassword", "/api/video", "/api/confirm").permitAll()
+                    .antMatchers("/api/resetPassword", "/api/confirm").permitAll()
                     .anyRequest().authenticated().and().httpBasic()
                     .authenticationEntryPoint(authEntryPoint)
                     .and()
@@ -66,8 +66,7 @@ public class SecurityConfig {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http.authorizeRequests()
-                    .antMatchers("/login", "/register", "/confirm",
-                            "/resetPassword*").permitAll()
+                    .antMatchers("/login", "/confirm", "/resetPassword").permitAll()
                     .anyRequest().authenticated().and().csrf().disable().formLogin()
                     .loginPage("/login").failureUrl("/login?error=true")
                     .defaultSuccessUrl("/")

@@ -46,7 +46,6 @@ public class HistoryController {
     @PostMapping("/api/history/add")
     public ResponseEntity<?> addHistoryForUser(@RequestParam("assignmentId") String assignmentId, @AuthenticationPrincipal DetailedUserDetails userDetails) {
         HistoryView addedHistory = historyService.addHistory(userDetails.getUser().getId(), Base64Converter.fromUrlSafeString(assignmentId));
-        System.out.println("Adding History for user: " + userDetails.getUser().getEmail() + ", AID: " + assignmentId);
         return ResponseEntity.ok(addedHistory);
     }
 
