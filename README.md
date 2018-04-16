@@ -1,6 +1,7 @@
 # Thera-Me
 Software Engineering, Spring 2018, Team 2
 
+
 ## Setup
 
 #### Installing FFmpeg
@@ -59,3 +60,8 @@ IntelliJ, it should prompt you to enable annotation processing, do that.
 You'll want to run the `src/main/resources/static/db/create_sentinel.sql` script after your first successful run of the 
 backend. This will create a user that you can first log in as to create providers and users for those providers. Use the 
 email `sentinel@therame.com` with password `sentinel` to log in.
+
+#### Mobile Application Repository
+
+You can find the mobile application repository at:
+https://github.com/jayricco/TheraMe-Mobile
