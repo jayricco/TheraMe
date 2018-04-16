@@ -346,40 +346,6 @@ h1 {
     margin-bottom: 0px;
 }
 
-#error-page-icon {
-    font-size: 5em;
-    text-align: center;
-    padding-top: 32px;
-    color: #000000aa;
-}
-
-#error-page-title {
-    padding-left: 32px;
-    font-size: 5em;
-}
-
-#error-page-header {
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.error-subtitle {
-    margin-top: 25px;
-    font-size: 24px;
-    text-align: center;
-}
-
-#error-body {
-    width: 600px;
-    margin: 10% auto auto;
-    padding: 5px 10px 5px 10px;
-}
-
-#error-body .row a {
-    margin-left: auto;
-    margin-right: auto;
-}
-
 #nav-button-div {
     margin-top: 96px;
 }
