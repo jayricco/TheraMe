@@ -145,34 +145,25 @@ public class UserController {
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @RequestMapping(value = "/api/deactivate", method = RequestMethod.POST)
-    public ResponseEntity<?> deactivateUser(@RequestParam("id") String userId, @AuthenticationPrincipal DetailedUserDetails userDetails){
-        try {
-            System.out.println("just started deactivate: "+userId);
-            User deactivatedUser = userService.deactivateUser(Base64Converter.fromUrlSafeString(userId));
-            return new ResponseEntity<>(deactivatedUser, HttpStatus.CREATED);
-        }
-        catch(DataIntegrityViolationException e){
-            ValidationErrorView errorView = new ValidationErrorView();
-            errorView.addError(new FieldError("user", "email", "Cannot delete"));
-            return new ResponseEntity<>(errorView, HttpStatus.CONFLICT);
-        }
+    @RequestMapping(value = "/api/setactive", method = RequestMethod.POST)
+    public ResponseEntity<?> setActiveState(@RequestParam("id") String userId, @RequestParam("active") Boolean active,
+                                            @AuthenticationPrincipal DetailedUserDetails userDetails) {
+        User deactivatedUser = userService.updateActiveStatus(Base64Converter.fromUrlSafeString(userId), active);
+        return ResponseEntity.ok(deactivatedUser);
     }
 
     @RequestMapping(value = "/api/change", method = RequestMethod.POST)
     public ResponseEntity<?> updateUserInfo(User user, @AuthenticationPrincipal DetailedUserDetails userDetails){
-        System.out.println("User details: "+userDetails);
-        System.out.println("User details again: "+user);
-        if (user.getFirstName() != ""){
-            System.out.println("Setting first name to: "+user.getFirstName());
+        if (user.getFirstName() != null && !user.getFirstName().isEmpty()) {
             userDetails.getUser().setFirstName(user.getFirstName());
         }
-        if(user.getLastName() != ""){
-            System.out.println("Setting last name to: "+user.getLastName());
+
+        if(user.getLastName() != null && !user.getLastName().isEmpty()) {
             userDetails.getUser().setLastName(user.getLastName());
         }
+
         User updatedUser = userService.updateUser(userDetails.getUser());
-        return new ResponseEntity<>(updatedUser, HttpStatus.CREATED);
+        return ResponseEntity.ok(updatedUser);
     }
 
     @PreAuthorize("hasAnyAuthority('THERAPIST', 'ADMIN')")

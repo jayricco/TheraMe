@@ -5,6 +5,7 @@ $(document).ready(function () {
     var baseAssignmentsUrl = '/api/assignments/user?id=' + userId;
     var baseFeedbackUrl = '/api/history/feedback?patient_id=' + userId;
     var baseHistoryUrl = '/api/history/specificpatient?id=' + userId;
+    var active = $('#deactivate').length !== 0;
 
     var daysOfTheWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
@@ -210,21 +211,15 @@ $(document).ready(function () {
     $('form').submit(function(event) {
         event.preventDefault();
 
-        var formData = $('form').serialize();
-
-        var successMessage = $('#success-message');
-        successMessage.html('').hide();
-
-        var button = $('#deactivate');
-        button.html('').hide();
+        var button = $('#deactivate').length !== 0 ? $('#deactivate') : $('#activate');
 
         $.ajax({
-            url: '/api/deactivate?id='+userId,
+            url: '/api/setactive?active=' + !active + '&id=' + userId,
             method: 'POST',
             cache: false,
             success: function (data) {
-                successMessage.show().html('User Deactivated Successfully!');
-                button.classList.add("disabled");
+                active = data.active;
+                button.attr('value', active ? 'Deactivate User' : 'Activate User');
             },
             error: function () {
 
