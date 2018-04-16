@@ -15,6 +15,4 @@ public interface ExerciseRepository extends JpaRepository<Exercise, UUID> {
     @Query("select e from Exercise e where title like %:title%")
     List<Exercise> findAllByTitle(@Param("title") String title);
 
-    Optional<Exercise> getByTitleEquals(String title);
-
 }

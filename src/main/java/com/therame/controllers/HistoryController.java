@@ -26,28 +26,26 @@ public class HistoryController {
 
     @GetMapping("/api/history/currentuser")
     public ResponseEntity<?> getHistoryForCurrentUser(@AuthenticationPrincipal DetailedUserDetails userDetails) {
-        List<HistoryView> history = historyService.getHistoryForPatientId(userDetails.getUser().getId());
+        ReportView history = historyService.getHistoryForPatientId(userDetails.getUser().getId());
         return ResponseEntity.ok(history);
     }
 
     @PreAuthorize("hasAnyAuthority('THERAPIST', 'ADMIN')")
     @GetMapping("/api/history/allpatients")
     public ResponseEntity<?> getHistoryForAllPatients(@AuthenticationPrincipal DetailedUserDetails userDetails) {
-        List<HistoryView> history = historyService.getForAllPatients(userDetails.getUser().getId());
-        System.out.println("History is: "+history);
+        List<ReportView> history = historyService.getForAllPatients(userDetails.getUser().getId());
         return ResponseEntity.ok(history);
     }
 
     @GetMapping("/api/history/specificpatient")
     public ResponseEntity<?> getHistoryForPatientId(@RequestParam("id") String userId) {
-        List<HistoryView> history = historyService.getHistoryForPatientId(Base64Converter.fromUrlSafeString(userId));
+        ReportView history = historyService.getHistoryForPatientId(Base64Converter.fromUrlSafeString(userId));
         return ResponseEntity.ok(history);
     }
 
     @PostMapping("/api/history/add")
     public ResponseEntity<?> addHistoryForUser(@RequestParam("assignmentId") String assignmentId, @AuthenticationPrincipal DetailedUserDetails userDetails) {
         HistoryView addedHistory = historyService.addHistory(userDetails.getUser().getId(), Base64Converter.fromUrlSafeString(assignmentId));
-        System.out.println("Adding History for user: " + userDetails.getUser().getEmail() + ", AID: " + assignmentId);
         return ResponseEntity.ok(addedHistory);
     }
 

@@ -47,7 +47,6 @@ public class MediaRestController {
         request.setAttribute("resource-name", id);
         request.setAttribute("resource-type", "video");
 
-        System.out.println("Grabbing video with id: " + id);
         mediaResolverService.handleRequest(request, response);
     }
 
@@ -79,12 +78,6 @@ public class MediaRestController {
     @PostMapping("/api/upload")
     public ResponseEntity<?> uploadVideo(@Valid ExerciseForm exerciseForm) throws IOException {
         Exercise exercise = exerciseForm.toExercise();
-        if (exerciseService.findByTitle(exerciseForm.getTitle()) != null) {
-            ValidationErrorView errorView = new ValidationErrorView();
-            errorView.addError(new FieldError("exerciseForm", "title", "An exercise with that title already exists!"));
-            return new ResponseEntity<>(errorView, HttpStatus.BAD_REQUEST);
-        }
-
         exercise.setMediaUrl(mediaHostUrl);
 
         try {

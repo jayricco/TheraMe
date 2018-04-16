@@ -23,6 +23,11 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig {
 
     @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
     public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService, PasswordEncoder encoder) {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(userDetailsService);
@@ -48,7 +53,7 @@ public class SecurityConfig {
 
         protected void configure(HttpSecurity http) throws Exception {
             http.antMatcher("/api/**").authorizeRequests()
-                    .antMatchers("/api/resetPassword", "/api/video", "/api/confirm").permitAll()
+                    .antMatchers("/api/resetPassword", "/api/confirm", "/api/video").permitAll()
                     .anyRequest().authenticated().and().httpBasic()
                     .authenticationEntryPoint(authEntryPoint)
                     .and()
@@ -61,8 +66,7 @@ public class SecurityConfig {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http.authorizeRequests()
-                    .antMatchers("/login", "/register", "/confirm",
-                            "/resetPassword*").permitAll()
+                    .antMatchers("/login", "/confirm", "/resetPassword").permitAll()
                     .anyRequest().authenticated().and().csrf().disable().formLogin()
                     .loginPage("/login").failureUrl("/login?error=true")
                     .defaultSuccessUrl("/")

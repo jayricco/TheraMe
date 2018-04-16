@@ -12,69 +12,65 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script th:src="@{/js/nanobar.min.js}"></script>
 </head>
-<body>
-<div th:replace="fragments/header-light :: header-light">
-    <!-- Header will be inserted here -->
-</div>
+    <body>
+        <div th:replace="fragments/header-light :: header-light">
+            <!-- Header will be inserted here -->
+        </div>
 
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-auto">
-            <h2 class="patient-home-header" th:text="${'Welcome '+user.firstName+'!'}"></h2>
-        </div>
-    </div>
-    <div class="row justify-content-center">
-        <div class="col-md-auto">
-            <h4 class="patient-home-subtitle">You have 6 exercises to complete today.</h4>
-        </div>
-    </div>
-    <div class="row justify-content-center">
-        <div class="col-md-auto">
-            <a th:href="@{/assignments}">
-                <div class="btn btn-primary btn-block patient-start-button">
-                    <h4>Start</h4>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-auto">
+                    <h2 class="patient-home-header" th:text="${'Welcome '+user.firstName+'!'}"></h2>
                 </div>
-            </a>
-        </div>
-    </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-auto">
+                    <h4 class="patient-home-subtitle" th:text="${'You have ' + numIncomplete + ' exercises to complete today.'}"></h4>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-auto">
+                    <a th:href="@{/assignments}">
+                        <div class="btn btn-primary btn-block patient-start-button">
+                            <h4>Start</h4>
+                        </div>
+                    </a>
+                </div>
+            </div>
 
-    <div class="row justify-content-center" id="completion-days-body">
-        <!-- populated by JS -->
-    </div>
-
-    <div class="hidden" id="user-history-template">
-        <div class = "row justify-content-center">
-            <h6 id="user-history-title" class="patient-home-subtitle" style="font-size: 20px"></h6>
-        </div>
-        <div class = "row justify-content-center">
-            <div class="col-auto">
-                <p id = "user-history-day0" align="center"></p>
-            </div>
-            <div class="col-auto">
-                <p id = "user-history-day1" align="center"></p>
-            </div>
-            <div class="col-auto">
-                <p id = "user-history-day2" align="center"></p>
-            </div>
-            <div class="col-auto">
-                <p id = "user-history-day3" align="center"></p>
-            </div>
-            <div class="col-auto">
-                <p id = "user-history-day4" align="center"></p>
-            </div>
-            <div class="col-auto">
-                <p id = "user-history-day5" align="center"></p>
-            </div>
-            <div class="col-auto">
-                <p id = "user-history-day6" align="center"></p>
+            <div id="completion-days-body">
+                <div class = "row justify-content-center">
+                    <h6 id="user-history-title" class="patient-home-subtitle" style="font-size: 20px"></h6>
+                </div>
+                <div class = "row justify-content-center">
+                    <div class="col-auto">
+                        <p id = "user-history-day0" align="center"></p>
+                    </div>
+                    <div class="col-auto">
+                        <p id = "user-history-day1" align="center"></p>
+                    </div>
+                    <div class="col-auto">
+                        <p id = "user-history-day2" align="center"></p>
+                    </div>
+                    <div class="col-auto">
+                        <p id = "user-history-day3" align="center"></p>
+                    </div>
+                    <div class="col-auto">
+                        <p id = "user-history-day4" align="center"></p>
+                    </div>
+                    <div class="col-auto">
+                        <p id = "user-history-day5" align="center"></p>
+                    </div>
+                    <div class="col-auto">
+                        <p id = "user-history-day6" align="center"></p>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-<div id="footer">
-    <a class="pull-left">© 2018 TheraMe, Inc.</a>
-    <a class="pull-right">About Us</a>
-</div>
-<script th:src="@{/js/user_reports.js}"></script>
-</body>
+        <div id="footer">
+            <a class="pull-left">© 2018 TheraMe, Inc.</a>
+            <a class="pull-right">About Us</a>
+        </div>
+        <script th:src="@{/js/user_reports.js}"></script>
+    </body>
 </html>
