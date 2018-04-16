@@ -9,7 +9,6 @@ import com.google.common.collect.ImmutableList;
 import com.therame.model.DetailedUserDetails;
 import com.therame.model.Provider;
 import com.therame.model.UserRepository;
-import com.therame.util.Base64Converter;
 import com.therame.util.EmailMessageBuilder;
 import com.therame.view.UserView;
 import org.springframework.beans.factory.annotation.Value;
@@ -61,12 +60,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user = userRepo.save(user);
 
         mailSender.send(EmailMessageBuilder.buildInitializationMessage(user, hostUrl));
-        return user;
-    }
-
-    @Override
-    public User createTestUser(User user) {
-        user = userRepo.save(user);
         return user;
     }
 

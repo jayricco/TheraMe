@@ -27,8 +27,6 @@ public interface UserService {
      */
     User createUser(User user);
 
-    User createTestUser(User user);
-
     /**
      * Finds all users that match the specified type filters
      *

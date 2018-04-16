@@ -11,5 +11,5 @@ import java.io.InputStream;
 public interface MediaStorageService {
 
     Exercise store(Exercise exercise, MultipartFile file) throws IOException;
-    Exercise store(Exercise exercise, File videoFile) throws IOException;
+
 }
