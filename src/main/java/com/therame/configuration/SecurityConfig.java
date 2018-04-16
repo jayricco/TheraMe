@@ -53,7 +53,7 @@ public class SecurityConfig {
 
         protected void configure(HttpSecurity http) throws Exception {
             http.antMatcher("/api/**").authorizeRequests()
-                    .antMatchers("/api/resetPassword", "/api/confirm").permitAll()
+                    .antMatchers("/api/resetPassword", "/api/confirm", "/api/video").permitAll()
                     .anyRequest().authenticated().and().httpBasic()
                     .authenticationEntryPoint(authEntryPoint)
                     .and()
