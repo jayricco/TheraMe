@@ -71,8 +71,9 @@ public class HistoryServiceImpl implements HistoryService {
         }
 
         toAdd.setComments(feedback);
+        toAdd = feedbackRepository.save(toAdd);
 
-        return feedbackRepository.save(toAdd).toView();
+        return toAdd.toView();
     }
 
     @Override

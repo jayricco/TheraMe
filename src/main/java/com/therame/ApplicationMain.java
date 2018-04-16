@@ -101,15 +101,7 @@ public class ApplicationMain{
         newUser.setProvider(company);
         return newUser;
     }
-    private class Tuple<T, D> {
-        private T p1;
-        private D p2;
 
-        public Tuple(T p1, D p2) {
-            this.p1 = p1;
-            this.p2 = p2;
-        }
-    }
     private Exercise createAndInitExercise(Provider provider, String title, String description) {
         Exercise newExercise = new Exercise();
         newExercise.setProvider(provider);
@@ -125,6 +117,7 @@ public class ApplicationMain{
                                               AssignmentService assignmentService,
                                               MediaStorageService mediaStorageService) {
         return (args) -> {
+
 
             Provider johnsonPT = new Provider();
                     johnsonPT.setAddress("3141 Wallaby Way, Orlando, FL");
