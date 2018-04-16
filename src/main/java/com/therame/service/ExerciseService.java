@@ -16,7 +16,4 @@ public interface ExerciseService {
 
     List<Exercise> searchByTitle(String title);
 
-    Optional<Exercise> findByTitle(String title);
-
-    Optional<Exercise> updateExercise(Exercise exercise);
 }
