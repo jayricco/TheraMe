@@ -26,21 +26,20 @@ public class HistoryController {
 
     @GetMapping("/api/history/currentuser")
     public ResponseEntity<?> getHistoryForCurrentUser(@AuthenticationPrincipal DetailedUserDetails userDetails) {
-        List<HistoryView> history = historyService.getHistoryForPatientId(userDetails.getUser().getId());
+        ReportView history = historyService.getHistoryForPatientId(userDetails.getUser().getId());
         return ResponseEntity.ok(history);
     }
 
     @PreAuthorize("hasAnyAuthority('THERAPIST', 'ADMIN')")
     @GetMapping("/api/history/allpatients")
     public ResponseEntity<?> getHistoryForAllPatients(@AuthenticationPrincipal DetailedUserDetails userDetails) {
-        List<HistoryView> history = historyService.getForAllPatients(userDetails.getUser().getId());
-        System.out.println("History is: "+history);
+        List<ReportView> history = historyService.getForAllPatients(userDetails.getUser().getId());
         return ResponseEntity.ok(history);
     }
 
     @GetMapping("/api/history/specificpatient")
     public ResponseEntity<?> getHistoryForPatientId(@RequestParam("id") String userId) {
-        List<HistoryView> history = historyService.getHistoryForPatientId(Base64Converter.fromUrlSafeString(userId));
+        ReportView history = historyService.getHistoryForPatientId(Base64Converter.fromUrlSafeString(userId));
         return ResponseEntity.ok(history);
     }
 
