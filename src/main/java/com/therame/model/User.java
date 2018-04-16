@@ -93,6 +93,7 @@ public class User {
     public UserView toView() {
         UserView view = new UserView();
         view.setId(Base64Converter.toUrlSafeString(id));
+        view.setEmail(email);
         view.setFirstName(firstName);
         view.setLastName(lastName);
         view.setType(type);

@@ -7,6 +7,7 @@ import lombok.Data;
 public class UserView {
 
     private String id;
+    private String email;
     private String firstName;
     private String lastName;
     private User.Type type;
