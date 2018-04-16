@@ -12,7 +12,7 @@ import java.util.UUID;
 @Repository
 public interface ExerciseRepository extends JpaRepository<Exercise, UUID> {
 
-    @Query("select e from Exercise e where title like %:title%")
+    @Query("select e from Exercise e where upper(title) like upper(concat('%', :title, '%'))")
     List<Exercise> findAllByTitle(@Param("title") String title);
 
 }

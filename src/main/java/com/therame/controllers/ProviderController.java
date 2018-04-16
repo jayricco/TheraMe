@@ -69,4 +69,10 @@ public class ProviderController {
         return modelAndView;
     }
 
+    @PreAuthorize("hasAuthority('SENTINEL')")
+    @GetMapping("/providers")
+    public String providersView() {
+        return "providers";
+    }
+
 }

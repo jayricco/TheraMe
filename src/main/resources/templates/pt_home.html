@@ -39,19 +39,22 @@
                     <button type="button" class="btn btn-outline-primary navButtons" onclick="window.location.href='videos'"><i class="fas fa-video fa-2x"></i><br>Video Library</button>
                 </div>
                 <div class="col-auto">
-                    <button type="button" class="btn btn-outline-primary navButtons" onclick="window.location.href='users'"><i class="fas fa-list-ul fa-2x"></i><br>Patient List</button>
+                    <button type="button" class="btn btn-outline-primary navButtons" onclick="window.location.href='users'"><i class="fas fa-users fa-2x"></i><br>Patient List</button>
                 </div>
-                <div class="col-auto">
+                <div th:if="${user.type != T(com.therame.model.User.Type).ADMIN || user.provider != null}" class="col-auto">
                     <button type="button" class="btn btn-outline-primary navButtons" onclick="window.location.href='reports'"><i class="fas fa-book fa-2x"></i><br>Patient Reports</button>
                 </div>
                 <div class="col-auto">
                     <button type="button" class="btn btn-outline-primary navButtons" onclick="window.location.href='upload'"><i class="fas fa-upload fa-2x"></i><br>Upload a Video</button>
                 </div>
                 <div class="col-auto">
-                    <button type="button" class="btn btn-outline-primary navButtons" onclick="window.location.href='register'"><i class="fas fa-plus fa-2x"></i><br>Add a Patient</button>
+                    <button type="button" class="btn btn-outline-primary navButtons" onclick="window.location.href='register'"><i class="fas fa-user-plus fa-2x"></i><br>Add a Patient</button>
                 </div>
                 <div th:if="${user.type == T(com.therame.model.User.Type).ADMIN && user.provider == null}" class="col-auto">
                     <button type="button" class="btn btn-outline-primary navButtons" onclick="window.location.href='registerProvider'"><i class="fas fa-plus fa-2x"></i><br>Add a Provider</button>
+                </div>
+                <div th:if="${user.type == T(com.therame.model.User.Type).ADMIN && user.provider == null}" class="col-auto">
+                    <button type="button" class="btn btn-outline-primary navButtons" onclick="window.location.href='providers'"><i class="fas fa-building fa-2x"></i><br>Providers List</button>
                 </div>
             </div>
         </div>
