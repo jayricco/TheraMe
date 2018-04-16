@@ -43,5 +43,5 @@ public interface UserService {
 
     User updateUser(User user);
 
-    User deactivateUser(UUID userID);
+    User updateActiveStatus(UUID userID, Boolean active);
 }

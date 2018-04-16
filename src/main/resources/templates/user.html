@@ -55,8 +55,11 @@
                         </div>
                         <div>
                             <div id="success-message" class="alert alert-success hidden"></div>
-                            <form action="#" method="post">
+                            <form action="#" method="post" th:if="${forUser.active && user.type == T(com.therame.model.User.Type).ADMIN}">
                                 <input class="btn btn-primary btn-block" name="submit" type="submit" value="Deactivate User" id="deactivate"/>
+                            </form>
+                            <form action="#" method="post" th:if="${!forUser.active && user.type == T(com.therame.model.User.Type).ADMIN}">
+                                <input class="btn btn-primary btn-block" name="submit" type="submit" value="Activate User" id="activate"/>
                             </form>
                         </div>
                     </div>

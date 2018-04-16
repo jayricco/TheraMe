@@ -69,9 +69,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User deactivateUser(UUID userID){
+    public User updateActiveStatus(UUID userID, Boolean active){
         User user = userRepo.findOne(userID);
-        user.setActive(false);
+        user.setActive(active);
         userRepo.save(user);
         return user;
     }

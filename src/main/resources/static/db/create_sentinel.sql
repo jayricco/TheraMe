@@ -1,2 +1,2 @@
-insert into "user" (email, first_name, init_code, last_name, password, provider_id, pt_id, permission_level, id, active) values
-  ('sentinel@therame.com', 'Sentinel', null, 'User', '$2a$10$vdWv27P8vGUg0LzVxqTJZ.AZYy4wZuUfLYP8e2kyk7vNI6FoZGd0y', null, null, 2, '00000000-0000-0000-0000-000000000001');
+insert into "user" (email, first_name, confirmation_token, last_name, password, provider_id, pt_id, permission_level, id, active, enabled) values
+  ('sentinel@therame.com', 'Sentinel', null, 'User', '$2a$10$vdWv27P8vGUg0LzVxqTJZ.AZYy4wZuUfLYP8e2kyk7vNI6FoZGd0y', null, null, 2, '00000000-0000-0000-0000-000000000001', true, true);
