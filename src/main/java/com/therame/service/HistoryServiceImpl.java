@@ -81,7 +81,6 @@ public class HistoryServiceImpl implements HistoryService {
         toAdd.setPatient(user);
         toAdd.setExercise(exercise);
         toAdd.setComments(feedback);
-        toAdd.setTimestamp(new Date());
 
         return feedbackRepository.save(toAdd).toView();
     }
