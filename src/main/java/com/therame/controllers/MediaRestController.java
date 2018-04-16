@@ -41,11 +41,13 @@ public class MediaRestController {
         this.exerciseService = exerciseService;
     }
 
-    @GetMapping("/api/video")
+    @GetMapping(path = "/api/video", produces = "video/mp4")
     public void getVideo(HttpServletRequest request, HttpServletResponse response,
                          @RequestParam("id") String id) throws ServletException, IOException {
         request.setAttribute("resource-name", id);
         request.setAttribute("resource-type", "video");
+
+        System.out.println("Grabbing video with id: " + id);
         mediaResolverService.handleRequest(request, response);
     }
 

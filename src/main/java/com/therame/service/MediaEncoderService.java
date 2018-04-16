@@ -4,7 +4,12 @@ import net.bramp.ffmpeg.FFmpeg;
 import net.bramp.ffmpeg.FFmpegExecutor;
 import net.bramp.ffmpeg.FFprobe;
 import net.bramp.ffmpeg.builder.FFmpegBuilder;
+import net.bramp.ffmpeg.builder.FFmpegOutputBuilder;
+import net.bramp.ffmpeg.job.FFmpegJob;
+import net.bramp.ffmpeg.options.VideoEncodingOptions;
+import net.bramp.ffmpeg.probe.FFmpegFormat;
 import net.bramp.ffmpeg.probe.FFmpegProbeResult;
+import net.bramp.ffmpeg.probe.FFmpegStream;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -21,22 +26,23 @@ public class MediaEncoderService {
                             boolean cleanUp) throws IOException {
         FFmpeg ffmpeg = new FFmpeg();
         FFprobe ffprobe = new FFprobe();
+        FFmpegOutputBuilder output1 = new FFmpegOutputBuilder()
+                .setFilename(outputFile.concat(".mp4"))
+                .setFormat("mp4")
+                .disableSubtitle()
+                .disableAudio()
+                .setVideoCodec("libx264")
+                .setVideoMovFlags("faststart")
+                .setVideoFrameRate(FFmpeg.FPS_29_97)
+                .setVideoResolution(1280, 720)
+                .setStrict(FFmpegBuilder.Strict.EXPERIMENTAL)
+                .addExtraArgs("-profile:v", "baseline")
+                .addExtraArgs("-level", "4.0");
 
         FFmpegBuilder ffmpegBuilder = new FFmpegBuilder()
                 .setInput(inputFile)
                 .overrideOutputFiles(true)
-                .addOutput(outputFile.concat(".mp4"))
-                .setFormat("mp4")
-                .disableSubtitle()
-                .setAudioChannels(1)
-                .setAudioCodec("aac")
-                .setAudioSampleRate(FFmpeg.AUDIO_SAMPLE_44100) // Good enough imo
-                .setAudioBitRate(32768)
-                .setVideoCodec("libx264")
-                .setVideoFrameRate(FFmpeg.FPS_30)
-                .setVideoResolution(1280, 720) // 720p for now, may want to scale this with input video res in the future
-                .setStrict(FFmpegBuilder.Strict.EXPERIMENTAL)
-                .done();
+                .addOutput(output1);
 
         FFmpegExecutor executor = new FFmpegExecutor(ffmpeg, ffprobe);
 
@@ -47,6 +53,7 @@ public class MediaEncoderService {
             // Clean up input file
             Files.deleteIfExists(Paths.get(inputFile));
         }
+
 
         // Generate a thumbnail
         FFmpegBuilder ssBuilder = new FFmpegBuilder()
