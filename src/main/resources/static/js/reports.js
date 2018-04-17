@@ -1,13 +1,10 @@
 
 $(document).ready(function () {
 
-    var baseRequestUrl = '/api/history/allpatients?therapistId=';
-    var reports = [];
-
+    var baseRequestUrl = '/api/history/allpatients';
     var daysOfTheWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
     getReports();
-
 
     function getReports() {
         $.ajax({
@@ -16,7 +13,6 @@ $(document).ready(function () {
             cache: false,
             success: function(data) {
                 updateReports(data);
-                reports = data;
             },
             error: function () {
                 // Need to actually notify the user at some point, maybe redirect to an error page?
@@ -28,6 +24,13 @@ $(document).ready(function () {
 
         var container = $('#report-table-body');
         var template = $('#report-entry-template');
+
+        if (!reports.length) {
+            // If we have no reports to show, tell the user that
+            container.html('<tr><td>No Results</td></tr>');
+
+            return;
+        }
 
         reports.forEach(function(report) {
             var row = template.clone();

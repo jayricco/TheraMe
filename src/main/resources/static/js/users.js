@@ -49,6 +49,10 @@ $(document).ready(function () {
         var template = $('#user-entry-template');
         var userTable = $('#user-table-body');
 
+        if (!users.length) {
+            userTable.html('<tr><td>No Results</td></tr>');
+        }
+
         users.forEach(function(user) {
             var element = template.clone();
 

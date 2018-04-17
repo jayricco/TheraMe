@@ -30,7 +30,7 @@ $(document).ready(function () {
             cache: false,
             success: function(data) {
                 clearProviderList();
-                updateUserList(data);
+                updateProviderList(data);
                 nanoBar.go(100)
             },
             error: function () {
@@ -44,11 +44,15 @@ $(document).ready(function () {
         $('#provider-table-body').empty();
     }
 
-    function updateUserList(users) {
+    function updateProviderList(providers) {
         var template = $('#provider-entry-template');
         var providerTable = $('#provider-table-body');
 
-        users.forEach(function(provider) {
+        if (!providers.length) {
+            providerTable.html('<tr><td>No Results</td></tr>');
+        }
+
+        providers.forEach(function(provider) {
             var element = template.clone();
 
             element.find('#provider-entry-name').html(provider.name);

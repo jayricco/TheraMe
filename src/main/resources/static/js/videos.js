@@ -47,6 +47,11 @@ $(document).ready(function () {
         var videoContainer = $('#video-container');
         var currentRow;
 
+        if (!videos.length) {
+            videoContainer.html('No Results');
+            return;
+        }
+
         videos.forEach(function(video, index) {
             if (index % 4 === 0) {
                 currentRow = $('<div></div>', {class: 'row video-row'});
