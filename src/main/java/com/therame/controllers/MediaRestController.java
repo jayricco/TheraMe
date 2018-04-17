@@ -2,9 +2,9 @@ package com.therame.controllers;
 
 import com.therame.exception.EmptyMediaException;
 import com.therame.exception.InvalidMediaException;
+import com.therame.model.DetailedUserDetails;
 import com.therame.model.Exercise;
 import com.therame.model.ExerciseForm;
-import com.therame.service.ExerciseService;
 import com.therame.service.MediaResolverService;
 import com.therame.service.MediaStorageService;
 import com.therame.view.ValidationErrorView;
@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -32,13 +33,10 @@ public class MediaRestController {
 
     private MediaResolverService mediaResolverService;
     private MediaStorageService mediaStorageService;
-    private ExerciseService exerciseService;
 
-    public MediaRestController(MediaResolverService mediaResolverService, MediaStorageService mediaStorageService,
-                               ExerciseService exerciseService) {
+    public MediaRestController(MediaResolverService mediaResolverService, MediaStorageService mediaStorageService) {
         this.mediaResolverService = mediaResolverService;
         this.mediaStorageService = mediaStorageService;
-        this.exerciseService = exerciseService;
     }
 
     @GetMapping(path = "/api/video", produces = "video/mp4")
@@ -76,9 +74,10 @@ public class MediaRestController {
     @PreAuthorize("hasAnyAuthority('THERAPIST', 'ADMIN')")
     @ResponseBody
     @PostMapping("/api/upload")
-    public ResponseEntity<?> uploadVideo(@Valid ExerciseForm exerciseForm) throws IOException {
+    public ResponseEntity<?> uploadVideo(@Valid ExerciseForm exerciseForm, @AuthenticationPrincipal DetailedUserDetails userDetails) throws IOException {
         Exercise exercise = exerciseForm.toExercise();
         exercise.setMediaUrl(mediaHostUrl);
+        exercise.setProvider(userDetails.getUser().getProvider());
 
         try {
             Exercise createdExercise = mediaStorageService.store(exercise, exerciseForm.getVideoFile());
