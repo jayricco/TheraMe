@@ -48,7 +48,7 @@
                     <button type="button" class="btn btn-outline-primary navButtons" onclick="window.location.href='upload'"><i class="fas fa-upload fa-2x"></i><br>Upload a Video</button>
                 </div>
                 <div class="col-auto">
-                    <button type="button" class="btn btn-outline-primary navButtons" onclick="window.location.href='register'"><i class="fas fa-user-plus fa-2x"></i><br>Add a Patient</button>
+                    <button type="button" class="btn btn-outline-primary navButtons" onclick="window.location.href='register'"><i class="fas fa-user-plus fa-2x"></i><br>Add a User</button>
                 </div>
                 <div th:if="${user.type == T(com.therame.model.User.Type).ADMIN && user.provider == null}" class="col-auto">
                     <button type="button" class="btn btn-outline-primary navButtons" onclick="window.location.href='registerProvider'"><i class="fas fa-plus fa-2x"></i><br>Add a Provider</button>
