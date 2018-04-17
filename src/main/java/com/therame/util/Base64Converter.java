@@ -1,8 +1,11 @@
 package com.therame.util;
 
+import com.therame.exception.InvalidUUIDFormatException;
 import org.springframework.util.Base64Utils;
 
 import javax.validation.constraints.NotNull;
+import java.nio.BufferOverflowException;
+import java.nio.BufferUnderflowException;
 import java.nio.ByteBuffer;
 import java.util.UUID;
 
@@ -18,10 +21,14 @@ public class Base64Converter {
         return Base64Utils.encodeToUrlSafeString(buffer.array());
     }
 
-    public static UUID fromUrlSafeString(@NotNull String string) {
-        byte[] bytes = Base64Utils.decodeFromUrlSafeString(string);
-        ByteBuffer buffer = ByteBuffer.wrap(bytes);
-        return new UUID(buffer.getLong(), buffer.getLong());
+    public static UUID fromUrlSafeString(@NotNull String string) throws IllegalArgumentException {
+        try {
+            byte[] bytes = Base64Utils.decodeFromUrlSafeString(string);
+            ByteBuffer buffer = ByteBuffer.wrap(bytes);
+            return new UUID(buffer.getLong(), buffer.getLong());
+        } catch (BufferUnderflowException | BufferOverflowException e) {
+            throw new InvalidUUIDFormatException("Invalid ID format");
+        }
     }
 
 }
