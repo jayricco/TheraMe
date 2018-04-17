@@ -1,5 +1,14 @@
 # Thera-Me
+
 Software Engineering, Spring 2018, Team 2
+
+An instance that can be used for testing out the webapp can be found [here](https://159.203.76.153). Your browser may 
+alert you that this is an insecure site/connection as we are using a self-signed SSL certificate to support https. In 
+this case, you'll need to select Add a Security Exception in Firefox, or whatever the equivalent is in Chrome/Edge.
+
+Only privileged users are able to create an account, so please use `sentinel@therame.com` with password `sentinel` to 
+log in and from there you will be able to create a new admin account for a particular provider. If the server is 
+unavailable for any reason, please contact Joe and he will look into it.
 
 
 ## Setup
@@ -61,7 +70,7 @@ You'll want to run the `src/main/resources/static/db/create_sentinel.sql` script
 backend. This will create a user that you can first log in as to create providers and users for those providers. Use the 
 email `sentinel@therame.com` with password `sentinel` to log in.
 
-#### Mobile Application Repository
+## Mobile Application Repository
 
 You can find the mobile application repository at:
 https://github.com/jayricco/TheraMe-Mobile
