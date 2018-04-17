@@ -193,10 +193,12 @@ public class UserController {
         ModelAndView modelAndView = new ModelAndView();
         Optional<UserView> optionalUser = userService.findById(Base64Converter.fromUrlSafeString(userId));
 
-        optionalUser.ifPresent(user -> {
-            modelAndView.addObject("forUser", user);
+        if (optionalUser.isPresent()) {
+            modelAndView.addObject("forUser", optionalUser.get());
             modelAndView.setViewName("user");
-        });
+        } else {
+            throw new ResourceNotFoundException("User not found!");
+        }
 
         return modelAndView;
     }

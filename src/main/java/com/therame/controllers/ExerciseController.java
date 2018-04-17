@@ -1,5 +1,6 @@
 package com.therame.controllers;
 
+import com.therame.exception.ResourceNotFoundException;
 import com.therame.model.Exercise;
 import com.therame.service.ExerciseService;
 import com.therame.util.Base64Converter;
@@ -31,7 +32,12 @@ public class ExerciseController {
         UUID videoId = Base64Converter.fromUrlSafeString(encodedId);
 
         Optional<Exercise> optionalExercise = exerciseService.findById(videoId);
-        optionalExercise.ifPresent((exercise) -> model.addAttribute("exercise", exercise.toView()));
+
+        if (optionalExercise.isPresent()) {
+            model.addAttribute("exercise", optionalExercise.get().toView());
+        } else {
+            throw new ResourceNotFoundException("Exercise not found!");
+        }
 
         return "watch";
     }
