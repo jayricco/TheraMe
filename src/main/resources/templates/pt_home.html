@@ -38,7 +38,7 @@
                 <div class="col-auto">
                     <button type="button" class="btn btn-outline-primary navButtons" onclick="window.location.href='videos'"><i class="fas fa-video fa-2x"></i><br>Video Library</button>
                 </div>
-                <div class="col-auto">
+                <div th:if="${user.type != T(com.therame.model.User.Type).ADMIN || user.provider != null}" class="col-auto">
                     <button type="button" class="btn btn-outline-primary navButtons" onclick="window.location.href='users'"><i class="fas fa-users fa-2x"></i><br>Patient List</button>
                 </div>
                 <div th:if="${user.type != T(com.therame.model.User.Type).ADMIN || user.provider != null}" class="col-auto">
