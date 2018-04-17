@@ -19,7 +19,7 @@
                 <h1 th:text="${'Welcome Back, '+ user.firstName + '!'}"></h1>
             </div>
 
-            <div class="row justify-content-center" id="pt-home-search">
+            <div class="row justify-content-center" id="pt-home-search" th:if="${user.type != T(com.therame.model.User.Type).ADMIN || user.provider != null}">
                 <div class="col-12">
                     <form action="#" method="get">
                         <div class="form-row justify-content-center">
