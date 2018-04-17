@@ -24,7 +24,7 @@
                             <h5 th:text="${#strings.capitalize(#strings.toLowerCase(forUser.type))}"></h5>
                             <span th:if="${forUser.type == T(com.therame.model.User.Type).PATIENT}">
                                 Assigned to:
-                                <a th:if="${forUser.therapist != null}" th:text="${forUser.therapist.firstName + ' ' + forUser.therapist.lastName}" th:href="@{/user(id=${forUser.therapist.id})}"></a>
+                                <a th:if="${forUser.therapist != null}" th:text="${forUser.therapist.firstName + ' ' + forUser.therapist.lastName}"></a>
                                 <a th:if="${forUser.therapist == null}">N/A</a>
                             </span>
                             <div id = "user-history-body">

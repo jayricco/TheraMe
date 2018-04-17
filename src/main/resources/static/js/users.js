@@ -59,7 +59,7 @@ $(document).ready(function () {
             element.find('#user-entry-name').html(user.firstName + ' ' + user.lastName).attr('href', baseUserHref + user.id);
 
             if (user.therapist) {
-                element.find('#user-entry-ptname').html(user.therapist.firstName + ' ' + user.therapist.lastName).attr('href', baseUserHref + user.therapist.id);
+                element.find('#user-entry-ptname').html(user.therapist.firstName + ' ' + user.therapist.lastName);
             } else {
                 element.find('#user-entry-ptname').html('N/A');
             }
